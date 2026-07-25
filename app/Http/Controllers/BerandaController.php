@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 
-class HomeController extends Controller
+class BerandaController extends Controller
 {
     public function index()
     {
-        return view('public.home');
+        return view('public.beranda');
     }
 }

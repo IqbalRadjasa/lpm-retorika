@@ -12,7 +12,7 @@
 
 <body class="bg-gray-50 text-gray-800">
 
-    <x-header />
+    {{-- <x-header /> --}}
 
     <x-navbar />
 

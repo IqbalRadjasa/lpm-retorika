@@ -1,4 +1,4 @@
-<footer class="bg-gray-900 text-white mt-20">
+<footer class="footer-custom text-black mt-20">
 
     <div class="max-w-7xl mx-auto px-4 py-16">
 
@@ -6,17 +6,17 @@
 
             {{-- Logo --}}
             <div>
+                <div class="flex items-center gap-2">
+                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <h2 class="text-xl font-semibold text-red-500">
+                        Suara Kampus
+                    </h2>
+                </div>
 
-                <h2 class="text-2xl font-bold text-red-500">
-                    Suara Kampus
-                </h2>
-
-                <p class="mt-4 text-gray-400 leading-7">
-
+                <p class="mt-4 text-sm text-gray-400 font-normal leading-5">
                     Portal berita mahasiswa yang menyajikan
                     informasi kampus, ekonomi, opini,
                     dan berbagai kegiatan mahasiswa.
-
                 </p>
 
             </div>
@@ -28,12 +28,13 @@
                     Menu
                 </h3>
 
-                <ul class="space-y-3 text-gray-400">
+                <ul class="space-y-3 text-sm text-gray-400">
 
-                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Beranda</a></li>
                     <li><a href="#">Berita</a></li>
-                    <li><a href="#">Kategori</a></li>
-                    <li><a href="#">Tentang</a></li>
+                    <li><a href="#">Tabloid</a></li>
+                    <li><a href="#">Buletin</a></li>
+                    <li><a href="#">Tentang Kami</a></li>
 
                 </ul>
 
@@ -46,7 +47,7 @@
                     Kontak
                 </h3>
 
-                <ul class="space-y-3 text-gray-400">
+                <ul class="space-y-3 text-sm text-gray-400">
 
                     <li>
                         info@suarakampus.id
