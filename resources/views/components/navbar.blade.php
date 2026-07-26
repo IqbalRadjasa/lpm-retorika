@@ -33,6 +33,11 @@
                         Nasional
                     </x-nav-dropdown-link>
 
+                    <x-nav-dropdown-link>
+                        <i class="ri-user-voice-line mr-3"></i>
+                        Opini
+                    </x-nav-dropdown-link>
+
                 </x-nav-dropdown>
 
                 <x-nav-link>Majalah</x-nav-link>
@@ -158,6 +163,10 @@
 
                 <a href="#" class="block py-3 pl-14 hover:bg-gray-100">
                     Nasional
+                </a>
+
+                <a href="#" class="block py-3 pl-14 hover:bg-gray-100">
+                    Opini
                 </a>
 
             </div>
