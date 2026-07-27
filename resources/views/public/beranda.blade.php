@@ -147,10 +147,21 @@
                 {{-- Background Decoration --}}
                 <i
                     class="ri-mic-2-line
-                absolute -right-8 -top-8
-                hidden lg:block
-                text-[220px]
-                text-white/10">
+                        absolute
+                        top-3
+                        left-1/2
+                        -translate-x-1/2
+                        text-[140px]
+                        text-[170px]
+                        lg:text-[220px]
+                        text-white/5
+                        text-white/10
+                        lg:text-white/10
+                        pointer-events-none
+                        lg:left-auto
+                        lg:right-[-2rem]
+                        lg:top-[-2rem]
+                        lg:translate-x-0">
                 </i>
 
                 <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center p-6 md:p-8 lg:p-12">
