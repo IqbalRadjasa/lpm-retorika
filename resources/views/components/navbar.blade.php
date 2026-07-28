@@ -23,7 +23,7 @@
 
                 <x-nav-dropdown title="Berita" :active="request()->routeIs('berita.*')">
 
-                    <x-nav-dropdown-link>
+                    <x-nav-dropdown-link :href="route('berita.isu-kampus')" :active="request()->routeIs('berita.isu-kampus')">
                         <i class="ri-newspaper-line mr-3"></i>
                         Isu Kampus
                     </x-nav-dropdown-link>
