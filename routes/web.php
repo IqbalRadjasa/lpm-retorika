@@ -14,5 +14,7 @@ Route::get('/berita/detail', [BeritaController::class, 'detail'])->name('berita.
 Route::get('/berita/isu-kampus', [BeritaController::class, 'isuKampus'])->name('berita.isu-kampus');
 // Nasional
 Route::get('/berita/nasional', [BeritaController::class, 'nasional'])->name('berita.nasional');
+// Opini
+Route::get('/berita/opini', [BeritaController::class, 'opini'])->name('berita.opini');
 
 require __DIR__ . '/auth.php';

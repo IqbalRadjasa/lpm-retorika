@@ -19,6 +19,11 @@ class BeritaController extends Controller
         return view('public.berita.nasional');
     }
 
+    public function opini()
+    {
+        return view('public.berita.opini');
+    }
+
     public function detail()
     {
         return view('public.berita.detail-berita');

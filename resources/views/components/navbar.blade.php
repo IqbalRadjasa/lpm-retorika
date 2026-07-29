@@ -33,7 +33,7 @@
                         Nasional
                     </x-nav-dropdown-link>
 
-                    <x-nav-dropdown-link>
+                    <x-nav-dropdown-link :href="route('berita.opini')" :active="request()->routeIs('berita.opini')">
                         <i class="ri-user-voice-line mr-3"></i>
                         Opini
                     </x-nav-dropdown-link>
@@ -165,7 +165,7 @@
                     Nasional
                 </a>
 
-                <a href="#" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{ route('berita.opini') }}" class="block py-3 pl-14 hover:bg-gray-100">
                     Opini
                 </a>
 
