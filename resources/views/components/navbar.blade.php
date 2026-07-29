@@ -28,7 +28,7 @@
                         Isu Kampus
                     </x-nav-dropdown-link>
 
-                    <x-nav-dropdown-link>
+                    <x-nav-dropdown-link :href="route('berita.nasional')" :active="request()->routeIs('berita.nasional')">
                         <i class="ri-flag-line mr-3"></i>
                         Nasional
                     </x-nav-dropdown-link>
@@ -157,11 +157,11 @@
 
             <div x-show="beritaOpen" x-collapse x-cloak class="bg-gray-50">
 
-                <a href="{{route('berita.isu-kampus')}}" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{ route('berita.isu-kampus') }}" class="block py-3 pl-14 hover:bg-gray-100">
                     Isu Kampus
                 </a>
 
-                <a href="#" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{ route('berita.nasional') }}" class="block py-3 pl-14 hover:bg-gray-100">
                     Nasional
                 </a>
 

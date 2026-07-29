@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Route;
 // Beranda
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
-// Berita
+// BERITA
 Route::get('/berita/detail', [BeritaController::class, 'detail'])->name('berita.detail');
 // Isu Kampus
 Route::get('/berita/isu-kampus', [BeritaController::class, 'isuKampus'])->name('berita.isu-kampus');
+// Nasional
+Route::get('/berita/nasional', [BeritaController::class, 'nasional'])->name('berita.nasional');
 
 require __DIR__ . '/auth.php';

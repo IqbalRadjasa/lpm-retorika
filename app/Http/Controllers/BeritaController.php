@@ -14,6 +14,11 @@ class BeritaController extends Controller
         return view('public.berita.isu-kampus');
     }
 
+    public function nasional()
+    {
+        return view('public.berita.nasional');
+    }
+
     public function detail()
     {
         return view('public.berita.detail-berita');
