@@ -157,7 +157,7 @@
 
             <div x-show="beritaOpen" x-collapse x-cloak class="bg-gray-50">
 
-                <a href="#" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{route('berita.isu-kampus')}}" class="block py-3 pl-14 hover:bg-gray-100">
                     Isu Kampus
                 </a>
 

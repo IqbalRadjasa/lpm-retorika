@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <section class="py-12">
+    <section class="py-26">
         <div class="max-w-screen-xl mx-auto px-4">
 
             {{-- Breadcrumb --}}
@@ -12,7 +12,7 @@
 
                 <i class="ri-arrow-right-s-line"></i>
 
-                <a href="#" class="hover:text-red-600">
+                <a href="{{ route('berita.isu-kampus') }}" class="hover:text-red-600">
                     Isu Kampus
                 </a>
 

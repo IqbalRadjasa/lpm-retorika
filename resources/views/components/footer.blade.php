@@ -92,7 +92,7 @@
 
         </div>
 
-        <div class="border-t border-gray-800 mt-12 pt-6 text-center text-gray-500 text-sm">
+        <div class="border-t border-gray-300 mt-12 pt-6 text-center text-gray-500 text-sm">
 
             © {{ date('Y') }} Suara Kampus.
             All Rights Reserved.

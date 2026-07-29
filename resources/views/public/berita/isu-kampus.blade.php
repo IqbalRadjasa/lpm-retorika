@@ -19,7 +19,7 @@
 
             {{-- Background Decoration --}}
             <i
-                class="ri-government-line
+                class="ri-newspaper-line
                 absolute
                 -right-8
                 -bottom-16
