@@ -19,7 +19,7 @@
 
             {{-- Background Decoration --}}
             <i
-                class="ri-newspaper-line
+                class="ri-graduation-cap-line
                 absolute
                 -right-8
                 -bottom-16

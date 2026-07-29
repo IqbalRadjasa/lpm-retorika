@@ -24,7 +24,7 @@
                 <x-nav-dropdown title="Berita" :active="request()->routeIs('berita.*')">
 
                     <x-nav-dropdown-link :href="route('berita.isu-kampus')" :active="request()->routeIs('berita.isu-kampus')">
-                        <i class="ri-newspaper-line mr-3"></i>
+                        <i class="ri-graduation-cap-line mr-3"></i>
                         Isu Kampus
                     </x-nav-dropdown-link>
 
@@ -144,7 +144,7 @@
 
                 <div class="flex items-center gap-3">
 
-                    <i class="ri-newspaper-line"></i>
+                    <i class="ri-graduation-cap-line"></i>
 
                     Berita
 
@@ -171,7 +171,7 @@
 
             </div>
 
-            <a href="{{route('majalah.index')}}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{ route('majalah.index') }}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-book-open-line"></i>
                 Majalah
             </a>

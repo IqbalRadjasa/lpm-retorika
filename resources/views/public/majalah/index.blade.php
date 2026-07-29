@@ -53,7 +53,7 @@
                 {{-- ================================================= --}}
                 <div class="lg:col-span-8 space-y-6">
 
-                    @foreach (range(1, 8) as $item)
+                    @foreach (range(1, 1) as $item)
                         <article
                             class="group overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition hover:shadow-xl">
 
@@ -100,7 +100,7 @@
                                     {{-- Description --}}
                                     <p class="mt-6 max-w-2xl text-lg leading-9 text-gray-600 line-clamp-5">
 
-                                        DIKSI VOL.1 2026 hadir sebagai ruang diskusi berbagai isu
+                                        DIKSI VOL.{{ $item }} 2026 hadir sebagai ruang diskusi berbagai isu
                                         yang dekat dengan kehidupan mahasiswa dan masyarakat.
 
                                         Mulai dari ledakan populasi ikan sapu-sapu,
