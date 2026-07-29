@@ -677,7 +677,7 @@
 
                         {{-- Background Decoration --}}
                         <i
-                            class="ri-government-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
+                            class="ri-newspaper-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
                         </i>
 
                         <div class="relative divide-y divide-gray-200">
