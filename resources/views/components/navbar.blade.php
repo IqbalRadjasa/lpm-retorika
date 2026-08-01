@@ -43,7 +43,7 @@
                 <x-nav-link :href="route('majalah.index')" :active="request()->routeIs('majalah.*')">Majalah</x-nav-link>
                 <x-nav-link :href="route('tabloid.index')" :active="request()->routeIs('tabloid.*')">Tabloid</x-nav-link>
                 <x-nav-link :href="route('buletin.index')" :active="request()->routeIs('buletin.*')">Buletin</x-nav-link>
-                <x-nav-link>Mading</x-nav-link>
+                <x-nav-link :href="route('mading.index')" :active="request()->routeIs('mading.*')">Mading</x-nav-link>
                 <x-nav-link>Tentang Kami</x-nav-link>
 
             </div>

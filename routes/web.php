@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\MadingController;
 use App\Http\Controllers\MajalahController;
 use App\Http\Controllers\TabloidController;
 use App\Http\Controllers\BuletinController;
@@ -34,5 +35,8 @@ Route::get('/tabloid/show', [TabloidController::class, 'show'])->name('tabloid.s
 Route::get('/buletin', [BuletinController::class, 'index'])->name('buletin.index');
 // Show
 Route::get('/buletin/show', [BuletinController::class, 'show'])->name('buletin.show');
+
+// MADING
+Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');
 
 require __DIR__ . '/auth.php';
