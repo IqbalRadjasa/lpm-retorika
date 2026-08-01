@@ -3,6 +3,7 @@
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\MajalahController;
 use App\Http\Controllers\TabloidController;
+use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\BerandaController;
 
 use Illuminate\Support\Facades\Route;
@@ -28,5 +29,10 @@ Route::get('/majalah/show', [MajalahController::class, 'show'])->name('majalah.s
 Route::get('/tabloid', [TabloidController::class, 'index'])->name('tabloid.index');
 // Show
 Route::get('/tabloid/show', [TabloidController::class, 'show'])->name('tabloid.show');
+
+// Buletin
+Route::get('/buletin', [BuletinController::class, 'index'])->name('buletin.index');
+// Show
+Route::get('/buletin/show', [BuletinController::class, 'show'])->name('buletin.show');
 
 require __DIR__ . '/auth.php';

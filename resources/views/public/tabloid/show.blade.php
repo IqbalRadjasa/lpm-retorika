@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <section class="py-12">
+    <section class="pt-30 pb-12">
 
         <div class="max-w-7xl mx-auto px-4">
 
@@ -16,8 +16,8 @@
 
                 <i class="ri-arrow-right-s-line"></i>
 
-                <a href="#">
-                    Publikasi
+                <a href="{{ route('tabloid.index') }}">
+                    Tabloid
                 </a>
 
                 <i class="ri-arrow-right-s-line"></i>

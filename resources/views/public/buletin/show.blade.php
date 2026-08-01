@@ -16,8 +16,8 @@
 
                 <i class="ri-arrow-right-s-line"></i>
 
-                <a href="{{ route('majalah.index') }}">
-                    Majalah
+                <a href="{{ route('buletin.index') }}">
+                    Buletin
                 </a>
 
                 <i class="ri-arrow-right-s-line"></i>
@@ -38,7 +38,7 @@
 
                 <span class="inline-flex rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">
 
-                    Majalah
+                    Buletin
 
                 </span>
 
@@ -64,7 +64,7 @@
 
             </div>
 
-            <a href="{{ route('majalah.index') }}"
+            <a href="{{ route('buletin.index') }}"
                 class="gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20l">
                 <i class="ri-arrow-left-line"></i>
                 Kembali
