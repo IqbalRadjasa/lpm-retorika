@@ -20,5 +20,7 @@ Route::get('/berita/opini', [BeritaController::class, 'opini'])->name('berita.op
 
 // MAJALAH
 Route::get('/majalah', [MajalahController::class, 'index'])->name('majalah.index');
+// Show
+Route::get('/majalah/show', [MajalahController::class, 'show'])->name('majalah.show');
 
 require __DIR__ . '/auth.php';

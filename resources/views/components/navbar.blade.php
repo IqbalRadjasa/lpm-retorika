@@ -40,9 +40,10 @@
 
                 </x-nav-dropdown>
 
-                <x-nav-link :href="route('majalah.index')" :active="request()->routeIs('majalah.index')">Majalah</x-nav-link>
+                <x-nav-link :href="route('majalah.index')" :active="request()->routeIs('majalah.*')">Majalah</x-nav-link>
                 <x-nav-link>Tabloid</x-nav-link>
                 <x-nav-link>Buletin</x-nav-link>
+                <x-nav-link>Mading</x-nav-link>
                 <x-nav-link>Tentang Kami</x-nav-link>
 
             </div>
@@ -184,6 +185,11 @@
             <a href="#" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-article-line"></i>
                 Buletin
+            </a>
+
+            <a href="#" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+                <i class="ri-artboard-line"></i>
+                Mading
             </a>
 
             <a href="#" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">

@@ -114,10 +114,10 @@
 
                                     {{-- CTA --}}
 
-                                    <a href="{{ route('berita.detail') }}"
+                                    <a href="{{ route('majalah.show') }}"
                                         class="group/button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
 
-                                        <span>Lihat Semua</span>
+                                        <span>Baca Selengkapnya</span>
 
                                         <i
                                             class="ri-arrow-right-line transition-transform duration-300 group-hover/button:translate-x-1"></i>

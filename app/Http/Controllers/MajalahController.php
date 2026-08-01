@@ -13,4 +13,9 @@ class MajalahController extends Controller
     {
         return view('public.majalah.index');
     }
+
+    public function show()
+    {
+        return view('public.majalah.show');
+    }
 }
