@@ -187,7 +187,7 @@
                 Buletin
             </a>
 
-            <a href="#" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{route('mading.index')}}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-artboard-line"></i>
                 Mading
             </a>
