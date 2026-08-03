@@ -44,7 +44,7 @@
                 <x-nav-link :href="route('tabloid.index')" :active="request()->routeIs('tabloid.*')">Tabloid</x-nav-link>
                 <x-nav-link :href="route('buletin.index')" :active="request()->routeIs('buletin.*')">Buletin</x-nav-link>
                 <x-nav-link :href="route('mading.index')" :active="request()->routeIs('mading.*')">Mading</x-nav-link>
-                <x-nav-link>Tentang Kami</x-nav-link>
+                <x-nav-link :href="route('tentang-kami')" :active="request()->routeIs('tentang-kami')">Tentang Kami</x-nav-link>
 
             </div>
 
@@ -187,7 +187,7 @@
                 Buletin
             </a>
 
-            <a href="{{route('mading.index')}}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{ route('mading.index') }}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-artboard-line"></i>
                 Mading
             </a>

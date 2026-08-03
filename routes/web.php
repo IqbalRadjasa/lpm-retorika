@@ -39,4 +39,9 @@ Route::get('/buletin/show', [BuletinController::class, 'show'])->name('buletin.s
 // MADING
 Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');
 
+// TENTANG KAMI
+Route::get('/tentang-kami', function () {
+    return view('public.tentang-kami');
+})->name('tentang-kami');
+
 require __DIR__ . '/auth.php';
