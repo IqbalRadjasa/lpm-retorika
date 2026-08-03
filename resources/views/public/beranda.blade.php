@@ -8,8 +8,101 @@
         sm:px-6
         lg:px-8">
 
+        {{-- Mading --}}
+        <section class="pb-16 lg:pb-20">
+            <div
+                class="relative overflow-hidden rounded-3xl border border-red-300 bg-gradient-to-r from-red-50 to-white p-6 lg:p-10">
+
+                {{-- Decoration --}}
+                <i
+                    class="ri-artboard-fill
+                    absolute -right-6 -top-6
+                    text-[180px]
+                    text-red-500/5">
+                </i>
+
+                <div class="relative grid items-center gap-8 lg:grid-cols-[320px_1fr]">
+
+                    {{-- Poster --}}
+                    <div class="flex justify-center">
+
+                        <a href="{{ route('mading.index') }}"
+                            class="group block origin-center rotate-[-2deg] transition hover:rotate-0 hover:scale-105">
+
+                            <img src="https://picsum.photos/900/1300" class="rounded-2xl shadow-xl">
+
+                        </a>
+
+                    </div>
+
+                    {{-- Information --}}
+                    <div>
+
+                        <span
+                            class="inline-flex items-center gap-2 rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">
+                            Mading Terbaru
+
+                        </span>
+
+                        <h2 class="mt-5 text-3xl lg:text-5xl font-bold">
+
+                            Open Recruitment
+                            LPM Retorika 2026
+
+                        </h2>
+
+                        <p class="mt-6 max-w-2xl leading-8 text-gray-600">
+
+                            Bergabunglah menjadi bagian dari keluarga besar
+                            LPM Retorika.
+                            Kami membuka kesempatan bagi mahasiswa yang tertarik
+                            pada jurnalistik, fotografi, videografi,
+                            desain grafis, dan media digital.
+
+                        </p>
+
+                        <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-500">
+
+                            <span class="flex items-center gap-2">
+
+                                <i class="ri-calendar-line"></i>
+
+                                3 Agustus 2026
+
+                            </span>
+
+                            <span class="hidden sm:inline">•</span>
+
+                            <span class="flex items-center gap-2">
+
+                                <i class="ri-user-3-line"></i>
+
+                                LPM Retorika
+
+                            </span>
+
+                        </div>
+
+                        <a href="{{ route('mading.index') }}"
+                            class="mt-8 inline-flex items-center gap-3 rounded-xl bg-red-600 px-6 py-4 font-semibold text-white transition hover:bg-red-700">
+
+                            Lihat Mading
+
+                            <i class="ri-arrow-right-line"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        {{-- <hr class="max-w-screen-xl mx-auto text-gray-300"> --}}
+
         {{-- Hero --}}
-        <section class="pb-20">
+        <section class="py-16 lg:py-20">
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -139,7 +232,7 @@
         </section>
 
         {{-- Podcast --}}
-        <section class="pb-20">
+        <section class="py-16 lg:py-20">
 
             <div
                 class="relative overflow-hidden rounded-2xl lg:rounded-3xl bg-gradient-to-r from-red-700 via-red-600 to-red-500">
@@ -402,7 +495,7 @@
         <hr class="max-w-screen-xl mx-auto text-gray-300">
 
         {{-- Latest Release --}}
-        <section class="py-12 md:py-16 lg:py-20">
+        <section class="py-16 lg:py-20">
 
             {{-- Header --}}
             <div

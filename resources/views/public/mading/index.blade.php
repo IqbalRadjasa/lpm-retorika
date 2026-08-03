@@ -59,7 +59,8 @@
             {{-- Bulletin Board --}}
             {{-- ================================================= --}}
 
-            <div class="mt-12 rounded-[36px] border-[12px] border-yellow-900 bg-[#D8B47C] p-6 lg:p-10 shadow-2xl">
+            <div
+                class="mt-12 rounded-[36px] border border-red-100 bg-gradient-to-r from-red-50 to-white p-6 lg:p-10 shadow-xl">
 
                 {{-- Board --}}
                 <div class="relative mx-auto max-w-4xl">
