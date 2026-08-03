@@ -170,10 +170,9 @@
 
                             </a>
 
-
                             {{-- Mobile --}}
                             <button @click="shareOpen = true"
-                                class="lg:hidden inline-flex w-full sm:w-autoitems-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
+                                class="lg:hidden inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
 
                                 <i class="ri-share-line"></i>
 

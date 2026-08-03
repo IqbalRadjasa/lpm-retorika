@@ -90,7 +90,7 @@
             {{-- Action --}}
             {{-- ================================================= --}}
 
-            <div class="mt-10 flex flex-wrap justify-center gap-4">
+            <div class="mt-10 flex flex-wrap justify-center gap-4" x-data="{ shareOpen: false }">
 
                 <a href="#"
                     class="inline-flex items-center gap-3 rounded-xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700">
@@ -101,47 +101,135 @@
 
                 </a>
 
-                <x-dropdown align="right" width="64">
+                {{-- Mobile --}}
+                <button @click="shareOpen = true"
+                    class="lg:hidden inline-flex items-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
 
-                    <x-slot name="trigger">
+                    <i class="ri-share-line"></i>
 
-                        <button
-                            class="inline-flex items-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
+                    Bagikan
 
-                            <i class="ri-share-line"></i>
+                </button>
+
+
+                {{-- Desktop --}}
+                <div class="hidden lg:block">
+                    <x-dropdown align="right" width="64">
+
+                        <x-slot name="trigger">
+
+                            <button
+                                class="inline-flex w-full sm:w-autoitems-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
+
+                                <i class="ri-share-line"></i>
+
+                                Bagikan
+
+                            </button>
+
+                        </x-slot>
+
+                        <x-slot name="content">
+
+                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                <i class="ri-link"></i>
+                                Salin Link
+                            </x-dropdown-link>
+
+                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                <i class="ri-whatsapp-line text-green-600"></i>
+                                WhatsApp
+                            </x-dropdown-link>
+
+                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                <i class="ri-twitter-x-line"></i>
+                                Twitter / X
+                            </x-dropdown-link>
+
+                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                <i class="ri-facebook-circle-line text-blue-600"></i>
+                                Facebook
+                            </x-dropdown-link>
+
+                        </x-slot>
+
+                    </x-dropdown>
+                </div>
+
+
+                {{-- Mobile Share Sheet --}}
+                <div x-show="shareOpen" x-cloak class="fixed inset-0 z-[999]" style="display:none">
+
+                    {{-- Overlay --}}
+                    <div @click="shareOpen = false" class="absolute inset-0 bg-black/50">
+                    </div>
+
+                    {{-- Bottom Sheet --}}
+                    <div x-show="shareOpen" x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
+                        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-y-0"
+                        x-transition:leave-end="translate-y-full"
+                        class="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
+
+                        {{-- Handle --}}
+                        <div class="mx-auto mb-6 h-1.5 w-14 rounded-full bg-gray-300"></div>
+
+                        <h3 class="text-center text-lg font-bold">
 
                             Bagikan
 
+                        </h3>
+
+                        <div class="mt-6 space-y-2">
+
+                            <a href="#"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+
+                                <i class="ri-link text-xl text-gray-500"></i>
+
+                                <span>Salin Link</span>
+
+                            </a>
+
+                            <a href="#"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+
+                                <i class="ri-whatsapp-line text-xl text-green-600"></i>
+
+                                <span>WhatsApp</span>
+
+                            </a>
+
+                            <a href="#"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+
+                                <i class="ri-twitter-x-line text-xl"></i>
+
+                                <span>Twitter / X</span>
+
+                            </a>
+
+                            <a href="#"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+
+                                <i class="ri-facebook-circle-line text-xl text-blue-600"></i>
+
+                                <span>Facebook</span>
+
+                            </a>
+
+                        </div>
+
+                        <button @click="shareOpen=false"
+                            class="mt-6 w-full rounded-xl bg-gray-100 py-4 font-semibold transition hover:bg-gray-200">
+
+                            Batal
+
                         </button>
 
-                    </x-slot>
+                    </div>
 
-                    <x-slot name="content">
-
-                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                            <i class="ri-link"></i>
-                            Salin Link
-                        </x-dropdown-link>
-
-                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                            <i class="ri-whatsapp-line text-green-600"></i>
-                            WhatsApp
-                        </x-dropdown-link>
-
-                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                            <i class="ri-twitter-x-line"></i>
-                            Twitter / X
-                        </x-dropdown-link>
-
-                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                            <i class="ri-facebook-circle-line text-blue-600"></i>
-                            Facebook
-                        </x-dropdown-link>
-
-                    </x-slot>
-
-                </x-dropdown>
-
+                </div>
             </div>
 
         </div>
