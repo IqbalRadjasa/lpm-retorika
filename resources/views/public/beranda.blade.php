@@ -152,7 +152,6 @@
                         left-1/2
                         -translate-x-1/2
                         text-[140px]
-                        text-[170px]
                         lg:text-[220px]
                         text-white/5
                         text-white/10

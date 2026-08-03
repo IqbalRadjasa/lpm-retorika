@@ -192,7 +192,7 @@
                 Mading
             </a>
 
-            <a href="#" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{ route('tentang-kami') }}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-information-line"></i>
                 Tentang Kami
             </a>

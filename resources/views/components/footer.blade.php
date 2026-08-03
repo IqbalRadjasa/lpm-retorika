@@ -32,8 +32,10 @@
 
                     <li><a href="#">Beranda</a></li>
                     <li><a href="#">Berita</a></li>
+                    <li><a href="#">Majalah</a></li>
                     <li><a href="#">Tabloid</a></li>
                     <li><a href="#">Buletin</a></li>
+                    <li><a href="#">Mading</a></li>
                     <li><a href="#">Tentang Kami</a></li>
 
                 </ul>
