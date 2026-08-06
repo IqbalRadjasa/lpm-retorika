@@ -44,4 +44,12 @@ Route::get('/tentang-kami', function () {
     return view('public.tentang-kami');
 })->name('tentang-kami');
 
+
+
+// CMS
+// DASHBOARD
+Route::get('/cms/dashboard', function () {
+    return view('cms.dashboard');
+})->name('cms.dashboard');
+
 require __DIR__ . '/auth.php';
