@@ -51,7 +51,7 @@
 
                         </h2>
 
-                        <p class="mt-6 max-w-2xl leading-8 text-gray-600">
+                        {{-- <p class="mt-6 max-w-2xl leading-8 text-gray-600">
 
                             Bergabunglah menjadi bagian dari keluarga besar
                             LPM Retorika.
@@ -59,7 +59,7 @@
                             pada jurnalistik, fotografi, videografi,
                             desain grafis, dan media digital.
 
-                        </p>
+                        </p> --}}
 
                         <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-500">
 

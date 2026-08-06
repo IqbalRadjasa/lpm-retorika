@@ -146,14 +146,14 @@
 
                             </div>
 
-                            <p class="mt-5 text-sm sm:text-base leading-7 text-gray-600">
+                            {{-- <p class="mt-5 text-sm sm:text-base leading-7 text-gray-600">
 
                                 Bergabunglah bersama keluarga besar LPM Retorika.
                                 Kami membuka kesempatan bagi mahasiswa yang memiliki
                                 minat pada dunia jurnalistik, desain grafis,
                                 fotografi, videografi, dan media digital.
 
-                            </p>
+                            </p> --}}
 
                         </div>
 
