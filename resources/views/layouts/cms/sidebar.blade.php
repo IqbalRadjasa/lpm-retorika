@@ -6,7 +6,7 @@
 
 <!-- Sidebar -->
 <aside :class="sidebarOpen ? 'w-60' : 'w-16'"
-    class="sidebar sticky top-0 h-screen overflow-y-auto transition-all duration-100 hidden md:block">
+    class="bg-white sticky top-0 h-screen overflow-y-auto transition-all duration-100 hidden md:block">
 
     <!-- Header -->
     <div :class="sidebarOpen ? 'justify-between' : 'justify-center'" class="h-16 flex items-center px-4">
@@ -43,9 +43,9 @@
         md:hidden
         overflow-y-auto
     ">
-    <div class="flex items-center justify-between p-4 border-b">
+    <div class="flex items-center justify-between p-4 border-b border-gray-300">
         <span class="font-bold text-lg">
-            SPP Admin
+            LPM Retorika CMS
         </span>
 
         <button @click="mobileSidebarOpen = false" class="text-2xl">

@@ -1,4 +1,4 @@
-<header x-data="{ openProfile: false }" class="header h-16 flex items-center justify-between px-4 py-3">
+<header x-data="{ openProfile: false }" class="bg-white h-16 flex items-center justify-between px-4 py-3">
 
     <div class="">
 
