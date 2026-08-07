@@ -5,25 +5,28 @@
 
 
 <!-- Sidebar -->
-<aside :class="sidebarOpen ? 'w-60' : 'w-16'"
+<aside @click="if (!sidebarOpen) sidebarOpen = true" :class="sidebarOpen ? 'w-60' : 'w-16'"
     class="bg-white sticky top-0 h-screen overflow-y-auto transition-all duration-100 hidden md:block">
 
     <!-- Header -->
-    <div :class="sidebarOpen ? 'justify-between' : 'justify-center'" class="h-16 flex items-center px-4">
+    <div :class="sidebarOpen ? 'justify-between' : 'justify-center'" class="flex h-16 items-center px-4">
 
-        <span x-show="sidebarOpen" class="font-bold text-lg">
-            LPM Retorika CMS
-        </span>
+        <a href="{{ route('cms.dashboard') }}" class="shrink-0" x-show="sidebarOpen" x-transition>
+            <x-application-logo />
+        </a>
 
-        <button @click="sidebarOpen = !sidebarOpen">
-            ☰
+        <button type="button" @click.stop="sidebarOpen = !sidebarOpen"
+            class="flex h-10 w-10 items-center justify-center rounded-lg transition hover:bg-gray-100">
+            <i class="ri-layout-left-2-line text-xl"></i>
         </button>
 
     </div>
 
     <!-- Menu -->
-    <nav class="mt-4 space-y-2" @click="!sidebarOpen && (sidebarOpen = true)">
+    <nav class="mt-4 space-y-2">
+
         @include('components.sidebar.menu')
+
     </nav>
 
 </aside>
@@ -44,9 +47,11 @@
         overflow-y-auto
     ">
     <div class="flex items-center justify-between p-4 border-b border-gray-300">
-        <span class="font-bold text-lg">
-            LPM Retorika CMS
-        </span>
+
+        <a href="{{ route('cms.dashboard') }}" class="shrink-0" x-show="sidebarOpen" x-transition>
+            <x-application-logo />
+        </a>
+
 
         <button @click="mobileSidebarOpen = false" class="text-2xl">
             ✕
