@@ -25,15 +25,15 @@
     <div x-data="{
         sidebarOpen: true,
         mobileSidebarOpen: false
-    }" class="flex h-screen">
+    }" class="flex min-h-screen">
 
         @include('layouts.cms.sidebar')
 
-        <div class="flex flex-1 flex-col overflow-hidden">
+        <div class="flex min-w-0 flex-1 flex-col">
 
             @include('layouts.cms.header')
 
-            <main class="flex-1 overflow-y-auto p-6">
+            <main class="min-w-0 flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6">
 
                 {{ $slot }}
 

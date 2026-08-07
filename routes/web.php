@@ -52,4 +52,13 @@ Route::get('/cms/dashboard', function () {
     return view('cms.dashboard');
 })->name('cms.dashboard');
 
+// ARTIKEL
+Route::get('/cms/artikel', function () {
+    return view('cms.artikel.index');
+})->name('cms.artikel.index');
+// Tambah
+Route::get('/cms/artikel/tambah', function () {
+    return view('cms.artikel.create');
+})->name('cms.artikel.create');
+
 require __DIR__ . '/auth.php';
