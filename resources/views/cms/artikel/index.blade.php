@@ -246,12 +246,12 @@
 
                                 <div class="flex flex-wrap gap-3">
 
-                                    <button
+                                    <a  href="{{route('cms.artikel.show')}}"
                                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-100">
 
                                         <i class="ri-eye-line"></i>
 
-                                    </button>
+                                    </a>
 
                                     <button
                                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 text-blue-600 transition hover:bg-blue-50">

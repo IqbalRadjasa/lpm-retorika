@@ -58,7 +58,15 @@ Route::get('/cms/artikel', function () {
 })->name('cms.artikel.index');
 // Tambah
 Route::get('/cms/artikel/tambah', function () {
-    return view('cms.artikel.create');
+    return view('cms.artikel.form');
 })->name('cms.artikel.create');
+// // Edit
+// Route::get('/cms/artikel/{article}/edit', function () {
+//     return view('cms.artikel.form');
+// })->name('cms.artikel.edit');
+// Tambah
+Route::get('/cms/artikel/show', function () {
+    return view('cms.artikel.show');
+})->name('cms.artikel.show');
 
 require __DIR__ . '/auth.php';

@@ -15,13 +15,13 @@
 
                     <i class="ri-arrow-left-line"></i>
 
-                    Back to artikel
+                    Kembali ke artikel
 
                 </a>
 
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
-                    Create Article
+                    Tambah Artikel
 
                 </h1>
 
@@ -32,23 +32,6 @@
                 </p>
 
             </div>
-
-            {{-- <div class="flex gap-3">
-
-                <x-button.secondary-button>
-
-                    Save Draft
-
-                </x-button.secondary-button>
-
-                <x-button.primary-button>
-
-                    Publish
-
-                </x-button.primary-button>
-
-            </div> --}}
-
         </div>
 
         {{-- ================================================= --}}
