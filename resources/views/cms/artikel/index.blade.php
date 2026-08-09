@@ -236,7 +236,7 @@
 
                             {{-- Footer --}}
                             <div
-                                class="mt-8 flex flex-col gap-4 border-t pt-5 sm:flex-row sm:items-center sm:justify-between">
+                                class="mt-8 flex flex-col gap-4 border-t border-gray-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
 
                                 <div class="text-sm text-gray-400">
 
@@ -246,7 +246,7 @@
 
                                 <div class="flex flex-wrap gap-3">
 
-                                    <a  href="{{route('cms.artikel.show')}}"
+                                    <a href="{{ route('cms.artikel.show') }}"
                                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-100">
 
                                         <i class="ri-eye-line"></i>

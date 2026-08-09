@@ -94,18 +94,6 @@
                         Opini
                     </option>
 
-                    <option value="majalah">
-                        Majalah
-                    </option>
-
-                    <option value="tabloid">
-                        Tabloid
-                    </option>
-
-                    <option value="buletin">
-                        Buletin
-                    </option>
-
                 </select>
 
                 <p class="mt-2 text-xs text-gray-400">
