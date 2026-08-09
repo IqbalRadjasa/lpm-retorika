@@ -56,7 +56,7 @@ Route::get('/cms/dashboard', function () {
 Route::get('/cms/artikel', function () {
     return view('cms.artikel.index');
 })->name('cms.artikel.index');
-// Tambah
+// Create
 Route::get('/cms/artikel/tambah', function () {
     return view('cms.artikel.form');
 })->name('cms.artikel.create');
@@ -73,5 +73,9 @@ Route::get('/cms/artikel/show', function () {
 Route::get('/cms/publikasi', function () {
     return view('cms.publikasi.index');
 })->name('cms.publikasi.index');
+//  Create
+Route::get('/cms/publikasi/form', function () {
+    return view('cms.publikasi.form');
+})->name('cms.publikasi.form');
 
 require __DIR__ . '/auth.php';

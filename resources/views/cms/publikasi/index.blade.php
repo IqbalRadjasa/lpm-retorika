@@ -20,18 +20,11 @@
 
             </div>
 
-            <a href="#"
-                class="inline-flex w-full items-center justify-center gap-2
-                       rounded-xl bg-red-600 px-5 py-3
-                       text-sm font-semibold text-white
-                       transition hover:bg-red-700
-                       md:w-auto">
-
-                <i class="ri-add-line text-lg"></i>
+            <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-add-line">
 
                 Tambah Publikasi
 
-            </a>
+            </x-link-button.primary-link>
 
         </div>
 

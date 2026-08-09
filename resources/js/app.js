@@ -96,8 +96,103 @@ function tagsInput() {
     };
 }
 
-window.thumbnailUploader = thumbnailUploader;
+function publicationCoverUploader() {
+    return {
+        image: null,
+
+        previewImage(event) {
+            const file = event.target.files[0];
+
+            if (!file) return;
+
+            this.image = URL.createObjectURL(file);
+        },
+
+        dropImage(event) {
+            const files = event.dataTransfer.files;
+
+            if (!files.length) return;
+
+            const file = files[0];
+
+            if (!file.type.startsWith("image/")) return;
+
+            this.$refs.input.files = files;
+
+            this.image = URL.createObjectURL(file);
+        },
+
+        removeImage() {
+            this.image = null;
+
+            this.$refs.input.value = "";
+        },
+    };
+}
+
+function publicationFileUploader() {
+    return {
+        file: null,
+
+        selectFile(event) {
+            const selectedFile = event.target.files[0];
+
+            if (!selectedFile) return;
+
+            if (selectedFile.type !== "application/pdf") {
+                this.file = null;
+                this.$refs.input.value = "";
+
+                alert("File yang dipilih harus berupa PDF.");
+
+                return;
+            }
+
+            this.file = selectedFile;
+        },
+
+        dropFile(event) {
+            const files = event.dataTransfer.files;
+
+            if (!files.length) return;
+
+            const selectedFile = files[0];
+
+            if (selectedFile.type !== "application/pdf") {
+                alert("File yang dipilih harus berupa PDF.");
+
+                return;
+            }
+
+            this.$refs.input.files = files;
+
+            this.file = selectedFile;
+        },
+
+        removeFile() {
+            this.file = null;
+
+            this.$refs.input.value = "";
+        },
+
+        formatSize(bytes) {
+            if (bytes < 1024) {
+                return `${bytes} B`;
+            }
+
+            if (bytes < 1024 * 1024) {
+                return `${(bytes / 1024).toFixed(1)} KB`;
+            }
+
+            return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+        },
+    };
+}
+
 window.seoHelper = seoHelper;
 window.tagsInput = tagsInput;
+window.thumbnailUploader = thumbnailUploader;
+window.publicationFileUploader = publicationFileUploader;
+window.publicationCoverUploader = publicationCoverUploader;
 
 Alpine.start();

@@ -9,29 +9,22 @@
         <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
-
-                <a href="{{ route('cms.artikel.index') }}"
-                    class="inline-flex items-center gap-2 text-sm text-gray-500 transition hover:text-red-600">
-
-                    <i class="ri-arrow-left-line"></i>
-
-                    Kembali
-
-                </a>
-
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
-                    Tambah Artikel
+                    Tambah Publikasi
 
                 </h1>
 
                 <p class="mt-2 text-gray-500">
 
-                    Tulis dan publikasikan artikel baru.
+                    Tambahkan majalah, tabloid, atau buletin baru.
 
                 </p>
-
             </div>
+
+            <x-link-button.secondary-link :href="route('cms.publikasi.index')" icon="ri-arrow-left-line">
+                Kembali
+            </x-link-button.secondary-link>
         </div>
 
         {{-- ================================================= --}}
@@ -48,11 +41,11 @@
                 {{-- LEFT --}}
                 {{-- ============================================= --}}
 
-                <div class="min-w-0 space-y-8 xl:col-span-8">
+                <div class="space-y-8 xl:col-span-8">
 
-                    @include('cms.artikel.partials.basic-information')
+                    @include('cms.publikasi.partials.information')
 
-                    @include('cms.artikel.partials.content')
+                    @include('cms.publikasi.partials.file')
 
                 </div>
 
@@ -61,19 +54,11 @@
                 {{-- ============================================= --}}
                 <div class="space-y-8 xl:col-span-4">
 
-                    <div class="space-y-8 xl:sticky xl:top-24">
+                    <div class="sticky top-24 space-y-8">
 
+                        @include('cms.publikasi.partials.cover')
 
-                        {{-- @include('cms.artikel.partials.category') --}}
-
-                        @include('cms.artikel.partials.thumbnail')
-
-                        {{-- @include('cms.artikel.partials.seo') --}}
-
-                        @include('cms.artikel.partials.tags')
-
-                        @include('cms.artikel.partials.publish')
-
+                        @include('cms.publikasi.partials.publish')
 
                     </div>
 
