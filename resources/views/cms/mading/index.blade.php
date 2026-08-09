@@ -26,15 +26,9 @@
 
 
             {{-- Edit Button --}}
-            <a
-                href="#"
-                class="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
-
-                <i class="ri-edit-line"></i>
-
+            <x-link-button.primary-link :href="route('cms.mading.edit')" icon="ri-edit-line">
                 Edit Mading
-
-            </a>
+            </x-link-button.primary-link>
 
         </div>
 
@@ -92,9 +86,7 @@
 
                         <div class="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-xl">
 
-                            <img
-                                src="https://picsum.photos/700/950?random=35"
-                                alt="Open Recruitment LPM Retorika 2026"
+                            <img src="https://picsum.photos/700/950?random=35" alt="Open Recruitment LPM Retorika 2026"
                                 class="w-full object-cover">
 
                         </div>
@@ -106,27 +98,15 @@
                     <div class="border-t border-gray-100 p-5">
 
                         <div class="flex flex-col gap-3 sm:flex-row">
-
-                            <a
-                                href="#"
-                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-300 px-5 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
-
-                                <i class="ri-eye-line"></i>
-
+                            <x-link-button.secondary-link :href="route('mading.index')" icon="ri-eye-line"
+                                class="flex-1 rounded-xl py-3">
                                 Lihat di Website
+                            </x-link-button.secondary-link>
 
-                            </a>
-
-                            <a
-                                href="#"
-                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
-
-                                <i class="ri-edit-line"></i>
-
+                            <x-link-button.primary-link :href="route('cms.mading.edit')" icon="ri-edit-line"
+                                class="flex-1 rounded-xl py-3">
                                 Edit Mading
-
-                            </a>
-
+                            </x-link-button.primary-link>
                         </div>
 
                     </div>
@@ -154,8 +134,7 @@
 
                         <div class="flex items-center gap-3">
 
-                            <div
-                                class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600">
 
                                 <i class="ri-layout-masonry-line text-xl"></i>
 
@@ -277,8 +256,7 @@
 
                     <div class="flex items-start gap-4">
 
-                        <div
-                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
 
                             <i class="ri-checkbox-circle-line text-lg text-green-600"></i>
 
@@ -293,14 +271,9 @@
                             </h3>
 
                             <p class="mt-1 text-sm leading-6 text-green-700">
-
-                                Poster ini sedang ditampilkan pada
-                                halaman Beranda website.
-
+                                Poster ini sedang ditampilkan.
                             </p>
-
                         </div>
-
                     </div>
 
                 </div>
@@ -314,14 +287,13 @@
         {{-- Website Placement --}}
         {{-- ================================================= --}}
 
-        <div class="mt-8 rounded-2xl bg-white shadow-sm">
+        {{-- <div class="mt-8 rounded-2xl bg-white shadow-sm">
 
             <div class="border-b border-gray-100 px-6 py-5">
 
                 <div class="flex items-center gap-3">
 
-                    <div
-                        class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
 
                         <i class="ri-home-5-line text-xl"></i>
 
@@ -369,6 +341,21 @@
 
                     </div>
 
+                    <div>
+
+                        <p class="font-medium text-gray-900">
+                            Mading
+                        </p>
+
+                        <p class="mt-1 text-sm text-gray-500">
+
+                            Mading ditampilkan pada bagian atas
+                            halaman Beranda.
+
+                        </p>
+
+                    </div>
+
 
                     <span
                         class="inline-flex w-fit items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-xs font-semibold text-green-700">
@@ -383,7 +370,7 @@
 
             </div>
 
-        </div>
+        </div> --}}
 
     </div>
 

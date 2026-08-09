@@ -6,19 +6,10 @@
         {{-- Header --}}
         {{-- ================================================= --}}
 
+
         <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
-
-                <a href="{{ route('cms.artikel.index') }}"
-                    class="inline-flex items-center gap-2 text-sm text-gray-500 transition hover:text-red-600">
-
-                    <i class="ri-arrow-left-line"></i>
-
-                    Kembali
-
-                </a>
-
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
                     Tambah Artikel
@@ -30,8 +21,11 @@
                     Tulis dan publikasikan artikel baru.
 
                 </p>
-
             </div>
+
+            <x-link-button.secondary-link :href="route('cms.artikel.index')" icon="ri-arrow-left-line">
+                Kembali
+            </x-link-button.secondary-link>
         </div>
 
         {{-- ================================================= --}}
