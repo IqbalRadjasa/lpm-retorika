@@ -5,3 +5,7 @@
 <x-sidebar.sidebar-link :href="route('cms.artikel.index')" icon="ri-newspaper-line" :active="request()->routeIs('cms.artikel.*')">
     Artikel
 </x-sidebar.sidebar-link>
+
+<x-sidebar.sidebar-link :href="route('cms.publikasi.index')" icon="ri-booklet-line" :active="request()->routeIs('cms.publikasi.*')">
+    Publikasi
+</x-sidebar.sidebar-link>
