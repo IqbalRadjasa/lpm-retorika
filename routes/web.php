@@ -77,5 +77,9 @@ Route::get('/cms/publikasi', function () {
 Route::get('/cms/publikasi/form', function () {
     return view('cms.publikasi.form');
 })->name('cms.publikasi.form');
+//  Show
+Route::get('/cms/publikasi/show', function () {
+    return view('cms.publikasi.show');
+})->name('cms.publikasi.show');
 
 require __DIR__ . '/auth.php';

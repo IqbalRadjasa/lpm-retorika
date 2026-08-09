@@ -191,39 +191,15 @@
 
                     {{-- Actions --}}
                     <div class="mt-5 flex gap-2">
-
-                        <a href="#"
-                            class="inline-flex flex-1 items-center
-                                   justify-center gap-2
-                                   rounded-xl border border-gray-200
-                                   px-4 py-2.5
-                                   text-sm font-medium text-gray-700
-                                   transition hover:bg-gray-50">
-
-                            <i class="ri-eye-line"></i>
-
+                        <x-link-button.secondary-link :href="route('cms.publikasi.show')" icon="ri-eye-line" class="flex-1">
                             Detail
+                        </x-link-button.secondary-link>
 
-                        </a>
-
-                        <a href="#"
-                            class="inline-flex flex-1 items-center
-                                   justify-center gap-2
-                                   rounded-xl bg-red-600
-                                   px-4 py-2.5
-                                   text-sm font-medium text-white
-                                   transition hover:bg-red-700">
-
-                            <i class="ri-edit-line"></i>
-
+                        <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-edit-line" class="flex-1">
                             Edit
-
-                        </a>
-
+                        </x-link-button.primary-link>
                     </div>
-
                 </div>
-
             </article>
 
 
@@ -310,39 +286,15 @@
 
                     {{-- Actions --}}
                     <div class="mt-5 flex gap-2">
-
-                        <a href="#"
-                            class="inline-flex flex-1 items-center
-                                   justify-center gap-2
-                                   rounded-xl border border-gray-200
-                                   px-4 py-2.5
-                                   text-sm font-medium text-gray-700
-                                   transition hover:bg-gray-50">
-
-                            <i class="ri-eye-line"></i>
-
+                        <x-link-button.secondary-link :href="route('cms.publikasi.show')" icon="ri-eye-line" class="flex-1">
                             Detail
+                        </x-link-button.secondary-link>
 
-                        </a>
-
-                        <a href="#"
-                            class="inline-flex flex-1 items-center
-                                   justify-center gap-2
-                                   rounded-xl bg-red-600
-                                   px-4 py-2.5
-                                   text-sm font-medium text-white
-                                   transition hover:bg-red-700">
-
-                            <i class="ri-edit-line"></i>
-
+                        <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-edit-line" class="flex-1">
                             Edit
-
-                        </a>
-
+                        </x-link-button.primary-link>
                     </div>
-
                 </div>
-
             </article>
 
 
@@ -429,42 +381,16 @@
 
                     {{-- Actions --}}
                     <div class="mt-5 flex gap-2">
-
-                        <a href="#"
-                            class="inline-flex flex-1 items-center
-                                   justify-center gap-2
-                                   rounded-xl border border-gray-200
-                                   px-4 py-2.5
-                                   text-sm font-medium text-gray-700
-                                   transition hover:bg-gray-50">
-
-                            <i class="ri-eye-line"></i>
-
+                        <x-link-button.secondary-link :href="route('cms.publikasi.show')" icon="ri-eye-line" class="flex-1">
                             Detail
+                        </x-link-button.secondary-link>
 
-                        </a>
-
-                        <a href="#"
-                            class="inline-flex flex-1 items-center
-                                   justify-center gap-2
-                                   rounded-xl bg-red-600
-                                   px-4 py-2.5
-                                   text-sm font-medium text-white
-                                   transition hover:bg-red-700">
-
-                            <i class="ri-edit-line"></i>
-
+                        <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-edit-line" class="flex-1">
                             Edit
-
-                        </a>
-
+                        </x-link-button.primary-link>
                     </div>
-
                 </div>
-
             </article>
-
-
         </div>
 
 
