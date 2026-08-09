@@ -82,4 +82,9 @@ Route::get('/cms/publikasi/show', function () {
     return view('cms.publikasi.show');
 })->name('cms.publikasi.show');
 
+// MADING
+Route::get('/cms/mading', function () {
+    return view('cms.mading.index');
+})->name('cms.mading.index');
+
 require __DIR__ . '/auth.php';

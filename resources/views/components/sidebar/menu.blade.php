@@ -9,3 +9,7 @@
 <x-sidebar.sidebar-link :href="route('cms.publikasi.index')" icon="ri-booklet-line" :active="request()->routeIs('cms.publikasi.*')">
     Publikasi
 </x-sidebar.sidebar-link>
+
+<x-sidebar.sidebar-link :href="route('cms.mading.index')" icon="ri-artboard-line" :active="request()->routeIs('cms.mading.*')">
+    Mading
+</x-sidebar.sidebar-link>
