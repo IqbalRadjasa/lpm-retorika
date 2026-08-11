@@ -91,4 +91,9 @@ Route::get('/cms/mading/edit', function () {
     return view('cms.mading.edit');
 })->name('cms.mading.edit');
 
+// MEDIA
+Route::get('/cms/media', function () {
+    return view('cms.media.index');
+})->name('cms.media.index');
+
 require __DIR__ . '/auth.php';

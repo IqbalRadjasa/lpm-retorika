@@ -13,3 +13,7 @@
 <x-sidebar.sidebar-link :href="route('cms.mading.index')" icon="ri-artboard-line" :active="request()->routeIs('cms.mading.*')">
     Mading
 </x-sidebar.sidebar-link>
+
+<x-sidebar.sidebar-link :href="route('cms.media.index')" icon="ri-folder-image-line" :active="request()->routeIs('cms.media.*')">
+    Media
+</x-sidebar.sidebar-link>
