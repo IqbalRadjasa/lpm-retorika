@@ -99,5 +99,9 @@ Route::get('/cms/media', function () {
 Route::get('/cms/media/create', function () {
     return view('cms.media.create');
 })->name('cms.media.create');
+// Show
+Route::get('/cms/media/show', function () {
+    return view('cms.media.show');
+})->name('cms.media.show');
 
 require __DIR__ . '/auth.php';
