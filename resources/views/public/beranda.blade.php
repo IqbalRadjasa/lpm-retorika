@@ -1083,7 +1083,7 @@
         {{-- Publications --}}
         <section class="py-16 lg:py-20">
 
-            <div x-data="{ tab: 'Berita' }">
+            <div x-data="{ tab: 'majalah' }">
 
                 {{-- Header --}}
                 <div
@@ -1096,7 +1096,7 @@
                         </h2>
 
                         <p class="mt-2 text-sm lg:text-base text-gray-500">
-                            Berita, Majalah, Tabloid, dan Buletin.
+                            Majalah, Tabloid, dan Buletin.
                         </p>
 
                     </div>
@@ -1107,16 +1107,6 @@
                 <div class="flex justify-center lg:justify-start mb-10 overflow-x-auto">
 
                     <div class="inline-flex rounded-full bg-gray-100 p-1 gap-1">
-
-                        <button @click="tab='Berita'"
-                            :class="tab == 'Berita' ?
-                                'bg-red-600 text-white shadow' :
-                                'text-gray-600 hover:bg-white'"
-                            class="px-4 lg:px-5 py-2 rounded-full text-sm font-medium transition whitespace-nowrap">
-
-                            Berita
-
-                        </button>
 
                         <button @click="tab='majalah'"
                             :class="tab == 'majalah' ?
