@@ -95,5 +95,9 @@ Route::get('/cms/mading/edit', function () {
 Route::get('/cms/media', function () {
     return view('cms.media.index');
 })->name('cms.media.index');
+// Create
+Route::get('/cms/media/create', function () {
+    return view('cms.media.create');
+})->name('cms.media.create');
 
 require __DIR__ . '/auth.php';

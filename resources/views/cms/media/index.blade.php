@@ -20,17 +20,12 @@
 
             </div>
 
-            <a href="#"
-                class="inline-flex items-center justify-center gap-2 rounded-xl
-                       bg-red-600 px-5 py-3
-                       text-sm font-semibold text-white
-                       transition hover:bg-red-700">
 
-                <i class="ri-upload-2-line text-lg"></i>
+            <x-link-button.primary-link :href="route('cms.media.create')" icon="ri-upload-2-line">
 
                 Upload Media
 
-            </a>
+            </x-link-button.primary-link>
 
         </div>
 

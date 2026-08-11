@@ -189,6 +189,106 @@ function publicationFileUploader() {
     };
 }
 
+function mediaUploader() {
+    return {
+        files: [],
+
+        dragging: false,
+
+        handleFiles(event) {
+            this.addFiles(event.target.files);
+        },
+
+        handleDrop(event) {
+            this.dragging = false;
+
+            this.addFiles(event.dataTransfer.files);
+        },
+
+        addFiles(fileList) {
+            Array.from(fileList).forEach((file) => {
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp",
+                    "application/pdf",
+                ];
+
+                if (!allowedTypes.includes(file.type)) {
+                    return;
+                }
+
+                if (file.size > 10 * 1024 * 1024) {
+                    return;
+                }
+
+                const exists = this.files.some(
+                    (existing) =>
+                        existing.name === file.name &&
+                        existing.size === file.size
+                );
+
+                if (exists) {
+                    return;
+                }
+
+                let preview = null;
+
+                if (file.type.startsWith("image/")) {
+                    preview = URL.createObjectURL(file);
+                }
+
+                this.files.push({
+                    file: file,
+
+                    name: file.name,
+
+                    size: file.size,
+
+                    type: file.type,
+
+                    preview: preview,
+                });
+            });
+        },
+
+        removeFile(index) {
+            const file = this.files[index];
+
+            if (file.preview) {
+                URL.revokeObjectURL(file.preview);
+            }
+
+            this.files.splice(index, 1);
+        },
+
+        clearFiles() {
+            this.files.forEach((file) => {
+                if (file.preview) {
+                    URL.revokeObjectURL(file.preview);
+                }
+            });
+
+            this.files = [];
+
+            this.$refs.fileInput.value = "";
+        },
+
+        formatSize(bytes) {
+            if (bytes < 1024) {
+                return bytes + " B";
+            }
+
+            if (bytes < 1024 * 1024) {
+                return (bytes / 1024).toFixed(1) + " KB";
+            }
+
+            return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+        },
+    };
+}
+
+window.mediaUploader = mediaUploader;
 window.seoHelper = seoHelper;
 window.tagsInput = tagsInput;
 window.thumbnailUploader = thumbnailUploader;
