@@ -246,7 +246,7 @@
                             {{-- CTA --}}
                             <div class="mt-8">
 
-                                <a href="#"
+                                <a href="{{route('podcast.show')}}"
                                     class="inline-flex items-center
                                            justify-center gap-2 rounded-xl
                                            bg-red-600 px-5 py-3

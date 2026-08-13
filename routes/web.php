@@ -26,7 +26,9 @@ Route::get('/podcast', function(){
     return view('public.podcast.index');
 })->name('podcast.index');
 // Show
-// Route::get('/podcast/show', [MajalahController::class, 'show'])->name('majalah.show');
+Route::get('/podcast/show', function () {
+    return view('public.podcast.show');
+})->name('podcast.show');
 
 // MAJALAH
 Route::get('/majalah', [MajalahController::class, 'index'])->name('majalah.index');
