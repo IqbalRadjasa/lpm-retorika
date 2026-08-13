@@ -21,6 +21,13 @@ Route::get('/berita/nasional', [BeritaController::class, 'nasional'])->name('ber
 // Opini
 Route::get('/berita/opini', [BeritaController::class, 'opini'])->name('berita.opini');
 
+// PODCAST
+Route::get('/podcast', function(){
+    return view('public.podcast.index');
+})->name('podcast.index');
+// Show
+// Route::get('/podcast/show', [MajalahController::class, 'show'])->name('majalah.show');
+
 // MAJALAH
 Route::get('/majalah', [MajalahController::class, 'index'])->name('majalah.index');
 // Show
