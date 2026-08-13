@@ -1,6 +1,6 @@
 <x-cms-layout>
 
-    <div class="space-y-8 py-6">
+    <div class="space-y-8 py-6" x-data="mediaSelector()">
 
         {{-- ================================================= --}}
         {{-- Header --}}
@@ -77,6 +77,8 @@
 
         </form>
 
+        {{-- Media Picker --}}
+        @include('components.cms.media-picker')
     </div>
 
 </x-cms-layout>

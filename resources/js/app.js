@@ -16,35 +16,154 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
-function thumbnailUploader() {
+function mediaSelector() {
     return {
-        image: null,
+        mediaPickerOpen: false,
 
-        previewImage(event) {
-            const file = event.target.files[0];
+        mediaSearch: "",
 
-            if (!file) return;
+        mediaFilter: "all",
 
-            this.image = URL.createObjectURL(file);
+        selectedMedia: null,
+
+        pendingMedia: null,
+
+        media: [
+            {
+                id: 1,
+                name: "kegiatan-mahasiswa.jpg",
+                type: "image",
+                extension: "JPG",
+                size: "1.2 MB",
+                url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
+            },
+
+            {
+                id: 2,
+                name: "rapat-organisasi.jpg",
+                type: "image",
+                extension: "JPG",
+                size: "980 KB",
+                url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+            },
+
+            {
+                id: 3,
+                name: "mahasiswa-kampus.jpg",
+                type: "image",
+                extension: "PNG",
+                size: "1.5 MB",
+                url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+            },
+
+            {
+                id: 4,
+                name: "seminar-kampus.jpg",
+                type: "image",
+                extension: "WEBP",
+                size: "870 KB",
+                url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
+            },
+
+            {
+                id: 5,
+                name: "podcast-retorika.mp4",
+                type: "video",
+                extension: "MP4",
+                size: "85 MB",
+                url: "",
+            },
+
+            {
+                id: 6,
+                name: "proposal-kegiatan.pdf",
+                type: "document",
+                extension: "PDF",
+                size: "2.4 MB",
+                url: "",
+            },
+        ],
+
+        get filteredMedia() {
+            const search = this.mediaSearch.toLowerCase().trim();
+
+            return this.media.filter((media) => {
+                const matchesFilter =
+                    this.mediaFilter === "all" ||
+                    media.type === this.mediaFilter;
+
+                const matchesSearch =
+                    !search ||
+                    media.name.toLowerCase().includes(search);
+
+                return matchesFilter && matchesSearch;
+            });
         },
 
-        dropImage(event) {
-            const file = event.dataTransfer.files[0];
+        openMediaLibrary() {
+            this.mediaPickerOpen = true;
 
-            if (!file) return;
+            this.mediaSearch = "";
 
-            this.$refs.input.files = event.dataTransfer.files;
+            this.mediaFilter = "all";
 
-            this.image = URL.createObjectURL(file);
+            this.pendingMedia = this.selectedMedia;
         },
 
-        removeImage() {
-            this.image = null;
+        closeMediaLibrary() {
+            this.mediaPickerOpen = false;
 
-            this.$refs.input.value = "";
+            this.pendingMedia = null;
+        },
+
+        selectMedia(media) {
+            this.pendingMedia = media;
+        },
+
+        confirmMediaSelection() {
+            if (!this.pendingMedia) return;
+
+            this.selectedMedia = this.pendingMedia;
+
+            this.mediaPickerOpen = false;
+
+            this.pendingMedia = null;
+        },
+
+        removeMedia() {
+            this.selectedMedia = null;
         },
     };
 }
+// function thumbnailUploader() {
+//     return {
+//         image: null,
+
+//         previewImage(event) {
+//             const file = event.target.files[0];
+
+//             if (!file) return;
+
+//             this.image = URL.createObjectURL(file);
+//         },
+
+//         dropImage(event) {
+//             const file = event.dataTransfer.files[0];
+
+//             if (!file) return;
+
+//             this.$refs.input.files = event.dataTransfer.files;
+
+//             this.image = URL.createObjectURL(file);
+//         },
+
+//         removeImage() {
+//             this.image = null;
+
+//             this.$refs.input.value = "";
+//         },
+//     };
+// }
 
 function seoHelper() {
     return {
@@ -288,10 +407,11 @@ function mediaUploader() {
     };
 }
 
-window.mediaUploader = mediaUploader;
 window.seoHelper = seoHelper;
 window.tagsInput = tagsInput;
-window.thumbnailUploader = thumbnailUploader;
+window.mediaSelector = mediaSelector;
+window.mediaUploader = mediaUploader;
+// window.thumbnailUploader = thumbnailUploader;
 window.publicationFileUploader = publicationFileUploader;
 window.publicationCoverUploader = publicationCoverUploader;
 
