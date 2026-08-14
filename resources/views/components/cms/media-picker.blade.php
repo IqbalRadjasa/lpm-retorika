@@ -243,7 +243,7 @@
 
                             <p class="mt-3 text-xs text-gray-400">
 
-                                JPG, PNG, WEBP, MP4, PDF, DOCX, XLSX, PPTX
+                                JPG, PNG, WEBP, PDF
 
                             </p>
 
