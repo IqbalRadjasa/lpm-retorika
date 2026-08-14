@@ -14,12 +14,12 @@
             <div>
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
-                    Tambah Kategori
+                    Edit Kategori
 
                 </h1>
 
                 <p class="mt-2 text-gray-500">
-                    Tambahkan kategori baru untuk mengelompokkan artikel.
+                    Edit kategori pada artikel.
                 </p>
             </div>
 
@@ -32,7 +32,7 @@
         {{-- FORM --}}
         @include('cms.kategori.partials.form', [
             'category' => null,
-            'mode' => 'create',
+            'mode' => 'edit',
         ])
     </div>
 </x-cms-layout>

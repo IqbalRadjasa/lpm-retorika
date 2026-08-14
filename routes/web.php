@@ -22,7 +22,7 @@ Route::get('/berita/nasional', [BeritaController::class, 'nasional'])->name('ber
 Route::get('/berita/opini', [BeritaController::class, 'opini'])->name('berita.opini');
 
 // PODCAST
-Route::get('/podcast', function(){
+Route::get('/podcast', function () {
     return view('public.podcast.index');
 })->name('podcast.index');
 // Show
@@ -121,6 +121,10 @@ Route::get('/cms/kategori', function () {
 Route::get('/cms/kategori/create', function () {
     return view('cms.kategori.create');
 })->name('cms.kategori.create');
+// Edit
+Route::get('/cms/kategori/edit', function () {
+    return view('cms.kategori.edit');
+})->name('cms.kategori.edit');
 
 
 

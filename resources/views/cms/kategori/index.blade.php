@@ -249,7 +249,7 @@
 
                                     </a>
 
-                                    <a href="#"
+                                    <a href="{{ route('cms.kategori.edit') }}"
                                         class="flex h-9 w-9 items-center
                                            justify-center rounded-lg
                                            text-gray-500 transition
