@@ -35,40 +35,50 @@
             {{-- ================================================= --}}
             {{-- Header --}}
             {{-- ================================================= --}}
-
-            <div
-                class="flex shrink-0 items-center justify-between
-                       border-b border-gray-100 px-5 py-4 sm:px-6">
+            <div class="flex items-center justify-between gap-4 border-b border-gray-100 px-6 py-5">
 
                 <div>
-
                     <h2 class="text-lg font-semibold text-gray-900">
-
-                        Pilih Media
-
+                        Media Library
                     </h2>
 
                     <p class="mt-1 text-sm text-gray-500">
-
-                        Pilih file dari Media Library.
-
+                        Pilih media yang ingin digunakan.
                     </p>
+                </div>
+
+                <div class="flex items-center gap-3">
+
+                    <button type="button" @click="openUploadMode()"
+                        class="inline-flex items-center gap-2 rounded-xl
+                   bg-red-600 px-4 py-2.5
+                   text-sm font-medium text-white
+                   transition hover:bg-red-700">
+
+                        <i class="ri-upload-2-line"></i>
+
+                        <span class="hidden sm:inline">
+                            Upload Media Baru
+                        </span>
+
+                        <span class="sm:hidden">
+                            Upload
+                        </span>
+
+                    </button>
+
+                    <button type="button" @click="closeMediaLibrary()"
+                        class="flex h-9 w-9 items-center justify-center
+                   rounded-full text-gray-400
+                   transition hover:bg-gray-100 hover:text-gray-600">
+
+                        <i class="ri-close-line text-xl"></i>
+
+                    </button>
 
                 </div>
 
-
-                <button type="button" @click="closeMediaLibrary"
-                    class="flex h-9 w-9 items-center justify-center
-                           rounded-lg text-gray-400
-                           transition hover:bg-gray-100
-                           hover:text-gray-700">
-
-                    <i class="ri-close-line text-xl"></i>
-
-                </button>
-
             </div>
-
 
             {{-- ================================================= --}}
             {{-- Toolbar --}}
@@ -158,6 +168,245 @@
 
             </div>
 
+            <template x-if="uploadMode">
+
+                <div class="p-6">
+
+                    {{-- Header --}}
+                    <div class="mb-6 flex items-center gap-3">
+
+                        <button type="button" @click="closeUploadMode()"
+                            class="flex h-9 w-9 items-center justify-center
+                       rounded-full border border-gray-200
+                       text-gray-500 transition
+                       hover:bg-gray-100">
+
+                            <i class="ri-arrow-left-line"></i>
+
+                        </button>
+
+                        <div>
+
+                            <h3 class="font-semibold text-gray-900">
+                                Upload Media Baru
+                            </h3>
+
+                            <p class="text-sm text-gray-500">
+                                Tambahkan file ke Media Library.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- Upload Input --}}
+                    <input x-ref="mediaUploadInput" type="file" class="hidden"
+                        accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" @change="handleUploadFile">
+
+
+                    {{-- No File --}}
+                    <template x-if="!uploadFile">
+
+                        <button type="button" @click="$refs.mediaUploadInput.click()"
+                            class="flex w-full flex-col items-center
+                       justify-center rounded-2xl
+                       border-2 border-dashed
+                       border-gray-300
+                       bg-gray-50 px-6 py-12
+                       text-center transition
+                       hover:border-red-400
+                       hover:bg-red-50">
+
+                            <div
+                                class="flex h-16 w-16 items-center
+                           justify-center rounded-2xl
+                           bg-white shadow-sm">
+
+                                <i class="ri-upload-cloud-2-line
+                              text-3xl text-gray-400">
+                                </i>
+
+                            </div>
+
+                            <h4 class="mt-5 font-semibold text-gray-800">
+
+                                Pilih file untuk diupload
+
+                            </h4>
+
+                            <p class="mt-2 text-sm text-gray-500">
+
+                                Klik untuk memilih file dari komputer.
+
+                            </p>
+
+                            <p class="mt-3 text-xs text-gray-400">
+
+                                JPG, PNG, WEBP, MP4, PDF, DOCX, XLSX, PPTX
+
+                            </p>
+
+                        </button>
+
+                    </template>
+
+
+                    {{-- File Selected --}}
+                    <template x-if="uploadFile">
+
+                        <div class="rounded-2xl border border-gray-200 bg-white p-5">
+
+                            {{-- Image Preview --}}
+                            <template x-if="uploadPreview">
+
+                                <div class="mb-5 overflow-hidden rounded-xl bg-gray-100">
+
+                                    <img :src="uploadPreview" :alt="uploadFile?.name"
+                                        class="mx-auto max-h-72
+                                   w-full object-contain">
+
+                                </div>
+
+                            </template>
+
+
+                            {{-- File Information --}}
+                            <div class="flex items-center gap-4">
+
+                                <div
+                                    class="flex h-12 w-12 shrink-0
+                               items-center justify-center
+                               rounded-xl bg-gray-100">
+
+                                    <i class="ri-file-line text-2xl
+                                   text-gray-500">
+                                    </i>
+
+                                </div>
+
+                                <div class="min-w-0 flex-1">
+
+                                    <p class="truncate text-sm font-medium
+                                   text-gray-800"
+                                        x-text="uploadFile?.name">
+                                    </p>
+
+                                    <p class="mt-1 text-xs text-gray-400"
+                                        x-text="formatFileSize(uploadFile?.size || 0)">
+                                    </p>
+
+                                </div>
+
+                                <button type="button" @click="closeUploadMode()"
+                                    class="flex h-9 w-9 shrink-0
+                               items-center justify-center
+                               rounded-full text-gray-400
+                               hover:bg-gray-100">
+
+                                    <i class="ri-close-line"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            {{-- Actions --}}
+                            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+                                <button type="button" @click="$refs.mediaUploadInput.click()"
+                                    class="inline-flex items-center
+                               justify-center gap-2
+                               rounded-xl border border-gray-300
+                               px-5 py-2.5 text-sm font-medium
+                               text-gray-700
+                               transition hover:bg-gray-50">
+
+                                    <i class="ri-refresh-line"></i>
+
+                                    Ganti File
+
+                                </button>
+
+
+                                <button type="button" @click="uploadAndSelect()" :disabled="uploading"
+                                    class="inline-flex items-center
+                               justify-center gap-2
+                               rounded-xl bg-red-600
+                               px-5 py-2.5 text-sm font-medium
+                               text-white transition
+                               hover:bg-red-700
+                               disabled:cursor-not-allowed
+                               disabled:opacity-60">
+
+                                    <template x-if="!uploading">
+
+                                        <span class="inline-flex items-center gap-2">
+
+                                            <i class="ri-upload-2-line"></i>
+
+                                            Upload & Pilih
+
+                                        </span>
+
+                                    </template>
+
+                                    <template x-if="uploading">
+
+                                        <span class="inline-flex items-center gap-2">
+
+                                            <i class="ri-loader-4-line animate-spin"></i>
+
+                                            Mengupload...
+
+                                        </span>
+
+                                    </template>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </template>
+
+
+                    {{-- Information --}}
+                    <div class="mt-5 rounded-xl border border-blue-100
+                    bg-blue-50 p-4">
+
+                        <div class="flex gap-3">
+
+                            <i class="ri-information-line
+                          mt-0.5 text-lg text-blue-500">
+                            </i>
+
+                            <div>
+
+                                <p class="text-sm font-medium text-blue-900">
+
+                                    File akan disimpan di Media Library
+
+                                </p>
+
+                                <p class="mt-1 text-sm leading-6 text-blue-700">
+
+                                    Setelah berhasil diupload, file akan
+                                    otomatis dipilih untuk digunakan pada
+                                    artikel.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </template>
 
             {{-- ================================================= --}}
             {{-- Media Grid --}}

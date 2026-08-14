@@ -28,6 +28,11 @@ function mediaSelector() {
 
         pendingMedia: null,
 
+        uploadMode: false,
+        uploadFile: null,
+        uploadPreview: null,
+        uploading: false,
+
         media: [
             {
                 id: 1,
@@ -93,11 +98,83 @@ function mediaSelector() {
                     media.type === this.mediaFilter;
 
                 const matchesSearch =
-                    !search ||
-                    media.name.toLowerCase().includes(search);
+                    !search || media.name.toLowerCase().includes(search);
 
                 return matchesFilter && matchesSearch;
             });
+        },
+
+        openUploadMode() {
+            this.uploadMode = true;
+            this.uploadFile = null;
+            this.uploadPreview = null;
+        },
+
+        closeUploadMode() {
+            this.uploadMode = false;
+            this.uploadFile = null;
+            this.uploadPreview = null;
+
+            if (this.$refs.mediaUploadInput) {
+                this.$refs.mediaUploadInput.value = "";
+            }
+        },
+
+        handleUploadFile(event) {
+            const file = event.target.files[0];
+
+            if (!file) return;
+
+            this.uploadFile = file;
+
+            if (file.type.startsWith("image/")) {
+                this.uploadPreview = URL.createObjectURL(file);
+            } else {
+                this.uploadPreview = null;
+            }
+        },
+        
+        async uploadAndSelect() {
+            if (!this.uploadFile) return;
+
+            this.uploading = true;
+
+            // Temporary demonstration.
+            // Later this will be replaced with an actual POST request.
+
+            setTimeout(() => {
+                const newMedia = {
+                    id: Date.now(),
+                    name: this.uploadFile.name,
+                    type: this.uploadFile.type.startsWith("image/")
+                        ? "image"
+                        : "document",
+                    extension: this.uploadFile.name.split(".").pop(),
+                    size: this.formatFileSize(this.uploadFile.size),
+                    url: this.uploadPreview,
+                };
+
+                this.media.unshift(newMedia);
+
+                this.pendingMedia = newMedia;
+
+                this.uploading = false;
+
+                this.closeUploadMode();
+            }, 800);
+        },
+
+        formatFileSize(bytes) {
+            if (bytes === 0) return "0 Bytes";
+
+            const units = ["Bytes", "KB", "MB", "GB"];
+            const index = Math.floor(Math.log(bytes) / Math.log(1024));
+
+            return (
+                parseFloat((bytes / Math.pow(1024, index)).toFixed(2)) +
+                " " +
+                units[index]
+            );
         },
 
         openMediaLibrary() {
