@@ -240,9 +240,9 @@
 
                                     <a href="#"
                                         class="flex h-9 w-9 items-center
-                                           justify-center rounded-lg
-                                           text-gray-500 transition
-                                           hover:bg-gray-100 hover:text-gray-800"
+                                        justify-center rounded-lg
+                                        text-gray-500 transition
+                                        hover:bg-gray-100 hover:text-gray-800"
                                         title="Lihat">
 
                                         <i class="ri-eye-line"></i>
@@ -251,9 +251,9 @@
 
                                     <a href="{{ route('cms.kategori.edit') }}"
                                         class="flex h-9 w-9 items-center
-                                           justify-center rounded-lg
-                                           text-gray-500 transition
-                                           hover:bg-gray-100 hover:text-gray-800"
+                                        justify-center rounded-lg
+                                        text-gray-500 transition
+                                        hover:bg-gray-100 hover:text-gray-800"
                                         title="Edit">
 
                                         <i class="ri-edit-line"></i>
@@ -262,9 +262,9 @@
 
                                     <button type="button"
                                         class="flex h-9 w-9 items-center
-                                           justify-center rounded-lg
-                                           text-red-500 transition
-                                           hover:bg-red-50"
+                                        justify-center rounded-lg
+                                        text-red-500 transition
+                                        hover:bg-red-50"
                                         title="Hapus">
 
                                         <i class="ri-delete-bin-line"></i>
