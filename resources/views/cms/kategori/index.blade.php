@@ -27,7 +27,7 @@
 
             </div>
 
-            <x-link-button.primary-link :href="route('cms.artikel.create')" icon="ri-add-line">
+            <x-link-button.primary-link :href="route('cms.kategori.create')" icon="ri-add-line">
 
                 Tambah Kategori
 

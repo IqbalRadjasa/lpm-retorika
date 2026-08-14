@@ -18,6 +18,6 @@
     Media
 </x-sidebar.sidebar-link>
 
-<x-sidebar.sidebar-link :href="route('cms.kategori.index')" icon="ri-shapes-line" :active="request()->routeIs('cms.kategori.*')">
+<x-sidebar.sidebar-link :href="route('cms.kategori.index')" icon="ri-price-tag-3-line" :active="request()->routeIs('cms.kategori.*')">
     Kategori
 </x-sidebar.sidebar-link>

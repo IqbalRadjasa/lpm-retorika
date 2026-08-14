@@ -117,6 +117,10 @@ Route::get('/cms/media/show', function () {
 Route::get('/cms/kategori', function () {
     return view('cms.kategori.index');
 })->name('cms.kategori.index');
+// Create
+Route::get('/cms/kategori/create', function () {
+    return view('cms.kategori.create');
+})->name('cms.kategori.create');
 
 
 

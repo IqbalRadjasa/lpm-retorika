@@ -25,30 +25,6 @@
             <x-link-button.secondary-link :href="route('cms.media.index')" icon="ri-arrow-left-line">
                 Kembali
             </x-link-button.secondary-link>
-            {{-- <div class="flex items-center gap-3">
-
-                <a href="#"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg
-                           text-gray-500 transition hover:bg-gray-100 hover:text-gray-700">
-
-                    <i class="ri-arrow-left-line text-lg"></i>
-
-                </a>
-
-                <div>
-
-                    <h1 class="text-xl font-semibold text-gray-900">
-                        Upload Media
-                    </h1>
-
-                    <p class="mt-1 text-sm text-gray-500">
-                        Tambahkan gambar atau dokumen ke Media Library.
-                    </p>
-
-                </div>
-
-            </div> --}}
-
         </div>
 
 
