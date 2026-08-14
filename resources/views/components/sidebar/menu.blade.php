@@ -17,3 +17,7 @@
 <x-sidebar.sidebar-link :href="route('cms.media.index')" icon="ri-folder-image-line" :active="request()->routeIs('cms.media.*')">
     Media
 </x-sidebar.sidebar-link>
+
+<x-sidebar.sidebar-link :href="route('cms.kategori.index')" icon="ri-shapes-line" :active="request()->routeIs('cms.kategori.*')">
+    Kategori
+</x-sidebar.sidebar-link>

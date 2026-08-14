@@ -113,4 +113,12 @@ Route::get('/cms/media/show', function () {
     return view('cms.media.show');
 })->name('cms.media.show');
 
+// KATEGORI
+Route::get('/cms/kategori', function () {
+    return view('cms.kategori.index');
+})->name('cms.kategori.index');
+
+
+
+
 require __DIR__ . '/auth.php';
