@@ -16,8 +16,6 @@
         <div class="space-y-8 lg:col-span-8">
 
             @include('cms.kategori.partials.basic-information')
-            @include('cms.kategori.partials.preview')
-
 
         </div>
 
