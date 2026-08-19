@@ -29,7 +29,7 @@
 
             </div>
 
-            <x-link-button.primary-link :href="route('cms.kategori.create')" icon="ri-add-line">
+            <x-link-button.primary-link :href="route('cms.podcast.create')" icon="ri-add-line">
 
                 Tambah Podcast
 

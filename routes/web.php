@@ -134,7 +134,10 @@ Route::get('/cms/kategori/show', function () {
 Route::get('/cms/podcast', function () {
     return view('cms.podcast.index');
 })->name('cms.podcast.index');
-
+// Create
+Route::get('/cms/podcast/create', function () {
+    return view('cms.podcast.create');
+})->name('cms.podcast.create');
 
 
 

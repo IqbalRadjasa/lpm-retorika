@@ -133,7 +133,7 @@ function mediaSelector() {
                 this.uploadPreview = null;
             }
         },
-        
+
         async uploadAndSelect() {
             if (!this.uploadFile) return;
 
@@ -212,35 +212,6 @@ function mediaSelector() {
         },
     };
 }
-// function thumbnailUploader() {
-//     return {
-//         image: null,
-
-//         previewImage(event) {
-//             const file = event.target.files[0];
-
-//             if (!file) return;
-
-//             this.image = URL.createObjectURL(file);
-//         },
-
-//         dropImage(event) {
-//             const file = event.dataTransfer.files[0];
-
-//             if (!file) return;
-
-//             this.$refs.input.files = event.dataTransfer.files;
-
-//             this.image = URL.createObjectURL(file);
-//         },
-
-//         removeImage() {
-//             this.image = null;
-
-//             this.$refs.input.value = "";
-//         },
-//     };
-// }
 
 function seoHelper() {
     return {
