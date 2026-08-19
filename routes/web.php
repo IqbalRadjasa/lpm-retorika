@@ -138,6 +138,10 @@ Route::get('/cms/podcast', function () {
 Route::get('/cms/podcast/create', function () {
     return view('cms.podcast.create');
 })->name('cms.podcast.create');
+// Show
+Route::get('/cms/podcast/show', function () {
+    return view('cms.podcast.show');
+})->name('cms.podcast.show');
 
 
 

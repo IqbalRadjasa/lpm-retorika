@@ -193,10 +193,6 @@
                                 Draft
                             </option>
 
-                            <option value="scheduled">
-                                Terjadwal
-                            </option>
-
                         </select>
 
 
@@ -417,7 +413,7 @@
                                 <div class="flex justify-end
                                        gap-2">
 
-                                    <a href="#" title="Lihat"
+                                    <a href="{{ route('cms.podcast.show') }}" title="Lihat"
                                         class="flex h-9 w-9
                                            items-center
                                            justify-center
@@ -452,7 +448,7 @@
                                            items-center
                                            justify-center
                                            rounded-lg
-                                           text-gray-500
+                                           text-red-500
                                            transition
                                            hover:bg-red-50
                                            hover:text-red-600">
@@ -608,7 +604,7 @@
                                            items-center
                                            justify-center
                                            rounded-lg
-                                           text-gray-500
+                                           text-red-500
                                            transition
                                            hover:bg-red-50
                                            hover:text-red-600">
@@ -623,9 +619,8 @@
 
                         </tr>
 
-
                         {{-- ================================================= --}}
-                        {{-- Podcast 3 --}}
+                        {{-- Podcast 2 --}}
                         {{-- ================================================= --}}
 
                         <tr class="transition hover:bg-gray-50">
@@ -636,14 +631,14 @@
                                        gap-4">
 
                                     <div
-                                        class="relative h-16 w-24
+                                        class="h-16 w-24
                                            shrink-0
                                            overflow-hidden
                                            rounded-xl
                                            bg-gray-100">
 
-                                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80"
-                                            alt="Podcast Retorika #03"
+                                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80"
+                                            alt="Podcast Retorika #02"
                                             class="h-full w-full
                                                object-cover">
 
@@ -657,7 +652,7 @@
                                                font-semibold
                                                text-gray-900">
 
-                                            Retorika Podcast #03
+                                            Retorika Podcast #02
 
                                         </p>
 
@@ -665,8 +660,8 @@
                                             class="mt-1 text-sm
                                                text-gray-500">
 
-                                            Media Digital dan
-                                            Jurnalisme Mahasiswa
+                                            Organisasi Mahasiswa
+                                            dan Perannya di Kampus
 
                                         </p>
 
@@ -685,7 +680,7 @@
                                        font-medium
                                        text-gray-700">
 
-                                    Fajar Nugraha
+                                    Siti Rahma
 
                                 </p>
 
@@ -697,17 +692,17 @@
                                 <span
                                     class="inline-flex items-center
                                        gap-1.5 rounded-full
-                                       bg-blue-50 px-3 py-1
+                                       bg-yellow-50 px-3 py-1
                                        text-xs font-medium
-                                       text-blue-700">
+                                       text-yellow-700">
 
                                     <span
                                         class="h-1.5 w-1.5
                                            rounded-full
-                                           bg-blue-500">
+                                           bg-yellow-500">
                                     </span>
 
-                                    Terjadwal
+                                    Draft
 
                                 </span>
 
@@ -717,12 +712,11 @@
                             <td class="whitespace-nowrap
                                    px-6 py-5">
 
-                                <p class="text-sm
-                                       text-gray-600">
+                                <span class="text-sm text-gray-400">
 
-                                    20 Agustus 2026
+                                    —
 
-                                </p>
+                                </span>
 
                             </td>
 
@@ -765,7 +759,7 @@
                                            items-center
                                            justify-center
                                            rounded-lg
-                                           text-gray-500
+                                           text-red-500
                                            transition
                                            hover:bg-red-50
                                            hover:text-red-600">
@@ -779,7 +773,6 @@
                             </td>
 
                         </tr>
-
                     </tbody>
 
                 </table>
@@ -1036,8 +1029,7 @@
 
                 </div>
 
-
-                {{-- Mobile Podcast 3 --}}
+                {{-- Mobile Podcast 2 --}}
                 <div class="p-5">
 
                     <div class="flex gap-4">
@@ -1047,8 +1039,8 @@
                                overflow-hidden rounded-xl
                                bg-gray-100">
 
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80"
-                                alt="Podcast Retorika #03" class="h-full w-full object-cover">
+                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80"
+                                alt="Podcast Retorika #02" class="h-full w-full object-cover">
 
                         </div>
 
@@ -1062,17 +1054,17 @@
                                     class="font-semibold
                                        leading-5 text-gray-900">
 
-                                    Retorika Podcast #03
+                                    Retorika Podcast #02
 
                                 </h3>
 
                                 <span
                                     class="shrink-0 rounded-full
-                                       bg-blue-50 px-2.5 py-1
+                                       bg-yellow-50 px-2.5 py-1
                                        text-xs font-medium
-                                       text-blue-700">
+                                       text-yellow-700">
 
-                                    Terjadwal
+                                    Draft
 
                                 </span>
 
@@ -1082,8 +1074,8 @@
                             <p class="mt-1 line-clamp-2
                                    text-sm text-gray-500">
 
-                                Media Digital dan
-                                Jurnalisme Mahasiswa
+                                Organisasi Mahasiswa
+                                dan Perannya di Kampus
 
                             </p>
 
@@ -1091,8 +1083,8 @@
                             <p class="mt-2 text-xs
                                    text-gray-400">
 
-                                Fajar Nugraha ·
-                                20 Agustus 2026
+                                Siti Rahma ·
+                                Belum diterbitkan
 
                             </p>
 
@@ -1156,7 +1148,6 @@
                     </div>
 
                 </div>
-
             </div>
 
 
