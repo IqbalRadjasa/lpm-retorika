@@ -130,6 +130,11 @@ Route::get('/cms/kategori/show', function () {
     return view('cms.kategori.show');
 })->name('cms.kategori.show');
 
+// PODCAST
+Route::get('/cms/podcast', function () {
+    return view('cms.podcast.index');
+})->name('cms.podcast.index');
+
 
 
 
