@@ -238,7 +238,7 @@
 
                                 <div class="flex justify-end gap-2">
 
-                                    <a href="#"
+                                    <a href="{{ route('cms.kategori.show') }}"
                                         class="flex h-9 w-9 items-center
                                         justify-center rounded-lg
                                         text-gray-500 transition

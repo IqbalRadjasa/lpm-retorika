@@ -125,6 +125,10 @@ Route::get('/cms/kategori/create', function () {
 Route::get('/cms/kategori/edit', function () {
     return view('cms.kategori.edit');
 })->name('cms.kategori.edit');
+// Show
+Route::get('/cms/kategori/show', function () {
+    return view('cms.kategori.show');
+})->name('cms.kategori.show');
 
 
 
