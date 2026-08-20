@@ -113,68 +113,9 @@
 
                 </label>
 
-
-                {{-- Scheduled --}}
-                <label
-                    class="flex cursor-pointer items-start gap-4 rounded-xl border border-gray-200 p-4 transition hover:border-red-300 hover:bg-red-50/50"
-                    :class="status === 'scheduled'
-                        ?
-                        'border-red-500 bg-red-50' :
-                        ''">
-
-                    <input type="radio" name="status" value="scheduled" x-model="status"
-                        class="mt-1 text-red-600 focus:ring-red-500">
-
-                    <div>
-
-                        <p class="font-medium text-gray-900">
-
-                            Jadwalkan
-
-                        </p>
-
-                        <p class="mt-1 text-sm leading-6 text-gray-500">
-
-                            Artikel akan diterbitkan secara otomatis
-                            pada waktu yang ditentukan.
-
-                        </p>
-
-                    </div>
-
-                </label>
-
             </div>
 
         </div>
-
-
-        {{-- ================================================= --}}
-        {{-- Scheduled Date --}}
-        {{-- ================================================= --}}
-
-        <div x-show="status === 'scheduled'" x-transition x-cloak>
-
-            <label for="published_at" class="mb-2 block text-sm font-medium text-gray-700">
-
-                Waktu Terbit
-
-            </label>
-
-            <input id="published_at" type="datetime-local" name="published_at" :required="status === 'scheduled'"
-                class="w-full rounded-xl border-gray-300
-                   focus:border-red-500
-                   focus:ring-red-500">
-
-            <p class="mt-2 text-xs text-gray-400">
-
-                Tentukan tanggal dan waktu artikel mulai
-                ditampilkan kepada pembaca.
-
-            </p>
-
-        </div>
-
 
         {{-- ================================================= --}}
         {{-- Information --}}

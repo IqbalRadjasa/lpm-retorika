@@ -64,7 +64,7 @@
 
                         {{-- @include('cms.artikel.partials.seo') --}}
 
-                        @include('cms.artikel.partials.tags')
+                        {{-- @include('cms.artikel.partials.tags') --}}
 
                         @include('cms.artikel.partials.publish')
 
