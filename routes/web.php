@@ -66,8 +66,8 @@ Route::get('/cms/artikel', function () {
     return view('cms.artikel.index');
 })->name('cms.artikel.index');
 // Create
-Route::get('/cms/artikel/tambah', function () {
-    return view('cms.artikel.form');
+Route::get('/cms/artikel/create', function () {
+    return view('cms.artikel.create');
 })->name('cms.artikel.create');
 // // Edit
 // Route::get('/cms/artikel/{article}/edit', function () {
