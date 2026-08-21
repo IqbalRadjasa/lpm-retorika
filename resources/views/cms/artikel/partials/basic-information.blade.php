@@ -37,13 +37,13 @@
 
         <div>
 
-            <label for="title" class="mb-2 block text-sm font-medium text-gray-700">
+            <label for="judul" class="mb-2 block text-sm font-medium text-gray-700">
 
                 Judul Artikel
 
             </label>
 
-            <input id="title" type="text" name="title" value="{{ old('title') }}"
+            <input id="judul" type="text" name="judul" value="{{ old('judul') }}"
                 placeholder="Contoh: Mahasiswa Berhasil Mengembangkan Website Pers"
                 class="w-full rounded-xl border-gray-300
                        focus:border-red-500
@@ -67,13 +67,13 @@
             {{-- Category --}}
             <div>
 
-                <label for="category" class="mb-2 block text-sm font-medium text-gray-700">
+                <label for="kategori_id" class="mb-2 block text-sm font-medium text-gray-700">
 
                     Kategori
 
                 </label>
 
-                <select id="category" name="category"
+                <select id="kategori_id" name="kategori_id"
                     class="w-full rounded-xl border-gray-300
                            focus:border-red-500
                            focus:ring-red-500">
@@ -82,17 +82,11 @@
                         Pilih kategori
                     </option>
 
-                    <option value="isu-kampus">
-                        Isu Kampus
-                    </option>
-
-                    <option value="nasional">
-                        Nasional
-                    </option>
-
-                    <option value="opini">
-                        Opini
-                    </option>
+                    @foreach ($kategoris as $k)
+                        <option value="{{ $k->id }}">
+                            {{ $k->nama }}
+                        </option>
+                    @endforeach
 
                 </select>
 
@@ -108,13 +102,13 @@
             {{-- Author --}}
             <div>
 
-                <label for="author" class="mb-2 block text-sm font-medium text-gray-700">
+                <label for="penulis" class="mb-2 block text-sm font-medium text-gray-700">
 
                     Penulis
 
                 </label>
 
-                <input id="author" type="text" name="author" value="{{ old('author') }}"
+                <input id="penulis" type="text" name="penulis" value="{{ old('penulis') }}"
                     placeholder="Contoh: Muhammad Iqbal"
                     class="w-full rounded-xl border-gray-300
                            focus:border-red-500
@@ -139,7 +133,7 @@
 
             <div class="mb-2 flex items-center justify-between gap-4">
 
-                <label for="excerpt" class="block text-sm font-medium text-gray-700">
+                <label for="ringkasan" class="block text-sm font-medium text-gray-700">
 
                     Ringkasan Artikel
 
@@ -153,10 +147,10 @@
 
             </div>
 
-            <textarea id="excerpt" rows="5" name="excerpt" maxlength="250" placeholder="Tulis ringkasan singkat artikel..."
+            <textarea id="ringkasan" rows="5" name="ringkasan" maxlength="250" placeholder="Tulis ringkasan singkat artikel..."
                 class="w-full rounded-xl border-gray-300
                        focus:border-red-500
-                       focus:ring-red-500">{{ old('excerpt') }}</textarea>
+                       focus:ring-red-500">{{ old('ringkasan') }}</textarea>
 
             <p class="mt-2 text-xs text-gray-400">
 

@@ -2,7 +2,7 @@
 {{-- Form --}}
 {{-- ================================================= --}}
 
-<form action="#" method="POST" enctype="multipart/form-data">
+<form action="{{ route('cms.artikel.store') }}" method="POST" enctype="multipart/form-data">
 
     @csrf
 

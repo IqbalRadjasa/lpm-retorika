@@ -36,7 +36,7 @@
     {{-- ================================================= --}}
 
     <div x-data="{
-        status: 'published'
+        status: 'draft'
     }" class="space-y-6 p-6">
 
 

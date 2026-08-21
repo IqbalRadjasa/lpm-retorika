@@ -6,6 +6,7 @@ use App\Http\Controllers\MajalahController;
 use App\Http\Controllers\TabloidController;
 use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\ArtikelController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -62,13 +63,12 @@ Route::get('/cms/dashboard', function () {
 })->name('cms.dashboard');
 
 // ARTIKEL
-Route::get('/cms/artikel', function () {
-    return view('cms.artikel.index');
-})->name('cms.artikel.index');
+Route::get('/cms/artikel', [ArtikelController::class, 'index'])->name('cms.artikel.index');
 // Create
-Route::get('/cms/artikel/create', function () {
-    return view('cms.artikel.create');
-})->name('cms.artikel.create');
+Route::get('/cms/artikel/create', [ArtikelController::class, 'create'])->name('cms.artikel.create');
+// Store
+Route::post('/cms/artikel/store', [ArtikelController::class, 'store'])->name('cms.artikel.store');
+
 // // Edit
 // Route::get('/cms/artikel/{article}/edit', function () {
 //     return view('cms.artikel.form');

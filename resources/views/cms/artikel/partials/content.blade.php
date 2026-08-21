@@ -19,8 +19,7 @@
 
         </div>
 
-        <div
-            class="ml-4 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+        <div class="ml-4 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
 
             <i class="ri-file-text-line text-xl"></i>
 
@@ -74,10 +73,7 @@
 
         <div class="min-w-0 max-w-full">
 
-            <textarea
-                id="editor"
-                name="content"
-            >{!! old('content') !!}</textarea>
+            <textarea id="editor" name="isi_artikel">{!! old('isi_artikel') !!}</textarea>
 
         </div>
 
