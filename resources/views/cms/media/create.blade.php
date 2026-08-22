@@ -17,7 +17,7 @@
 
                 <p class="mt-2 text-gray-500">
 
-                    Tambahkan gambar atau dokumen ke Media Library.
+                    Tambahkan gambar, dokumen atau video ke Media Library.
 
                 </p>
             </div>
@@ -28,11 +28,33 @@
         </div>
 
 
+        @if (session('success'))
+            <div
+                class="mb-6 rounded-xl border border-green-200
+                        bg-green-50 px-4 py-3 text-sm text-green-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div
+                class="mb-6 rounded-xl border border-red-200
+                        bg-red-50 px-4 py-3 text-sm text-red-700">
+                <ul class="list-disc space-y-1 pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+
         {{-- ================================================= --}}
         {{-- Upload Form --}}
         {{-- ================================================= --}}
 
-        <form action="#" method="POST" enctype="multipart/form-data" x-data="mediaUploader()" @submit.prevent>
+        <form action="{{ route('cms.media.store') }}" method="POST" enctype="multipart/form-data"
+            x-data="mediaUploader()">
 
             @csrf
 
@@ -60,7 +82,7 @@
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-500">
-                                Upload satu atau beberapa file sekaligus.
+                                Upload file yang ingin dimasukkan ke media library.
                             </p>
 
                         </div>
@@ -70,15 +92,46 @@
                         {{-- Body --}}
                         {{-- ================================================= --}}
 
-                        <div class="p-6">
+                        <div class="space-y-6 p-6">
+                            {{-- Name --}}
+                            <div>
 
+                                <label for="name" class="mb-2 block text-sm font-medium text-gray-700">
+
+                                    Nama Media
+
+                                </label>
+
+                                <input id="name" type="text" name="name" value="{{ old('name') }}" required
+                                    class="w-full rounded-xl border-gray-300
+                                        focus:border-red-500 focus:ring-red-500"
+                                    placeholder="Contoh: Kegiatan Mahasiswa">
+
+                            </div>
+
+
+                            {{-- Alt Text --}}
+                            <div>
+
+                                <label for="alt_text" class="mb-2 block text-sm font-medium text-gray-700">
+
+                                    Alt Text
+
+                                </label>
+
+                                <input id="alt_text" type="text" name="alt_text" value="{{ old('alt_text') }}"
+                                    class="w-full rounded-xl border-gray-300
+                                        focus:border-red-500 focus:ring-red-500"
+                                    placeholder="Deskripsi gambar">
+
+                            </div>
 
                             {{-- ================================================= --}}
                             {{-- Hidden Input --}}
                             {{-- ================================================= --}}
 
-                            <input x-ref="fileInput" type="file" name="files[]" multiple
-                                accept="image/jpeg,image/png,image/webp,application/pdf" class="hidden"
+                            <input x-ref="fileInput" type="file" name="files"
+                                accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4" class="hidden"
                                 @change="handleFiles">
 
 
@@ -158,15 +211,18 @@
 
                                     </span>
 
+                                    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
+
+                                        MP4
+
+                                    </span>
+
                                 </div>
 
 
-                                <p class="mt-4 text-xs text-gray-400">
-
+                                {{-- <p class="mt-4 text-xs text-gray-400">
                                     Maksimal 10 MB per file.
-
-                                </p>
-
+                                </p> --}}
                             </div>
 
 
@@ -231,7 +287,6 @@
 
                                                 </template>
 
-
                                                 {{-- PDF --}}
                                                 <template x-if="file.type === 'application/pdf'">
 
@@ -246,6 +301,12 @@
 
                                                     </div>
 
+                                                </template>
+
+                                                {{-- Video Preview --}}
+                                                <template x-if="file.type.startsWith('video/')">
+                                                    <video :src="file.preview"
+                                                        class="h-full w-full object-cover"></video>
                                                 </template>
 
                                             </div>
@@ -360,7 +421,6 @@
 
                                 </div>
 
-
                                 {{-- Documents --}}
                                 <div>
 
@@ -383,6 +443,25 @@
 
                                 </div>
 
+                                {{-- Video --}}
+                                <div>
+
+                                    <div class="flex items-center gap-2">
+
+                                        <i class="ri-video-line text-gray-400"></i>
+
+                                        <span class="text-sm font-medium text-gray-700">
+                                            Video
+                                        </span>
+
+                                    </div>
+
+                                    <p class="mt-1 pl-6 text-xs leading-5 text-gray-500">
+                                        File video dengan ukuran maksimal
+                                        500 MB.
+                                    </p>
+
+                                </div>
 
                                 {{-- Storage --}}
                                 <div>
@@ -415,7 +494,8 @@
                         {{-- Upload Summary --}}
                         {{-- ================================================= --}}
 
-                        <div x-show="files.length > 0" x-cloak class="rounded-2xl border border-red-100 bg-red-50 p-6">
+                        <div x-show="files.length > 0" x-cloak
+                            class="rounded-2xl border border-red-100 bg-red-50 p-6">
 
 
                             <div class="flex items-start gap-3">

@@ -233,7 +233,7 @@
                                        bg-black/40 opacity-0 transition
                                        group-hover:opacity-100">
 
-                                <a href="{{route('cms.media.show')}}"
+                                <a href="#"
                                     class="inline-flex h-10 w-10 items-center justify-center
                                            rounded-full bg-white text-gray-700
                                            shadow-sm transition hover:bg-gray-100">

@@ -7,7 +7,7 @@ use App\Http\Controllers\TabloidController;
 use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ArtikelController;
-
+use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
 
 // Beranda
@@ -101,13 +101,16 @@ Route::get('/cms/mading/edit', function () {
 })->name('cms.mading.edit');
 
 // MEDIA
-Route::get('/cms/media', function () {
-    return view('cms.media.index');
-})->name('cms.media.index');
+Route::prefix('cms')->name('cms.')->group(function () {
+    Route::resource('media', MediaController::class);
+});
+// Route::get('/cms/media', function () {
+//     return view('cms.media.index');
+// })->name('cms.media.index');
 // Create
-Route::get('/cms/media/create', function () {
-    return view('cms.media.create');
-})->name('cms.media.create');
+// Route::get('/cms/media/create', function () {
+//     return view('cms.media.create');
+// })->name('cms.media.create');
 // Show
 Route::get('/cms/media/show', function () {
     return view('cms.media.show');

@@ -19,18 +19,14 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
 function mediaSelector() {
     return {
         mediaPickerOpen: false,
-
         mediaSearch: "",
-
         mediaFilter: "all",
-
-        selectedMedia: null,
-
-        pendingMedia: null,
-
+        selectedMedia: null, // Hanya menyimpan 1 objek media
+        pendingMedia: null, // Hanya menyimpan 1 objek media sementara
         uploadMode: false,
-        uploadFile: null,
+        uploadFile: null, // Hanya menyimpan 1 file unggahan
         uploadPreview: null,
+        uploadFileType: "", // Ditambahkan untuk mendeteksi tipe MIME file
         uploading: false,
 
         media: [
@@ -42,7 +38,6 @@ function mediaSelector() {
                 size: "1.2 MB",
                 url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
             },
-
             {
                 id: 2,
                 name: "rapat-organisasi.jpg",
@@ -51,7 +46,6 @@ function mediaSelector() {
                 size: "980 KB",
                 url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
             },
-
             {
                 id: 3,
                 name: "mahasiswa-kampus.jpg",
@@ -60,7 +54,6 @@ function mediaSelector() {
                 size: "1.5 MB",
                 url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
             },
-
             {
                 id: 4,
                 name: "seminar-kampus.jpg",
@@ -69,7 +62,6 @@ function mediaSelector() {
                 size: "870 KB",
                 url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
             },
-
             {
                 id: 5,
                 name: "podcast-retorika.mp4",
@@ -78,7 +70,6 @@ function mediaSelector() {
                 size: "85 MB",
                 url: "",
             },
-
             {
                 id: 6,
                 name: "proposal-kegiatan.pdf",
@@ -108,54 +99,71 @@ function mediaSelector() {
             this.uploadMode = true;
             this.uploadFile = null;
             this.uploadPreview = null;
+            this.uploadFileType = "";
         },
 
         closeUploadMode() {
             this.uploadMode = false;
             this.uploadFile = null;
             this.uploadPreview = null;
+            this.uploadFileType = "";
 
             if (this.$refs.mediaUploadInput) {
                 this.$refs.mediaUploadInput.value = "";
             }
         },
 
+        // PERBAIKAN 1: Menangani penentuan preview 1 file (Gambar/Video)
         handleUploadFile(event) {
-            const file = event.target.files[0];
+            const file = event.target.files[0]; // Memastikan hanya mengambil file pertama
 
             if (!file) return;
 
             this.uploadFile = file;
+            this.uploadFileType = file.type;
 
-            if (file.type.startsWith("image/")) {
+            // Membuat preview URL jika berupa Gambar atau Video
+            if (
+                file.type.startsWith("image/") ||
+                file.type.startsWith("video/")
+            ) {
                 this.uploadPreview = URL.createObjectURL(file);
             } else {
                 this.uploadPreview = null;
             }
         },
 
+        // PERBAIKAN 2: Penentuan tipe media yang lebih spesifik (image, video, document)
         async uploadAndSelect() {
             if (!this.uploadFile) return;
 
             this.uploading = true;
 
-            // Temporary demonstration.
-            // Later this will be replaced with an actual POST request.
-
             setTimeout(() => {
+                // Menentukan kategori media
+                let mediaType = "document";
+                if (this.uploadFile.type.startsWith("image/")) {
+                    mediaType = "image";
+                } else if (this.uploadFile.type.startsWith("video/")) {
+                    mediaType = "video";
+                }
+
                 const newMedia = {
                     id: Date.now(),
                     name: this.uploadFile.name,
-                    type: this.uploadFile.type.startsWith("image/")
-                        ? "image"
-                        : "document",
-                    extension: this.uploadFile.name.split(".").pop(),
+                    type: mediaType,
+                    extension: this.uploadFile.name
+                        .split(".")
+                        .pop()
+                        .toUpperCase(),
                     size: this.formatFileSize(this.uploadFile.size),
                     url: this.uploadPreview,
                 };
 
+                // Menambahkan data baru ke daftar paling atas
                 this.media.unshift(newMedia);
 
+                // Langsung memilih file yang baru saja diunggah ini sebagai file tunggal
                 this.pendingMedia = newMedia;
 
                 this.uploading = false;
@@ -179,20 +187,17 @@ function mediaSelector() {
 
         openMediaLibrary() {
             this.mediaPickerOpen = true;
-
             this.mediaSearch = "";
-
             this.mediaFilter = "all";
-
             this.pendingMedia = this.selectedMedia;
         },
 
         closeMediaLibrary() {
             this.mediaPickerOpen = false;
-
             this.pendingMedia = null;
         },
 
+        // Mengatur pilihan single item
         selectMedia(media) {
             this.pendingMedia = media;
         },
@@ -201,9 +206,7 @@ function mediaSelector() {
             if (!this.pendingMedia) return;
 
             this.selectedMedia = this.pendingMedia;
-
             this.mediaPickerOpen = false;
-
             this.pendingMedia = null;
         },
 
@@ -359,7 +362,6 @@ function publicationFileUploader() {
 function mediaUploader() {
     return {
         files: [],
-
         dragging: false,
 
         handleFiles(event) {
@@ -368,65 +370,63 @@ function mediaUploader() {
 
         handleDrop(event) {
             this.dragging = false;
-
             this.addFiles(event.dataTransfer.files);
         },
 
         addFiles(fileList) {
-            Array.from(fileList).forEach((file) => {
-                const allowedTypes = [
-                    "image/jpeg",
-                    "image/png",
-                    "image/webp",
-                    "application/pdf",
-                ];
+            if (!fileList || fileList.length === 0) return;
 
-                if (!allowedTypes.includes(file.type)) {
-                    return;
-                }
+            const file = fileList[0];
 
-                if (file.size > 10 * 1024 * 1024) {
-                    return;
-                }
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp",
+                "application/pdf",
+            ];
 
-                const exists = this.files.some(
-                    (existing) =>
-                        existing.name === file.name &&
-                        existing.size === file.size
-                );
+            if (!allowedTypes.includes(file.type)) {
+                return;
+            }
 
-                if (exists) {
-                    return;
-                }
+            if (file.size > 10 * 1024 * 1024) {
+                return;
+            }
 
-                let preview = null;
+            if (this.files.length > 0 && this.files[0].preview) {
+                URL.revokeObjectURL(this.files[0].preview);
+            }
 
-                if (file.type.startsWith("image/")) {
-                    preview = URL.createObjectURL(file);
-                }
+            let preview = null;
 
-                this.files.push({
+            if (file.type.startsWith("image/")) {
+                preview = URL.createObjectURL(file);
+            }
+
+            this.files = [
+                {
                     file: file,
-
                     name: file.name,
-
                     size: file.size,
-
                     type: file.type,
-
                     preview: preview,
-                });
-            });
+                },
+            ];
         },
 
         removeFile(index) {
             const file = this.files[index];
 
-            if (file.preview) {
+            if (file && file.preview) {
                 URL.revokeObjectURL(file.preview);
             }
 
             this.files.splice(index, 1);
+
+            // Reset nilai pada input HTML
+            if (this.$refs.fileInput) {
+                this.$refs.fileInput.value = "";
+            }
         },
 
         clearFiles() {
@@ -438,7 +438,9 @@ function mediaUploader() {
 
             this.files = [];
 
-            this.$refs.fileInput.value = "";
+            if (this.$refs.fileInput) {
+                this.$refs.fileInput.value = "";
+            }
         },
 
         formatSize(bytes) {
