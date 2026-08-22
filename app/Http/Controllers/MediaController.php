@@ -11,9 +11,41 @@ class MediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('cms.media.index');
+        $query = MediaAsset::with('media');
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('type')) {
+            if ($request->type === 'image') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'like', 'image/%');
+                });
+            } elseif ($request->type === 'document') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'application/pdf');
+                });
+            } elseif ($request->type === 'video') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'like', 'video/%');
+                });
+            }
+        }
+
+        if ($request->sort === 'oldest') {
+            $query->oldest();
+        } elseif ($request->sort === 'name') {
+            $query->orderBy('name', 'asc');
+        } else {
+            $query->latest();
+        }
+
+        $mediaAssets = $query->paginate(5)->withQueryString();
+
+        return view('cms.media.index', compact('mediaAssets'));
     }
 
     /**
@@ -29,7 +61,6 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->files);
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'alt_text' => ['nullable', 'string', 'max:255'],
