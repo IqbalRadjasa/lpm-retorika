@@ -232,7 +232,7 @@
                                         class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
 
                                     <div
-                                        class="absolute inset-0 flex items-center justify-center
+                                        class="absolute inset-0 flex items-center justify-center gap-2
                                             bg-black/40 opacity-0 transition
                                             group-hover:opacity-100">
 
@@ -244,6 +244,20 @@
                                             <i class="ri-eye-line text-lg"></i>
 
                                         </a>
+
+                                        <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
+                                                class="inline-flex h-10 w-10 items-center justify-center
+                                            rounded-full bg-red-500 text-white
+                                            shadow-sm transition hover:bg-red-700">
+
+                                                <i class="ri-delete-bin-line text-lg"></i>
+
+                                            </button>
+                                        </form>
 
                                     </div>
 
