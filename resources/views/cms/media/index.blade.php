@@ -34,7 +34,7 @@
         {{-- Media Summary --}}
         {{-- ================================================= --}}
 
-        <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
 
             {{-- Total Media --}}
             <div class="rounded-2xl bg-white p-5 shadow-sm">
@@ -48,7 +48,7 @@
                         </p>
 
                         <p class="mt-2 text-2xl font-bold text-gray-900">
-                            48
+                            {{ $totalMedia }}
                         </p>
 
                     </div>
@@ -63,7 +63,6 @@
 
             </div>
 
-
             {{-- Images --}}
             <div class="rounded-2xl bg-white p-5 shadow-sm">
 
@@ -76,7 +75,7 @@
                         </p>
 
                         <p class="mt-2 text-2xl font-bold text-gray-900">
-                            42
+                            {{ $totalMediaGambar }}
                         </p>
 
                     </div>
@@ -91,7 +90,6 @@
 
             </div>
 
-
             {{-- Documents --}}
             <div class="rounded-2xl bg-white p-5 shadow-sm">
 
@@ -104,7 +102,7 @@
                         </p>
 
                         <p class="mt-2 text-2xl font-bold text-gray-900">
-                            6
+                            {{ $totalMediaDok }}
                         </p>
 
                     </div>
@@ -112,6 +110,33 @@
                     <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
 
                         <i class="ri-file-text-line text-xl"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{-- Video --}}
+            <div class="rounded-2xl bg-white p-5 shadow-sm">
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Video
+                        </p>
+
+                        <p class="mt-2 text-2xl font-bold text-gray-900">
+                            {{ $totalMediaVid }}
+                        </p>
+
+                    </div>
+
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+
+                        <i class="ri-video-line text-xl"></i>
 
                     </div>
 

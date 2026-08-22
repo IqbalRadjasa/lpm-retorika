@@ -13,8 +13,31 @@ class MediaController extends Controller
      */
     public function index(Request $request)
     {
-        $query = MediaAsset::with('media');
+        $totalMedia = MediaAsset::with('media')->count();
+        $totalMediaGambar = MediaAsset::with('media')->whereHas(
+            'media',
+            function ($q) {
+                $q->where('mime_type', 'like', 'image/%');
+            }
+        )->count();
 
+        $totalMediaDok = MediaAsset::with('media')->whereHas(
+            'media',
+            function ($q) {
+                $q->where('mime_type', 'like', 'application/pdf');
+            }
+        )->count();
+
+        $totalMediaVid = MediaAsset::with('media')->whereHas(
+            'media',
+            function ($q) {
+                $q->where('mime_type', 'like', 'video/%');
+            }
+        )->count();
+
+        // dd($totalMediaVid);
+
+        $query = MediaAsset::with('media');
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
@@ -45,7 +68,13 @@ class MediaController extends Controller
 
         $mediaAssets = $query->paginate(5)->withQueryString();
 
-        return view('cms.media.index', compact('mediaAssets'));
+        return view('cms.media.index', compact(
+            'mediaAssets',
+            'totalMedia',
+            'totalMediaGambar',
+            'totalMediaDok',
+            'totalMediaVid'
+        ));
     }
 
     /**
