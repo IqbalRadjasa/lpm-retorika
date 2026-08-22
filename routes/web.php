@@ -102,19 +102,14 @@ Route::get('/cms/mading/edit', function () {
 
 // MEDIA
 Route::prefix('cms')->name('cms.')->group(function () {
-    Route::resource('media', MediaController::class);
+    Route::resource('media', MediaController::class)
+        ->parameters([
+            'media' => 'asset',
+        ]);
 });
-// Route::get('/cms/media', function () {
-//     return view('cms.media.index');
-// })->name('cms.media.index');
-// Create
-// Route::get('/cms/media/create', function () {
-//     return view('cms.media.create');
-// })->name('cms.media.create');
-// Show
-Route::get('/cms/media/show', function () {
-    return view('cms.media.show');
-})->name('cms.media.show');
+// Route::get('/cms/media/show', function () {
+//     return view('cms.media.show');
+// })->name('cms.media.show');
 
 // KATEGORI
 Route::get('/cms/kategori', function () {

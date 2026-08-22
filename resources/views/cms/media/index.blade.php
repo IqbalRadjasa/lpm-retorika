@@ -217,38 +217,29 @@
             <div class="p-6">
 
                 <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-
-
-                    {{-- ================================================= --}}
-                    {{-- Image 1 --}}
-                    {{-- ================================================= --}}
-
                     @foreach ($mediaAssets as $m)
-                        @if (str_starts_with($m->getFirstMedia('library')->mime_type, 'image/'))
-                            <div
-                                class="group overflow-hidden rounded-2xl border border-gray-200
-                               bg-white transition
-                               hover:border-red-200
-                               hover:shadow-md">
+                        <div
+                            class="group overflow-hidden rounded-2xl border border-gray-200
+                            bg-white transition
+                            hover:border-red-200
+                            hover:shadow-md">
 
-                                {{-- Preview --}}
+                            @if (str_starts_with($m->getFirstMedia('library')->mime_type, 'image/'))
                                 <div class="relative aspect-square overflow-hidden bg-gray-100">
 
                                     <img src="{{ $m->getFirstMedia('library')?->original_url }}"
                                         alt="{{ $m->alt_text }}"
                                         class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
 
-
-                                    {{-- Overlay --}}
                                     <div
                                         class="absolute inset-0 flex items-center justify-center
-                                       bg-black/40 opacity-0 transition
-                                       group-hover:opacity-100">
+                                            bg-black/40 opacity-0 transition
+                                            group-hover:opacity-100">
 
-                                        <a href="#"
+                                        <a href="{{ route('cms.media.show', $m->id) }}"
                                             class="inline-flex h-10 w-10 items-center justify-center
-                                           rounded-full bg-white text-gray-700
-                                           shadow-sm transition hover:bg-gray-100">
+                                            rounded-full bg-white text-gray-700
+                                            shadow-sm transition hover:bg-gray-100">
 
                                             <i class="ri-eye-line text-lg"></i>
 
@@ -257,42 +248,15 @@
                                     </div>
 
                                 </div>
-
-
-                                {{-- Information --}}
-                                <div class="p-4">
-                                    <p class="truncate text-sm font-medium text-gray-900">
-                                        {{ $m->name }}
-                                    </p>
-
-                                    <p class="mt-1 text-xs text-gray-400">
-                                        @if ($m)
-                                            {{ strtoupper(pathinfo($m->getFirstMedia('library')->file_name, PATHINFO_EXTENSION)) }}
-                                            ·
-                                            {{ $m->getFirstMedia('library')->human_readable_size }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </p>
-                                </div>
-
-                            </div>
-                        @elseif ($m->getFirstMedia('library')->mime_type == 'application/pdf')
-                            <div
-                                class="group overflow-hidden rounded-2xl border border-gray-200
-                                    bg-white transition
-                                    hover:border-red-200
-                                    hover:shadow-md">
-
+                            @elseif ($m->getFirstMedia('library')->mime_type == 'application/pdf')
                                 <div
                                     class="relative flex aspect-square items-center justify-center
                                    bg-gray-50">
 
                                     <div class="text-center">
-
                                         <div
                                             class="mx-auto flex h-16 w-16 items-center justify-center
-                                           rounded-2xl bg-red-50 text-red-600">
+                                            rounded-2xl bg-red-50 text-red-600">
 
                                             <i class="ri-file-pdf-2-line text-3xl"></i>
 
@@ -301,50 +265,43 @@
                                         <p class="mt-3 text-xs font-semibold uppercase text-red-600">
                                             PDF
                                         </p>
-
                                     </div>
-
 
                                     <div
                                         class="absolute inset-0 flex items-center justify-center
-                                       bg-black/40 opacity-0 transition
-                                       group-hover:opacity-100">
+                                        bg-black/40 opacity-0 transition
+                                        group-hover:opacity-100">
 
-                                        <a href="#"
+                                        <a href="{{ route('cms.media.show', $m->id) }}"
                                             class="inline-flex h-10 w-10 items-center justify-center
-                                           rounded-full bg-white text-gray-700">
+                                            rounded-full bg-white text-gray-700">
 
                                             <i class="ri-eye-line text-lg"></i>
 
                                         </a>
 
                                     </div>
-
                                 </div>
+                            @endif
 
+                            {{-- Information --}}
+                            <div class="p-4">
+                                <p class="truncate text-sm font-medium text-gray-900">
+                                    {{ $m->name }}
+                                </p>
 
-                                {{-- Information --}}
-                                <div class="p-4">
-                                    <p class="truncate text-sm font-medium text-gray-900">
-                                        {{ $m->name }}
-                                    </p>
-
-                                    <p class="mt-1 text-xs text-gray-400">
-                                        @if ($m)
-                                            {{ strtoupper(pathinfo($m->getFirstMedia('library')->file_name, PATHINFO_EXTENSION)) }}
-                                            ·
-                                            {{ $m->getFirstMedia('library')->human_readable_size }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </p>
-                                </div>
-
+                                <p class="mt-1 text-xs text-gray-400">
+                                    @if ($m)
+                                        {{ strtoupper(pathinfo($m->getFirstMedia('library')->file_name, PATHINFO_EXTENSION)) }}
+                                        ·
+                                        {{ $m->getFirstMedia('library')->human_readable_size }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
-                        @endif
+                        </div>
                     @endforeach
-
-
                 </div>
 
                 {{ $mediaAssets->links('vendor.pagination.default') }}

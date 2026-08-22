@@ -119,9 +119,14 @@ class MediaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(MediaAsset $asset)
     {
-        //
+        $media = $asset->getFirstMedia('library');
+
+        return view('cms.media.show', [
+            'asset' => $asset,
+            'media' => $media,
+        ]);
     }
 
     /**
@@ -143,8 +148,12 @@ class MediaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(MediaAsset $asset)
     {
-        //
+        $asset->delete();
+
+        return redirect()
+            ->route('cms.media.index')
+            ->with('success', 'Media berhasil dihapus.');
     }
 }

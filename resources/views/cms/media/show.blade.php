@@ -26,14 +26,19 @@
                     Kembali
                 </x-link-button.secondary-link>
 
-                <x-link-button.secondary-link :href="'#'" icon="ri-download-2-line">
+                <x-link-button.secondary-link :href="$media?->original_url" icon="ri-download-2-line" download>
                     Download
                 </x-link-button.secondary-link>
+                <form action="{{ route('cms.media.destroy', $asset->id) }}" method="POST"
+                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
+                    @csrf
+                    @method('DELETE')
 
+                    <x-button.danger-button icon="ri-delete-bin-line">
+                        Hapus
+                    </x-button.danger-button>
 
-                <x-link-button.primary-link :href="'#'" icon="ri-delete-bin-line">
-                    Hapus
-                </x-link-button.primary-link>
+                </form>
 
             </div>
 
@@ -69,14 +74,14 @@
 
                                 <h2 class="break-all text-base font-semibold text-gray-900 sm:text-lg">
 
-                                    kegiatan-mahasiswa.jpg
+                                    {{ $asset->name }}
 
                                 </h2>
 
                                 <p class="mt-1 text-sm text-gray-500">
-
-                                    JPG · 1.2 MB
-
+                                    {{ strtoupper(pathinfo($media->file_name, PATHINFO_EXTENSION)) }}
+                                    ·
+                                    {{ $media->human_readable_size }}
                                 </p>
 
                             </div>
@@ -85,10 +90,16 @@
                             {{-- File Type --}}
                             <span
                                 class="shrink-0 rounded-full bg-green-50 px-3 py-1
-                           text-xs font-medium text-green-700">
-
-                                Image
-
+                                text-xs font-medium text-green-700">
+                                @if (str_starts_with($media->mime_type, 'image/'))
+                                    Image
+                                @elseif ($media->mime_type == 'application/pdf')
+                                    Dokumen
+                                @elseif (str_starts_with($media->mime_type, 'video/'))
+                                    Video
+                                @else
+                                    -
+                                @endif
                             </span>
 
                         </div>
@@ -102,13 +113,67 @@
 
                     <div
                         class="flex min-h-[240px] w-full items-center justify-center
-                   overflow-hidden bg-gray-100 p-4
-                   sm:min-h-[320px] sm:p-8">
+                        overflow-hidden bg-gray-100 p-4
+                        sm:min-h-[320px] sm:p-8">
 
-                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85"
-                            alt="Kegiatan mahasiswa"
-                            class="block h-auto max-h-[550px] w-full max-w-full
-                       rounded-xl object-contain shadow-lg">
+
+                        @if (str_starts_with($media->mime_type, 'image/'))
+                            <img src="{{ $media->original_url }}" alt="{{ $asset->alt_text }}"
+                                class="block h-auto max-h-[550px] w-full max-w-full rounded-xl object-contain shadow-lg">
+                        @elseif ($media->mime_type == 'application/pdf')
+                            <div
+                                class="flex flex-col
+                                        items-center justify-center
+                                        text-center">
+
+                                <div
+                                    class="flex h-20 w-20
+                                            items-center justify-center
+                                            rounded-2xl bg-white
+                                            shadow-sm">
+
+                                    <i
+                                        class="ri-file-text-line
+                                                text-4xl text-gray-400"></i>
+
+                                </div>
+
+                                <h3
+                                    class="mt-5 font-semibold
+                                            text-gray-900">
+
+                                    {{ $media->file_name }}
+
+                                </h3>
+
+                                <p class="mt-1 text-sm text-gray-500">
+
+                                    {{ strtoupper($media->mime_type) }}
+
+                                </p>
+
+                                <x-link-button.primary-link href="{{ $media->original_url }}" target="_blank"
+                                    icon="ri-external-link-line" class="mt-5">
+
+                                    Buka Dokumen
+
+                                </x-link-button.primary-link>
+
+                            </div>
+                        @elseif (str_starts_with($media->mime_type, 'video/'))
+                            <video controls preload="metadata"
+                                class="max-h-[650px] max-w-full
+                                        rounded-xl shadow-lg">
+
+                                <source src="{{ $media->original_url }}" type="{{ $media->mime_type }}">
+
+                                Browser Anda tidak mendukung
+                                pemutaran video.
+
+                            </video>
+                        @else
+                            -
+                        @endif
 
                     </div>
 
@@ -117,53 +182,41 @@
                     {{-- Preview Footer --}}
                     {{-- ================================================= --}}
 
-                    <div class="border-t border-gray-100 p-4 sm:p-6">
-
-                        <div
-                            class="flex flex-col gap-4
-                       sm:flex-row sm:items-center sm:justify-between">
-
-
+                    <div class="border-t border-gray-100 p-4 sm:p-6" x-data="{ copied: false }">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             {{-- URL --}}
                             <div class="min-w-0 flex-1">
-
                                 <p class="text-sm font-medium text-gray-700">
-
                                     URL Media
-
                                 </p>
 
                                 <p class="mt-1 break-all text-sm leading-5 text-gray-400">
-
-                                    https://retorika.example.com/storage/media/kegiatan-mahasiswa.jpg
-
+                                    {{ $media->original_url }}
                                 </p>
-
                             </div>
-
 
                             {{-- Copy Button --}}
                             <button type="button"
-                                class="inline-flex w-full shrink-0 items-center
-                           justify-center gap-2 rounded-xl
-                           border border-gray-300 bg-white
-                           px-4 py-2.5 text-sm font-medium
-                           text-gray-700 transition
-                           hover:bg-gray-50
-                           sm:w-auto">
+                                @click="navigator.clipboard.writeText('{{ $media->original_url }}'); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 sm:w-auto">
 
-                                <i class="ri-file-copy-line"></i>
+                                <template x-if="!copied">
+                                    <span class="inline-flex items-center gap-2">
+                                        <i class="ri-file-copy-line"></i>
+                                        Salin URL
+                                    </span>
+                                </template>
 
-                                Salin URL
-
+                                <template x-if="copied">
+                                    <span class="inline-flex items-center gap-2 text-green-600">
+                                        <i class="ri-check-line"></i>
+                                        Tersalin!
+                                    </span>
+                                </template>
                             </button>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
             {{-- ================================================= --}}
@@ -178,19 +231,11 @@
                 {{-- ================================================= --}}
 
                 <div class="overflow-hidden rounded-2xl bg-white shadow-sm">
-
                     <div class="border-b border-gray-100 px-6 py-5">
-
                         <div class="flex items-center gap-3">
-
-                            <div
-                                class="flex h-10 w-10 items-center justify-center
-                                       rounded-xl bg-blue-50 text-blue-600">
-
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
                                 <i class="ri-information-line text-lg"></i>
-
                             </div>
-
                             <div>
 
                                 <h2 class="font-semibold text-gray-900">
@@ -200,11 +245,8 @@
                                 <p class="mt-1 text-xs text-gray-500">
                                     Detail media.
                                 </p>
-
                             </div>
-
                         </div>
-
                     </div>
 
 
@@ -219,7 +261,7 @@
                             </p>
 
                             <p class="mt-2 break-all text-sm font-medium text-gray-900">
-                                kegiatan-mahasiswa.jpg
+                                {{ $media->file_name }}
                             </p>
 
                         </div>
@@ -233,7 +275,7 @@
                             </p>
 
                             <p class="mt-2 text-sm text-gray-700">
-                                JPEG Image
+                                {{ strtoupper(pathinfo($media->file_name, PATHINFO_EXTENSION)) }}
                             </p>
 
                         </div>
@@ -247,24 +289,38 @@
                             </p>
 
                             <p class="mt-2 text-sm text-gray-700">
-                                1.2 MB
+                                {{ $media->human_readable_size }}
                             </p>
 
                         </div>
 
 
                         {{-- Dimensions --}}
-                        <div class="p-5">
+                        @if (str_starts_with($media->mime_type, 'image/') && str_starts_with($media->mime_type, 'video/'))
+                            <div class="p-5">
+                                <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                                    Dimensi
+                                </p>
 
-                            <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                                Dimensi
-                            </p>
+                                <p class="mt-2 text-sm text-gray-700">
+                                    @php
+                                        $dimensions = null;
+                                        if (
+                                            $media &&
+                                            str_starts_with($media->mime_type, 'image/') &&
+                                            file_exists($media->getPath())
+                                        ) {
+                                            $size = getimagesize($media->getPath());
+                                            if ($size) {
+                                                $dimensions = $size[0] . ' × ' . $size[1] . ' px';
+                                            }
+                                        }
+                                    @endphp
 
-                            <p class="mt-2 text-sm text-gray-700">
-                                1200 × 800 px
-                            </p>
-
-                        </div>
+                                    {{ $dimensions ?? '-' }}
+                                </p>
+                            </div>
+                        @endif
 
 
                         {{-- Uploaded --}}
@@ -275,7 +331,7 @@
                             </p>
 
                             <p class="mt-2 text-sm text-gray-700">
-                                20 Juli 2026, 14:32
+                                {{ $asset->created_at->translatedFormat('d F Y, H:i') }}
                             </p>
 
                         </div>
@@ -289,7 +345,7 @@
                             </p>
 
                             <p class="mt-2 text-sm text-gray-700">
-                                Admin CMS
+                                Admin Retorika
                             </p>
 
                         </div>
@@ -297,99 +353,7 @@
                     </div>
 
                 </div>
-
-
-                {{-- ================================================= --}}
-                {{-- Usage Information --}}
-                {{-- ================================================= --}}
-
-                <div class="rounded-2xl border border-blue-100 bg-blue-50 p-6">
-
-                    <div class="flex items-start gap-3">
-
-                        <i class="ri-links-line mt-0.5 text-lg text-blue-500"></i>
-
-                        <div>
-
-                            <h3 class="font-semibold text-blue-900">
-                                Penggunaan Media
-                            </h3>
-
-                            <p class="mt-1 text-sm leading-6 text-blue-700">
-
-                                Media ini sedang digunakan oleh
-
-                                <span class="font-semibold">
-                                    2 artikel
-                                </span>
-
-                                di website.
-
-                            </p>
-
-                            <a href="#"
-                                class="mt-3 inline-flex items-center gap-1
-                                       text-sm font-medium text-blue-700
-                                       hover:underline">
-
-                                Lihat penggunaan
-
-                                <i class="ri-arrow-right-line"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- ================================================= --}}
-                {{-- Danger Zone --}}
-                {{-- ================================================= --}}
-
-                <div class="rounded-2xl border border-red-100 bg-white p-6">
-
-                    <div class="flex items-start gap-3">
-
-                        <div
-                            class="flex h-10 w-10 shrink-0 items-center justify-center
-                                   rounded-xl bg-red-50 text-red-600">
-
-                            <i class="ri-delete-bin-line text-lg"></i>
-
-                        </div>
-
-                        <div>
-
-                            <h3 class="font-semibold text-gray-900">
-                                Hapus Media
-                            </h3>
-
-                            <p class="mt-1 text-sm leading-6 text-gray-500">
-
-                                Pastikan file tidak lagi digunakan
-                                sebelum menghapusnya.
-
-                            </p>
-
-                            <button type="button" class="mt-4 text-sm font-semibold text-red-600 hover:underline">
-
-                                Hapus File Ini
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
             </div>
-
         </div>
-
     </div>
-
 </x-cms-layout>
