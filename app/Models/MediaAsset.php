@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-// use Spatie\MediaLibrary\MediaCollections\Models\Media;
-// use Spatie\MediaLibrary\MediaCollections\File;
 
 class MediaAsset extends Model implements HasMedia
 {
@@ -16,7 +14,6 @@ class MediaAsset extends Model implements HasMedia
         'name',
         'alt_text',
     ];
-
 
     public function registerMediaCollections(): void
     {

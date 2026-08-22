@@ -53,11 +53,9 @@
         {{-- Upload Form --}}
         {{-- ================================================= --}}
 
-        <form action="{{ route('cms.media.store') }}" method="POST" enctype="multipart/form-data"
-            x-data="mediaUploader()">
-
+        {{-- <form action="{{ route('cms.media.store') }}" method="POST" enctype="multipart/form-data" --}}
+        <form x-data="mediaUploader()" @submit.prevent="upload">
             @csrf
-
 
             <div class="grid gap-8 xl:grid-cols-12">
 
@@ -127,10 +125,56 @@
                             </div>
 
                             {{-- ================================================= --}}
+                            {{-- Upload Progress --}}
+                            {{-- ================================================= --}}
+
+                            <div x-show="uploading" x-cloak class="mt-6">
+
+                                {{-- Header --}}
+                                <div class="mb-2 flex items-center justify-between">
+
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">
+                                            Mengupload file...
+                                        </p>
+
+                                        <p class="mt-1 text-xs text-gray-400" x-text="uploadStatus">
+                                        </p>
+                                    </div>
+
+                                    <span class="text-sm font-semibold text-red-600">
+                                        <span x-text="uploadProgress"></span>%
+                                    </span>
+
+                                </div>
+
+
+                                {{-- Progress Bar --}}
+                                <div class="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+
+                                    <div class="h-full rounded-full bg-red-500 transition-all duration-300"
+                                        :style="`width: ${uploadProgress}%`">
+                                    </div>
+
+                                </div>
+
+
+                                {{-- File Size Progress --}}
+                                <div class="mt-2 flex justify-between text-xs text-gray-400">
+
+                                    <span x-text="formatSize(uploadedBytes)"></span>
+
+                                    <span x-text="formatSize(totalBytes)"></span>
+
+                                </div>
+
+                            </div>
+
+                            {{-- ================================================= --}}
                             {{-- Hidden Input --}}
                             {{-- ================================================= --}}
 
-                            <input x-ref="fileInput" type="file" name="files"
+                            <input x-ref="fileInput" type="file" name="file"
                                 accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4" class="hidden"
                                 @change="handleFiles">
 
@@ -139,20 +183,22 @@
                             {{-- Drop Zone --}}
                             {{-- ================================================= --}}
 
-                            <div @click="$refs.fileInput.click()" @dragover.prevent="dragging = true"
-                                @dragleave.prevent="dragging = false" @drop.prevent="handleDrop"
-                                :class="dragging
-                                    ?
-                                    'border-red-500 bg-red-50' :
-                                    'border-gray-300 hover:border-red-400 hover:bg-red-50/50'"
-                                class="cursor-pointer rounded-2xl border-2 border-dashed
-                                       p-10 text-center transition">
+                            <div @click="!uploading && $refs.fileInput.click()"
+                                @dragover.prevent="!uploading && (dragging = true)"
+                                @dragleave.prevent="dragging = false" @drop.prevent="!uploading && handleDrop($event)"
+                                :class="{
+                                    'border-red-500 bg-red-50': dragging && !uploading,
+                                    'border-gray-300 hover:border-red-400 hover:bg-red-50/50 cursor-pointer': !
+                                        uploading,
+                                    'border-gray-200 bg-gray-100 opacity-60 cursor-not-allowed': uploading
+                                }"
+                                class="rounded-2xl border-2 border-dashed p-10 text-center transition">
 
 
                                 {{-- Icon --}}
                                 <div
                                     class="mx-auto flex h-16 w-16 items-center justify-center
-                                           rounded-2xl bg-gray-100 text-gray-500">
+                                            rounded-2xl bg-gray-100 text-gray-500">
 
                                     <i class="ri-upload-cloud-2-line text-3xl"></i>
 
@@ -218,11 +264,6 @@
                                     </span>
 
                                 </div>
-
-
-                                {{-- <p class="mt-4 text-xs text-gray-400">
-                                    Maksimal 10 MB per file.
-                                </p> --}}
                             </div>
 
 
@@ -230,9 +271,7 @@
                             {{-- Selected Files --}}
                             {{-- ================================================= --}}
 
-                            <div x-show="files.length > 0" x-cloak class="mt-8">
-
-
+                            <div x-show="file" x-cloak class="mt-8">
                                 {{-- Header --}}
                                 <div class="mb-4 flex items-center justify-between">
 
@@ -243,112 +282,88 @@
                                         </h3>
 
                                         <p class="mt-1 text-xs text-gray-400">
-
-                                            <span x-text="files.length"></span>
-                                            file dipilih
-
+                                            File siap diupload
                                         </p>
 
                                     </div>
-
-
-                                    <button type="button" @click="clearFiles"
-                                        class="text-sm font-medium text-red-600 hover:underline">
-
-                                        Hapus Semua
-
-                                    </button>
-
                                 </div>
 
 
                                 {{-- File List --}}
                                 <div class="space-y-3">
+                                    <div
+                                        class="flex items-center gap-4 rounded-xl
+                                                border border-gray-200 p-4">
 
 
-                                    <template x-for="(file, index) in files" :key="index">
-
+                                        {{-- Preview --}}
                                         <div
-                                            class="flex items-center gap-4 rounded-xl
-                                                   border border-gray-200 p-4">
+                                            class="flex h-14 w-14 shrink-0 items-center
+                                                    justify-center overflow-hidden
+                                                    rounded-xl bg-gray-100">
 
 
-                                            {{-- Preview --}}
-                                            <div
-                                                class="flex h-14 w-14 shrink-0 items-center
-                                                       justify-center overflow-hidden
-                                                       rounded-xl bg-gray-100">
+                                            {{-- Image --}}
+                                            <template x-if="file?.type.startsWith('image/')">
 
+                                                <img :src="file.preview" class="h-full w-full object-cover">
 
-                                                {{-- Image --}}
-                                                <template x-if="file.type.startsWith('image/')">
+                                            </template>
 
-                                                    <img :src="file.preview" class="h-full w-full object-cover">
+                                            {{-- PDF --}}
+                                            <template x-if="file?.type === 'application/pdf'">
 
-                                                </template>
+                                                <div class="text-center">
 
-                                                {{-- PDF --}}
-                                                <template x-if="file.type === 'application/pdf'">
+                                                    <i class="ri-file-pdf-2-line text-2xl text-red-600">
+                                                    </i>
 
-                                                    <div class="text-center">
+                                                    <p class="text-[9px] font-semibold text-red-600">
+                                                        PDF
+                                                    </p>
 
-                                                        <i class="ri-file-pdf-2-line text-2xl text-red-600">
-                                                        </i>
+                                                </div>
 
-                                                        <p class="text-[9px] font-semibold text-red-600">
-                                                            PDF
-                                                        </p>
+                                            </template>
 
-                                                    </div>
-
-                                                </template>
-
-                                                {{-- Video Preview --}}
-                                                <template x-if="file.type.startsWith('video/')">
-                                                    <video :src="file.preview"
-                                                        class="h-full w-full object-cover"></video>
-                                                </template>
-
-                                            </div>
-
-
-                                            {{-- Information --}}
-                                            <div class="min-w-0 flex-1">
-
-                                                <p class="truncate text-sm font-medium text-gray-900"
-                                                    x-text="file.name">
-                                                </p>
-
-                                                <p class="mt-1 text-xs text-gray-400" x-text="formatSize(file.size)">
-                                                </p>
-
-                                            </div>
-
-
-                                            {{-- Remove --}}
-                                            <button type="button" @click="removeFile(index)"
-                                                class="flex h-9 w-9 shrink-0 items-center
-                                                       justify-center rounded-lg
-                                                       text-gray-400 transition
-                                                       hover:bg-red-50
-                                                       hover:text-red-600">
-
-                                                <i class="ri-delete-bin-line"></i>
-
-                                            </button>
+                                            {{-- Video Preview --}}
+                                            <template x-if="file?.type.startsWith('video/')">
+                                                <video :src="file.preview"
+                                                    class="h-full w-full object-cover"></video>
+                                            </template>
 
                                         </div>
 
-                                    </template>
 
+                                        {{-- Information --}}
+                                        <div class="min-w-0 flex-1">
+
+                                            <p class="truncate text-sm font-medium text-gray-900" x-text="file?.name">
+                                            </p>
+
+                                            <p class="mt-1 text-xs text-gray-400" x-text="formatSize(file?.size)">
+                                            </p>
+
+                                        </div>
+
+
+                                        {{-- Remove --}}
+                                        <button type="button" @click="!uploading && removeFile()"
+                                            :class="{
+                                                'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-red-50 hover:text-red-600':
+                                                    !uploading,
+                                                'cursor-not-allowed': uploading
+                                            }">
+
+                                            <i class="ri-delete-bin-line"></i>
+
+                                        </button>
+
+                                    </div>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
 
 
@@ -489,14 +504,7 @@
 
                         </div>
 
-
-                        {{-- ================================================= --}}
-                        {{-- Upload Summary --}}
-                        {{-- ================================================= --}}
-
-                        <div x-show="files.length > 0" x-cloak
-                            class="rounded-2xl border border-red-100 bg-red-50 p-6">
-
+                        <div x-show="file !== null" x-cloak class="rounded-2xl border border-red-100 bg-red-50 p-6">
 
                             <div class="flex items-start gap-3">
 
@@ -509,13 +517,8 @@
                                     </h3>
 
                                     <p class="mt-1 text-sm leading-6 text-red-700">
-
-                                        <span x-text="files.length">
-                                        </span>
-
-                                        file telah dipilih dan siap
+                                        File telah dipilih dan siap
                                         ditambahkan ke Media Library.
-
                                     </p>
 
                                 </div>
@@ -524,7 +527,6 @@
 
                         </div>
 
-
                         {{-- ================================================= --}}
                         {{-- Actions --}}
                         {{-- ================================================= --}}
@@ -532,43 +534,29 @@
                         <div class="space-y-3">
 
 
-                            <button type="submit" :disabled="files.length === 0"
-                                :class="files.length === 0 ?
+                            <button type="button" @click="upload" :disabled="!file || uploading"
+                                :class="!file || uploading ?
                                     'cursor-not-allowed bg-gray-200 text-gray-400' :
                                     'bg-red-600 text-white hover:bg-red-700'"
                                 class="inline-flex w-full items-center
-                                       justify-center gap-2 rounded-xl
-                                       px-5 py-3 font-semibold transition">
+                                        justify-center gap-2 rounded-xl
+                                        px-5 py-3 font-semibold transition">
 
-                                <i class="ri-upload-2-line"></i>
+                                <i
+                                    :class="uploading
+                                        ?
+                                        'ri-loader-4-line animate-spin' :
+                                        'ri-upload-2-line'"></i>
 
-                                Upload Media
+                                <span x-text="uploading ? 'Mengupload...' : 'Upload Media'"></span>
 
                             </button>
-
-
-                            <a href="#"
-                                class="inline-flex w-full items-center justify-center
-                                       gap-2 rounded-xl border border-gray-300
-                                       bg-white px-5 py-3
-                                       font-semibold text-gray-700
-                                       transition hover:bg-gray-50">
-
-                                <i class="ri-close-line"></i>
-
-                                Batal
-
-                            </a>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </form>
-
     </div>
+
+    @vite('resources/js/media-uploader.js')
 </x-cms-layout>

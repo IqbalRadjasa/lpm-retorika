@@ -9,6 +9,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/js/flipbook.js",
+                "resources/js/media-uploader.js",
             ],
             refresh: true,
         }),

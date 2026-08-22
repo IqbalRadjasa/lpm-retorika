@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\MediaAsset;
 
 use Illuminate\Http\Request;
+use ArthurPatriot\Tus\Facades\Tus;
+use Illuminate\Support\Facades\DB;
+use ArthurPatriot\Tus\Helpers\TusFile;
 
 class MediaController extends Controller
 {
@@ -155,5 +158,47 @@ class MediaController extends Controller
         return redirect()
             ->route('cms.media.index')
             ->with('success', 'Media berhasil dihapus.');
+    }
+
+    public function finalize(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'alt_text' => ['nullable', 'string', 'max:255'],
+            'tus_upload_id' => ['required', 'string'],
+        ]);
+
+        $tusFile = TusFile::find($validated['tus_upload_id']);
+
+        $asset = DB::transaction(function () use ($validated, $tusFile) {
+
+            $asset = MediaAsset::create([
+                'name' => $validated['name'],
+                'alt_text' => $validated['alt_text'] ?? null,
+            ]);
+
+            /*
+         * Attach the completed TUS file to Spatie.
+         */
+            $asset
+                ->addMediaFromDisk(
+                    $tusFile->path,
+                    $tusFile->disk
+                )
+                ->toMediaCollection('library');
+
+            return $asset;
+        });
+
+        /*
+     * Remove the temporary TUS upload.
+     */
+        Tus::storage()->delete($tusFile->path);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Media berhasil diupload.',
+            'id' => $asset->id,
+        ]);
     }
 }

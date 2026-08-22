@@ -1,6 +1,7 @@
-import "./bootstrap";
 import "flowbite";
 import "./ckeditor";
+import "./bootstrap";
+import "./media-uploader";
 
 import { PageFlip } from "page-flip";
 import * as pdfjsLib from "pdfjs-dist";
@@ -361,98 +362,351 @@ function publicationFileUploader() {
 
 function mediaUploader() {
     return {
-        files: [],
+        file: null,
         dragging: false,
 
+        uploading: false,
+        uploadProgress: 0,
+        uploadedBytes: 0,
+        totalBytes: 0,
+        uploadStatus: "",
+
+        init() {
+            this.setupUppyEvents();
+        },
+
+        setupUppyEvents() {
+            const uppy = window.mediaUppy;
+
+            if (!uppy) {
+                console.error("Uppy instance tidak ditemukan.");
+                return;
+            }
+
+            // Upload progress
+            uppy.on("upload-progress", (file, progress) => {
+                if (!file) return;
+
+                this.uploadedBytes = progress.bytesUploaded ?? 0;
+                this.totalBytes = progress.bytesTotal ?? file.size ?? 0;
+
+                if (this.totalBytes > 0) {
+                    this.uploadProgress = Math.round(
+                        (this.uploadedBytes / this.totalBytes) * 100
+                    );
+                }
+
+                this.uploadStatus = "Mengupload file...";
+            });
+
+            // Upload success
+            uppy.on("upload-success", (file, response) => {
+                console.log("=== TUS UPLOAD SUCCESS ===");
+                console.log("File:", file);
+                console.log("Response:", response);
+
+                this.uploadProgress = 100;
+                this.uploadedBytes = this.totalBytes;
+                this.uploadStatus =
+                    "Upload selesai. Menyimpan ke Media Library...";
+
+                this.finalizeUpload(response);
+            });
+
+            // Upload error
+            uppy.on("upload-error", (file, error) => {
+                console.error("Upload error:", error);
+
+                this.uploading = false;
+                this.uploadStatus = "Upload gagal.";
+
+                alert("Upload file gagal.");
+            });
+        },
+
         handleFiles(event) {
-            this.addFiles(event.target.files);
+            const selectedFile = event.target.files[0];
+
+            if (!selectedFile) {
+                return;
+            }
+
+            this.addFile(selectedFile);
         },
 
         handleDrop(event) {
             this.dragging = false;
-            this.addFiles(event.dataTransfer.files);
+
+            const droppedFile = event.dataTransfer.files[0];
+
+            if (!droppedFile) {
+                return;
+            }
+
+            this.addFile(droppedFile);
         },
 
-        addFiles(fileList) {
-            if (!fileList || fileList.length === 0) return;
-
-            const file = fileList[0];
-
+        addFile(file) {
             const allowedTypes = [
                 "image/jpeg",
                 "image/png",
                 "image/webp",
                 "application/pdf",
+                "video/mp4",
             ];
 
             if (!allowedTypes.includes(file.type)) {
+                alert("Jenis file tidak diperbolehkan.");
                 return;
             }
 
-            if (file.size > 10 * 1024 * 1024) {
+            /*
+             * Size validation.
+             *
+             * Images/PDF: 10 MB
+             * MP4: 500 MB
+             */
+            const maxSize =
+                file.type === "video/mp4"
+                    ? 500 * 1024 * 1024
+                    : 10 * 1024 * 1024;
+
+            if (file.size > maxSize) {
+                alert(
+                    file.type === "video/mp4"
+                        ? "Ukuran video maksimal 500 MB."
+                        : "Ukuran file maksimal 10 MB."
+                );
+
                 return;
             }
 
-            if (this.files.length > 0 && this.files[0].preview) {
-                URL.revokeObjectURL(this.files[0].preview);
+            // Remove previous file from Uppy
+            window.mediaUppy.cancelAll();
+
+            window.mediaUppy.getFiles().forEach((uppyFile) => {
+                window.mediaUppy.removeFile(uppyFile.id);
+            });
+
+            // Revoke old preview
+            if (this.file?.preview) {
+                URL.revokeObjectURL(this.file.preview);
             }
 
             let preview = null;
 
-            if (file.type.startsWith("image/")) {
+            if (
+                file.type.startsWith("image/") ||
+                file.type.startsWith("video/")
+            ) {
                 preview = URL.createObjectURL(file);
             }
 
-            this.files = [
-                {
-                    file: file,
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
-                    preview: preview,
-                },
-            ];
+            this.file = {
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                raw: file,
+                preview: preview,
+            };
+
+            this.uploadProgress = 0;
+            this.uploadedBytes = 0;
+            this.totalBytes = file.size;
+            this.uploadStatus = "";
+
+            window.mediaUppy.addFile({
+                name: file.name,
+                type: file.type,
+                data: file,
+            });
         },
 
-        removeFile(index) {
-            const file = this.files[index];
-
-            if (file && file.preview) {
-                URL.revokeObjectURL(file.preview);
+        removeFile() {
+            if (this.file?.preview) {
+                URL.revokeObjectURL(this.file.preview);
             }
 
-            this.files.splice(index, 1);
+            window.mediaUppy.cancelAll();
 
-            // Reset nilai pada input HTML
+            window.mediaUppy.getFiles().forEach((uppyFile) => {
+                window.mediaUppy.removeFile(uppyFile.id);
+            });
+
+            this.file = null;
+
+            this.uploading = false;
+            this.uploadProgress = 0;
+            this.uploadedBytes = 0;
+            this.totalBytes = 0;
+            this.uploadStatus = "";
+
             if (this.$refs.fileInput) {
                 this.$refs.fileInput.value = "";
             }
         },
 
         clearFiles() {
-            this.files.forEach((file) => {
-                if (file.preview) {
-                    URL.revokeObjectURL(file.preview);
+            this.removeFile();
+        },
+
+        async upload() {
+            if (!this.file) {
+                return;
+            }
+
+            const name = document.getElementById("name")?.value;
+
+            if (!name) {
+                alert("Nama Media wajib diisi.");
+                return;
+            }
+
+            this.uploading = true;
+            this.uploadProgress = 0;
+            this.uploadedBytes = 0;
+            this.totalBytes = this.file.size;
+            this.uploadStatus = "Memulai upload...";
+
+            try {
+                const result = await window.mediaUppy.upload();
+
+                console.log("=== UPPY RESULT ===");
+                console.log(result);
+
+                if (result.failed.length > 0) {
+                    throw new Error(
+                        result.failed[0]?.error || "Upload file gagal."
+                    );
                 }
-            });
 
-            this.files = [];
+                if (result.successful.length === 0) {
+                    throw new Error("Tidak ada file yang berhasil diupload.");
+                }
+            } catch (error) {
+                console.error("Uppy upload error:", error);
 
-            if (this.$refs.fileInput) {
-                this.$refs.fileInput.value = "";
+                this.uploading = false;
+                this.uploadStatus = "Upload gagal.";
+
+                alert(error.message);
+            }
+        },
+
+        async finalizeUpload(response) {
+            console.log("=== FINALIZE STARTED ===");
+            console.log("TUS response:", response);
+
+            try {
+                /*
+                 * TUS returns the upload URL in the Location header.
+                 */
+                const uploadUrl =
+                    response?.uploadURL ||
+                    response?.uploadUrl ||
+                    response?.location;
+
+                if (!uploadUrl) {
+                    throw new Error(
+                        "Upload berhasil tetapi TUS upload URL tidak ditemukan."
+                    );
+                }
+
+                /*
+                 * Example:
+                 *
+                 * /tus/abc123
+                 *
+                 * We only need:
+                 *
+                 * abc123
+                 */
+                const tusUploadId = uploadUrl.split("/").filter(Boolean).pop();
+
+                if (!tusUploadId) {
+                    throw new Error("TUS upload ID tidak ditemukan.");
+                }
+
+                this.uploadStatus =
+                    "Upload selesai. Menyimpan ke Media Library...";
+
+                const name = document.getElementById("name")?.value;
+                const altText = document.getElementById("alt_text")?.value;
+
+                const csrfToken = document.querySelector(
+                    'input[name="_token"]'
+                )?.value;
+
+                console.log("Sending finalize request...");
+                console.log({
+                    name,
+                    altText,
+                    tusUploadId,
+                });
+                const finalizeResponse = await fetch("/cms/media/finalize", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        alt_text: altText || null,
+                        tus_upload_id: tusUploadId,
+                    }),
+                });
+
+                console.log("Finalize HTTP status:", finalizeResponse.status);
+
+                const data = await finalizeResponse.json();
+
+                console.log("Finalize response:", data);
+                if (!finalizeResponse.ok) {
+                    throw new Error(
+                        data.message || "Gagal menyimpan Media Library."
+                    );
+                }
+
+                this.uploadProgress = 100;
+                this.uploadStatus = "Media berhasil disimpan ke Media Library.";
+
+                /*
+                 * Give the user a moment to see 100%.
+                 */
+                setTimeout(() => {
+                    window.location.href = "/cms/media";
+                }, 700);
+            } catch (error) {
+                console.error("Finalize error:", error);
+
+                this.uploading = false;
+
+                this.uploadStatus =
+                    "Upload selesai, tetapi gagal menyimpan Media Library.";
+
+                alert(error.message);
             }
         },
 
         formatSize(bytes) {
+            if (!bytes) {
+                return "0 B";
+            }
+
             if (bytes < 1024) {
-                return bytes + " B";
+                return `${bytes} B`;
             }
 
             if (bytes < 1024 * 1024) {
-                return (bytes / 1024).toFixed(1) + " KB";
+                return `${(bytes / 1024).toFixed(1)} KB`;
             }
 
-            return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+            if (bytes < 1024 * 1024 * 1024) {
+                return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+            }
+
+            return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
         },
     };
 }

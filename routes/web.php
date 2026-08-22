@@ -106,6 +106,9 @@ Route::prefix('cms')->name('cms.')->group(function () {
         ->parameters([
             'media' => 'asset',
         ]);
+
+    Route::post('media/finalize', [MediaController::class, 'finalize'])
+        ->name('media.finalize');
 });
 // Route::get('/cms/media/show', function () {
 //     return view('cms.media.show');
