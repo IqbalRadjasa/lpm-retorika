@@ -108,11 +108,10 @@
 
                 </label>
 
-                <input id="penulis" type="text" name="penulis" value="{{ old('penulis') }}"
-                    placeholder="Contoh: Muhammad Iqbal"
+                <input id="penulis" type="text" name="penulis" value="Admin Retorika" disabled
                     class="w-full rounded-xl border-gray-300
-                           focus:border-red-500
-                           focus:ring-red-500">
+                            focus:border-red-500
+                            focus:ring-red-500">
 
                 <p class="mt-2 text-xs text-gray-400">
 
@@ -147,7 +146,8 @@
 
             </div>
 
-            <textarea id="ringkasan" rows="5" name="ringkasan" maxlength="250" placeholder="Tulis ringkasan singkat artikel..."
+            <textarea id="ringkasan" rows="5" name="ringkasan" maxlength="250"
+                placeholder="Tulis ringkasan singkat artikel..."
                 class="w-full rounded-xl border-gray-300
                        focus:border-red-500
                        focus:ring-red-500">{{ old('ringkasan') }}</textarea>

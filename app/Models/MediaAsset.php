@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Artikel;
+
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -20,5 +22,10 @@ class MediaAsset extends Model implements HasMedia
         $this
             ->addMediaCollection('library')
             ->useDisk('media');
+    }
+
+    public function artikels()
+    {
+        return $this->hasMany(Artikel::class);
     }
 }

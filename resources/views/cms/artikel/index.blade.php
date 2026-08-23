@@ -6,6 +6,27 @@
         {{-- Header --}}
         {{-- ================================================= --}}
 
+
+        @if (session('success'))
+            <div
+                class="mb-6 rounded-xl border border-green-200
+                        bg-green-50 px-4 py-3 text-sm text-green-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div
+                class="mb-6 rounded-xl border border-red-200
+                        bg-red-50 px-4 py-3 text-sm text-red-700">
+                <ul class="list-disc space-y-1 pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
@@ -150,7 +171,7 @@
 
         <div class="space-y-5">
 
-            @foreach (range(1, 8) as $item)
+            @foreach ($artikels as $art)
                 <article
                     class="group rounded-3xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl">
 
@@ -159,7 +180,7 @@
                         {{-- Thumbnail --}}
                         <div class="lg:w-72 shrink-0">
 
-                            <img src="https://picsum.photos/500/350?random={{ $item }}"
+                            <img src="{{ $art->media_asset->getFirstMedia('library')->original_url }}"
                                 class="h-64 lg:h-full w-full rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none object-cover">
 
                         </div>
@@ -173,65 +194,46 @@
 
                                     <span
                                         class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                        Isu Kampus
-
+                                        {{ $art->kategori->nama }}
                                     </span>
 
                                     <h2 class="mt-4 text-2xl font-bold transition group-hover:text-red-600">
-
-                                        Mahasiswa Berhasil Mengembangkan
-                                        Platform Digital Pers Kampus
-
+                                        {{ $art->judul }}
                                     </h2>
 
                                 </div>
 
                                 {{-- Status --}}
-                                <span class="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
+                                <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
+                                    :class="{
+                                        'bg-yellow-100 text-yellow-700': {{ $art->status->id }} == 1,
+                                        'bg-green-100 text-green-700': {{ $art->status->id }} == 2
+                                    }">
 
-                                    Published
+                                    {{ $art->status->slug }}
 
                                 </span>
 
                             </div>
 
                             <p class="mt-5 max-w-3xl leading-8 text-gray-500">
-
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Consequuntur harum laudantium molestiae,
-                                adipisci ipsum repellendus nemo
-                                tempora expedita.
-
+                                {{ $art->ringkasan }}
                             </p>
 
                             {{-- Meta --}}
                             <div class="mt-6 flex flex-wrap items-center gap-5 text-sm text-gray-500">
-
                                 <span class="flex items-center gap-2">
-
                                     <i class="ri-user-line"></i>
-
-                                    Admin
-
+                                    {{ $art->penulis }}
                                 </span>
 
                                 <span class="flex items-center gap-2">
 
                                     <i class="ri-calendar-line"></i>
 
-                                    18 Juli 2026
+                                    {{ $art->created_at->translatedFormat('d F Y') }}
 
                                 </span>
-
-                                <span class="flex items-center gap-2">
-
-                                    <i class="ri-time-line"></i>
-
-                                    5 min read
-
-                                </span>
-
                             </div>
 
                             {{-- Footer --}}
@@ -239,9 +241,9 @@
                                 class="mt-8 flex flex-col gap-4 border-t border-gray-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
 
                                 <div class="text-sm text-gray-400">
-
-                                    Updated 2 hours ago
-
+                                    <div class="text-sm text-gray-400">
+                                        Updated {{ $art->updated_at?->diffForHumans() ?? 'Never' }}
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-wrap gap-3">
@@ -285,9 +287,7 @@
         {{-- ================================================= --}}
 
         <div class="rounded-2xl bg-white p-5 shadow-sm">
-
-            {{-- {{ $students->links() }} --}}
-
+            {{ $artikels->links('vendor.pagination.default') }}
         </div>
 
     </div>

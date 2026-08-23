@@ -9,7 +9,6 @@ use App\Models\MediaAsset;
 
 use Illuminate\Http\Request;
 
-
 class ArtikelController extends Controller
 {
     /**
@@ -17,7 +16,11 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        return view('cms.artikel.index');
+        $artikels = Artikel::with(['kategori', 'media_asset.media', 'status'])
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('cms.artikel.index', compact('artikels'));
     }
 
     /**
@@ -66,7 +69,7 @@ class ArtikelController extends Controller
             'media_id' => 'required|integer',
             'status_id' => 'required|integer|max:10',
             'judul' => 'required|string|max:100',
-            'penulis' => 'required|string|max:100',
+            // 'penulis' => 'required|string|max:100',
             'ringkasan' => 'required|string',
             'isi_artikel' => 'required|string',
         ]);
@@ -78,14 +81,14 @@ class ArtikelController extends Controller
                 'media_id' => $validated['media_id'],
                 'status_id' => $validated['status_id'],
                 'judul' => $validated['judul'],
-                'penulis' => $validated['penulis'],
+                'penulis' => 'Admin Retorika',
                 'ringkasan' => $validated['ringkasan'],
                 'isi_artikel' => $validated['isi_artikel'],
             ]);
 
             return redirect()
                 ->route('cms.artikel.index')
-                ->with('success', 'Data created successfully!');
+                ->with('success', 'Artikel berhasil dibuat!');
         } catch (\Exception $e) {
             // dd($e);
             return redirect()
