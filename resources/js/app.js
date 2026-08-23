@@ -594,9 +594,6 @@ function mediaUploader() {
         },
 
         async finalizeUpload(response) {
-            console.log("=== FINALIZE STARTED ===");
-            console.log("TUS response:", response);
-
             try {
                 /*
                  * TUS returns the upload URL in the Location header.
@@ -637,12 +634,6 @@ function mediaUploader() {
                     'input[name="_token"]'
                 )?.value;
 
-                console.log("Sending finalize request...");
-                console.log({
-                    name,
-                    altText,
-                    tusUploadId,
-                });
                 const finalizeResponse = await fetch("/cms/media/finalize", {
                     method: "POST",
                     headers: {
@@ -657,11 +648,8 @@ function mediaUploader() {
                     }),
                 });
 
-                console.log("Finalize HTTP status:", finalizeResponse.status);
-
                 const data = await finalizeResponse.json();
 
-                console.log("Finalize response:", data);
                 if (!finalizeResponse.ok) {
                     throw new Error(
                         data.message || "Gagal menyimpan Media Library."

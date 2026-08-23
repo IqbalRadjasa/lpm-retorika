@@ -164,41 +164,61 @@ class MediaController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'alt_text' => ['nullable', 'string', 'max:255'],
+            'alt_text' => ['nullable', 'string'],
             'tus_upload_id' => ['required', 'string'],
         ]);
 
         $tusFile = TusFile::find($validated['tus_upload_id']);
 
-        $asset = DB::transaction(function () use ($validated, $tusFile) {
+        DB::beginTransaction();
 
-            $asset = MediaAsset::create([
+        try {
+
+            $mediaAsset = MediaAsset::create([
                 'name' => $validated['name'],
                 'alt_text' => $validated['alt_text'] ?? null,
             ]);
 
             /*
-         * Attach the completed TUS file to Spatie.
+         * Add the completed TUS file
+         * to Spatie Media Library.
          */
-            $asset
+            $mediaAsset
                 ->addMediaFromDisk(
                     $tusFile->path,
-                    $tusFile->disk
+                    config('tus.storage_disk')
                 )
                 ->toMediaCollection('library');
 
-            return $asset;
-        });
+            /*
+         * At this point the file has been
+         * successfully copied into the
+         * Media Library disk.
+         *
+         * Now remove the temporary TUS file.
+         */
+            Tus::storage()->delete($tusFile->path);
+            Tus::storage()->delete(
+                Tus::path($validated['tus_upload_id'], 'json')
+            );
 
-        /*
-     * Remove the temporary TUS upload.
-     */
-        Tus::storage()->delete($tusFile->path);
+            DB::commit();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Media berhasil diupload.',
-            'id' => $asset->id,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Media berhasil disimpan.',
+                'media_asset_id' => $mediaAsset->id,
+            ]);
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menyimpan Media Library.',
+            ], 500);
+        }
     }
 }
