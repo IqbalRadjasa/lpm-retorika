@@ -57,7 +57,7 @@
         {{-- Statistics --}}
         {{-- ================================================= --}}
 
-        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div class="grid gap-5 md:grid-cols-1 xl:grid-cols-3">
 
             <div class="rounded-2xl bg-white p-6 shadow-sm">
 
@@ -68,9 +68,7 @@
                 </p>
 
                 <h2 class="mt-2 text-4xl font-bold">
-
-                    128
-
+                    {{ $totalArtikel }}
                 </h2>
 
             </div>
@@ -84,9 +82,7 @@
                 </p>
 
                 <h2 class="mt-2 text-4xl font-bold text-green-600">
-
-                    98
-
+                    {{ $totalPublished }}
                 </h2>
 
             </div>
@@ -100,29 +96,10 @@
                 </p>
 
                 <h2 class="mt-2 text-4xl font-bold text-yellow-500">
-
-                    24
-
+                    {{ $totalDrafted }}
                 </h2>
 
             </div>
-
-            <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                <p class="text-gray-500">
-
-                    Archived
-
-                </p>
-
-                <h2 class="mt-2 text-4xl font-bold text-red-500">
-
-                    6
-
-                </h2>
-
-            </div>
-
         </div>
 
         {{-- ================================================= --}}
@@ -131,28 +108,31 @@
 
         <div class="rounded-2xl bg-white p-6 shadow-sm">
 
-            <form class="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto]">
+            <form action="{{ url()->current() }}" method="GET" class="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto]">
 
-                <x-form.text-input type="text" name="search" placeholder="Cari artikel..." />
+                <x-form.text-input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari artikel..." />
 
-                <x-form.select-input name="category">
-
-                    <option>
-
+                <x-form.select-input name="kategori_id">
+                    <option value="">
                         Semua Kategori
-
                     </option>
-
+                    @foreach ($kategoris as $k)
+                        <option value="{{ $k->id }}" {{ request('kategori_id') == $k->id ? 'selected' : '' }}>
+                            {{ $k->nama }}
+                        </option>
+                    @endforeach
                 </x-form.select-input>
 
-                <x-form.select-input name="status">
-
-                    <option>
-
+                <x-form.select-input name="status_id">
+                    <option value="">
                         Semua Status
-
                     </option>
-
+                    @foreach ($statuses as $s)
+                        <option value="{{ $s->id }}" {{ request('status_id') == $s->id ? 'selected' : '' }}>
+                            {{ ucfirst($s->slug) }}
+                        </option>
+                    @endforeach
                 </x-form.select-input>
 
                 <x-button.primary-button>

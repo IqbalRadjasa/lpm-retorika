@@ -14,13 +14,45 @@ class ArtikelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $artikels = Artikel::with(['kategori', 'media_asset.media', 'status'])
+        $kategoris = Kategori::where('jenis', 'artikel')->get();
+        $statuses = Status::all();
+
+        $query = Artikel::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('kategori_id')) {
+            $query->where('kategori_id', $request->kategori_id);
+        }
+
+        if ($request->filled('status_id')) {
+            $query->where('status_id', $request->status_id);
+        }
+
+        $totalArtikel = (clone $query)->count();
+        $totalDrafted = (clone $query)->where('status_id', 1)->count();
+        $totalPublished = (clone $query)->where('status_id', 2)->count();
+
+        $artikels = $query->with(['kategori', 'media_asset.media', 'status'])
+            ->latest()
             ->paginate(5)
             ->withQueryString();
 
-        return view('cms.artikel.index', compact('artikels'));
+        return view('cms.artikel.index', compact(
+            'artikels',
+            'totalArtikel',
+            'totalDrafted',
+            'totalPublished',
+            'kategoris',
+            'statuses',
+        ));
     }
 
     /**
