@@ -53,7 +53,6 @@
         {{-- Upload Form --}}
         {{-- ================================================= --}}
 
-        {{-- <form action="{{ route('cms.media.store') }}" method="POST" enctype="multipart/form-data" --}}
         <form x-data="mediaUploader()" @submit.prevent="upload">
             @csrf
 
