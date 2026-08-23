@@ -101,9 +101,8 @@
                                 </label>
 
                                 <input id="name" type="text" name="name" value="{{ old('name') }}" required
-                                    class="w-full rounded-xl border-gray-300
-                                        focus:border-red-500 focus:ring-red-500"
-                                    placeholder="Contoh: Kegiatan Mahasiswa">
+                                    class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500"
+                                    placeholder="Deskripsi gambar" :disabled="uploading">
 
                             </div>
 
@@ -118,9 +117,8 @@
                                 </label>
 
                                 <input id="alt_text" type="text" name="alt_text" value="{{ old('alt_text') }}"
-                                    class="w-full rounded-xl border-gray-300
-                                        focus:border-red-500 focus:ring-red-500"
-                                    placeholder="Deskripsi gambar">
+                                    class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500"
+                                    placeholder="Deskripsi gambar" :disabled="uploading">
 
                             </div>
 

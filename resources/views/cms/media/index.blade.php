@@ -184,7 +184,7 @@
                                 <option value="document" {{ request('type') == 'document' ? 'selected' : '' }}>
                                     Dokumen
                                 </option>
-                                <option value="document" {{ request('type') == 'video' ? 'selected' : '' }}>
+                                <option value="video" {{ request('type') == 'video' ? 'selected' : '' }}>
                                     Video
                                 </option>
                             </select>
@@ -276,6 +276,53 @@
 
                                         <p class="mt-3 text-xs font-semibold uppercase text-red-600">
                                             PDF
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center
+                                        bg-black/40 opacity-0 transition
+                                        group-hover:opacity-100 gap-2">
+
+                                        <a href="{{ route('cms.media.show', $m->id) }}"
+                                            class="inline-flex h-10 w-10 items-center justify-center
+                                            rounded-full bg-white text-gray-700">
+
+                                            <i class="ri-eye-line text-lg"></i>
+
+                                        </a>
+
+                                        <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
+                                                class="inline-flex h-10 w-10 items-center justify-center
+                                            rounded-full bg-red-500 text-white
+                                            shadow-sm transition hover:bg-red-700">
+
+                                                <i class="ri-delete-bin-line text-lg"></i>
+
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @elseif (str_starts_with($m->getFirstMedia('library')->mime_type, 'video/'))
+                                <div
+                                    class="relative flex aspect-square items-center justify-center
+                                   bg-gray-50">
+
+                                    <div class="text-center">
+                                        <div
+                                            class="mx-auto flex h-16 w-16 items-center justify-center
+                                            rounded-2xl bg-red-50 text-red-600">
+
+                                            <i class="ri-video-line text-3xl"></i>
+
+                                        </div>
+
+                                        <p class="mt-3 text-xs font-semibold uppercase text-red-600">
+                                            Video
                                         </p>
                                     </div>
 

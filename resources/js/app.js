@@ -401,10 +401,6 @@ function mediaUploader() {
 
             // Upload success
             uppy.on("upload-success", (file, response) => {
-                console.log("=== TUS UPLOAD SUCCESS ===");
-                console.log("File:", file);
-                console.log("Response:", response);
-
                 this.uploadProgress = 100;
                 this.uploadedBytes = this.totalBytes;
                 this.uploadStatus =
@@ -570,9 +566,6 @@ function mediaUploader() {
 
             try {
                 const result = await window.mediaUppy.upload();
-
-                console.log("=== UPPY RESULT ===");
-                console.log(result);
 
                 if (result.failed.length > 0) {
                     throw new Error(
