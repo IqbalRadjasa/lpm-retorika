@@ -28,7 +28,7 @@
 
         <div @click.stop
             class="relative flex w-full max-w-6xl flex-col
-                   overflow-hidden rounded-2xl bg-white shadow-2xl"
+                    overflow-y-auto rounded-2xl bg-white shadow-2xl"
             style="max-height: calc(100vh - 2rem);">
 
 
@@ -51,9 +51,9 @@
 
                     <button type="button" @click="openUploadMode()"
                         class="inline-flex items-center gap-2 rounded-xl
-                   bg-red-600 px-4 py-2.5
-                   text-sm font-medium text-white
-                   transition hover:bg-red-700">
+                        bg-red-600 px-4 py-2.5
+                        text-sm font-medium text-white
+                        transition hover:bg-red-700">
 
                         <i class="ri-upload-2-line"></i>
 
@@ -69,8 +69,8 @@
 
                     <button type="button" @click="closeMediaLibrary()"
                         class="flex h-9 w-9 items-center justify-center
-                   rounded-full text-gray-400
-                   transition hover:bg-gray-100 hover:text-gray-600">
+                        rounded-full text-gray-400
+                        transition hover:bg-gray-100 hover:text-gray-600">
 
                         <i class="ri-close-line text-xl"></i>
 
@@ -175,6 +175,11 @@
 
             </div>
 
+
+            {{-- ================================================= --}}
+            {{-- Upload Mode --}}
+            {{-- ================================================= --}}
+
             <template x-if="uploadMode">
 
                 <div class="p-6">
@@ -209,7 +214,7 @@
 
                     {{-- Upload Input --}}
                     <input x-ref="mediaUploadInput" type="file" class="hidden"
-                        accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" @change="handleUploadFile">
+                        accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4" @change="handleUploadFile">
 
 
                     {{-- No File --}}
@@ -250,7 +255,7 @@
 
                             <p class="mt-3 text-xs text-gray-400">
 
-                                JPG, PNG, WEBP, PDF
+                                JPG, PNG, WEBP, PDF, MP4
 
                             </p>
 
@@ -321,13 +326,15 @@
                             {{-- Actions --}}
                             <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
-                                <button type="button" @click="$refs.mediaUploadInput.click()"
+                                <button type="button" @click="$refs.mediaUploadInput.click()" :disabled="uploading"
                                     class="inline-flex items-center
                                     justify-center gap-2
                                     rounded-xl border border-gray-300
                                     px-5 py-2.5 text-sm font-medium
                                     text-gray-700
-                                    transition hover:bg-gray-50">
+                                    transition hover:bg-gray-50
+                                    disabled:cursor-not-allowed
+                                    disabled:opacity-60"">
 
                                     <i class="ri-refresh-line"></i>
 
@@ -378,6 +385,61 @@
 
                     </template>
 
+                    {{-- ================================================= --}}
+                    {{-- Upload Progress --}}
+                    {{-- ================================================= --}}
+
+                    <template x-if="uploading">
+
+                        <div class="mt-5 rounded-2xl border border-gray-200 bg-white p-5">
+
+                            {{-- Header --}}
+                            <div class="mb-3 flex items-center justify-between">
+
+                                <div>
+
+                                    <p class="text-sm font-semibold text-gray-900">
+                                        Mengupload file...
+                                    </p>
+
+                                    <p class="mt-1 text-xs text-gray-400" x-text="uploadStatus">
+                                    </p>
+
+                                </div>
+
+                                <span class="text-sm font-semibold text-red-600">
+
+                                    <span x-text="uploadProgress"></span>%
+
+                                </span>
+
+                            </div>
+
+
+                            {{-- Progress Bar --}}
+                            <div class="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+
+                                <div class="h-full rounded-full bg-red-500 transition-all duration-300"
+                                    :style="`width: ${uploadProgress}%`">
+                                </div>
+
+                            </div>
+
+
+                            {{-- Bytes --}}
+                            <div class="mt-2 flex justify-between text-xs text-gray-400">
+
+                                <span x-text="formatFileSize(uploadedBytes)">
+                                </span>
+
+                                <span x-text="formatFileSize(totalBytes)">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </template>
 
                     {{-- Information --}}
                     <div class="mt-5 rounded-xl border border-blue-100
@@ -419,7 +481,7 @@
             {{-- Media Grid --}}
             {{-- ================================================= --}}
 
-            <div class="flex-1 overflow-y-auto p-5 sm:p-6">
+            <div class="flex-1 p-5 sm:p-6">
 
                 {{-- Media --}}
                 <div class="relative min-h-[350px]">

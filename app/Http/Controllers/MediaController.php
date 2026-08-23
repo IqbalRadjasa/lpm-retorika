@@ -207,7 +207,7 @@ class MediaController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Media berhasil disimpan.',
-                'media_asset_id' => $mediaAsset->id,
+                'media' => $mediaAsset->getFirstMedia('library'),
             ]);
         } catch (\Throwable $e) {
 
