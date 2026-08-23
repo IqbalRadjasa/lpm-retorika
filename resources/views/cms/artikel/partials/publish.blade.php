@@ -56,7 +56,7 @@
                         class="flex cursor-pointer items-start gap-4 rounded-xl border border-gray-200 p-4 transition hover:border-red-300 hover:bg-red-50/50"
                         :class="status === '{{ $st->id }}' ? 'border-red-500 bg-red-50' : ''">
 
-                        <input type="radio" name="status" value="{{ $st->id }}" x-model="status"
+                        <input type="radio" name="status_id" value="{{ $st->id }}" x-model="status"
                             class="mt-1 text-red-600 focus:ring-red-500">
 
                         <div>

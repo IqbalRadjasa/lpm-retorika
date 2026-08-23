@@ -102,13 +102,16 @@ Route::get('/cms/mading/edit', function () {
 
 // MEDIA
 Route::prefix('cms')->name('cms.')->group(function () {
+    Route::post('media/finalize', [MediaController::class, 'finalize'])
+        ->name('media.finalize');
+
+    Route::get('media/selector', [MediaController::class, 'selector'])
+        ->name('media.selector');
+
     Route::resource('media', MediaController::class)
         ->parameters([
             'media' => 'asset',
         ]);
-
-    Route::post('media/finalize', [MediaController::class, 'finalize'])
-        ->name('media.finalize');
 });
 // Route::get('/cms/media/show', function () {
 //     return view('cms.media.show');

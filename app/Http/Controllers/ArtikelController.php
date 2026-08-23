@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Status;
 use App\Models\Artikel;
 use App\Models\Kategori;
-use App\Models\Status;
+use App\Models\MediaAsset;
+
 use Illuminate\Http\Request;
 
 
@@ -21,12 +23,36 @@ class ArtikelController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $kategoris = Kategori::where('jenis', 'artikel')->get();
         $statuses = Status::all();
 
-        return view('cms.artikel.create', compact('kategoris', 'statuses'));
+
+        $query = MediaAsset::with('media');
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('type')) {
+            if ($request->type === 'image') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'like', 'image/%');
+                });
+            } elseif ($request->type === 'document') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'application/pdf');
+                });
+            } elseif ($request->type === 'video') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'like', 'video/%');
+                });
+            }
+        }
+
+        $mediaAssets = $query->paginate(5)->withQueryString();
+
+        return view('cms.artikel.create', compact('kategoris', 'statuses', 'mediaAssets'));
     }
 
     /**
@@ -34,30 +60,34 @@ class ArtikelController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         $validated = $request->validate([
+            'kategori_id' => 'required|integer',
+            'media_id' => 'required|integer',
+            'status_id' => 'required|integer|max:10',
             'judul' => 'required|string|max:100',
-            'kategori_id' => 'required|integer|max:10',
             'penulis' => 'required|string|max:100',
             'ringkasan' => 'required|string',
             'isi_artikel' => 'required|string',
-            'status_id' => 'required|integer|max:10'
         ]);
 
         try {
+            // dd('success');
             Artikel::create([
-                'judul' => $validated['judul'],
                 'kategori_id' => $validated['kategori_id'],
+                'media_id' => $validated['media_id'],
+                'status_id' => $validated['status_id'],
+                'judul' => $validated['judul'],
                 'penulis' => $validated['penulis'],
                 'ringkasan' => $validated['ringkasan'],
                 'isi_artikel' => $validated['isi_artikel'],
-                'status_id' => $validated['status_id'],
             ]);
 
             return redirect()
                 ->route('cms.artikel.index')
                 ->with('success', 'Data created successfully!');
         } catch (\Exception $e) {
+            // dd($e);
             return redirect()
                 ->back()
                 ->withInput()

@@ -221,4 +221,52 @@ class MediaController extends Controller
             ], 500);
         }
     }
+
+    public function selector(Request $request)
+    {
+        $query = MediaAsset::query()->with('media');
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('filter') && $request->filter !== 'all') {
+            $filter = $request->filter;
+
+            $query->whereHas('media', function ($q) use ($filter) {
+                if ($filter === 'gambar') {
+                    $q->where('mime_type', 'like', 'image/%');
+                } elseif ($filter === 'video') {
+                    $q->where('mime_type', 'like', 'video/%');
+                } elseif ($filter === 'document') {
+                    $q->where('mime_type', 'application/pdf');
+                }
+            });
+        }
+
+        if ($request->sort === 'oldest') {
+            $query->oldest();
+        } elseif ($request->sort === 'name') {
+            $query->orderBy('name', 'asc');
+        } else {
+            $query->latest();
+        }
+
+        $media = $query->paginate(6);
+
+        $media->getCollection()->transform(function ($item) {
+            $firstMedia = $item->getFirstMedia('library');
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'alt_text' => $item->alt_text,
+                'url' => $firstMedia?->getUrl(),
+                'mime_type' => $firstMedia?->mime_type,
+                'extension' => strtoupper(pathinfo($firstMedia?->file_name ?? '', PATHINFO_EXTENSION)),
+                'size' => $firstMedia?->human_readable_size ?? 'N/A',
+            ];
+        });
+
+        return response()->json($media);
+    }
 }

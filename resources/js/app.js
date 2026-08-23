@@ -17,11 +17,20 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
-function mediaSelector() {
+function mediaSelector(initialFilter = "all") {
     return {
-        mediaPickerOpen: false,
+        initialFilter: initialFilter,
         mediaSearch: "",
-        mediaFilter: "all",
+        mediaSort: "",
+        mediaFilter: initialFilter,
+
+        media: [],
+        currentPage: 1,
+        lastPage: 1,
+        total: 0,
+        loading: false,
+
+        mediaPickerOpen: false,
         selectedMedia: null, // Hanya menyimpan 1 objek media
         pendingMedia: null, // Hanya menyimpan 1 objek media sementara
         uploadMode: false,
@@ -30,70 +39,90 @@ function mediaSelector() {
         uploadFileType: "", // Ditambahkan untuk mendeteksi tipe MIME file
         uploading: false,
 
-        media: [
-            {
-                id: 1,
-                name: "kegiatan-mahasiswa.jpg",
-                type: "image",
-                extension: "JPG",
-                size: "1.2 MB",
-                url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-                id: 2,
-                name: "rapat-organisasi.jpg",
-                type: "image",
-                extension: "JPG",
-                size: "980 KB",
-                url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-                id: 3,
-                name: "mahasiswa-kampus.jpg",
-                type: "image",
-                extension: "PNG",
-                size: "1.5 MB",
-                url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-                id: 4,
-                name: "seminar-kampus.jpg",
-                type: "image",
-                extension: "WEBP",
-                size: "870 KB",
-                url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-                id: 5,
-                name: "podcast-retorika.mp4",
-                type: "video",
-                extension: "MP4",
-                size: "85 MB",
-                url: "",
-            },
-            {
-                id: 6,
-                name: "proposal-kegiatan.pdf",
-                type: "document",
-                extension: "PDF",
-                size: "2.4 MB",
-                url: "",
-            },
-        ],
+        async loadMedia(page = 1) {
+            this.loading = true;
 
-        get filteredMedia() {
-            const search = this.mediaSearch.toLowerCase().trim();
+            try {
+                // Buat URLSearchParams agar query otomatis tersusun rapi
+                const params = new URLSearchParams({
+                    page: page,
+                    search: this.mediaSearch || "",
+                    filter: this.mediaFilter || "all",
+                    sort: this.mediaSort || "",
+                });
 
-            return this.media.filter((media) => {
-                const matchesFilter =
-                    this.mediaFilter === "all" ||
-                    media.type === this.mediaFilter;
+                const response = await fetch(
+                    `/cms/media/selector?${params.toString()}`,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                        },
+                    }
+                );
 
-                const matchesSearch =
-                    !search || media.name.toLowerCase().includes(search);
+                if (!response.ok) throw new Error("Gagal mengambil media.");
 
-                return matchesFilter && matchesSearch;
-            });
+                const data = await response.json();
+
+                // Menyimpan data dari paginator Laravel
+                this.media = data.data;
+                this.currentPage = data.current_page;
+                this.lastPage = data.last_page;
+                this.total = data.total;
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        init() {
+            this.loadMedia();
+        },
+
+        nextPage() {
+            if (this.currentPage < this.lastPage) {
+                this.loadMedia(this.currentPage + 1);
+            }
+        },
+
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.loadMedia(this.currentPage - 1);
+            }
+        },
+
+        getPageRange() {
+            let current = this.currentPage;
+            let last = this.lastPage;
+            let delta = 1; // Jumlah halaman yang ditampilkan di kiri/kanan halaman aktif
+            let range = [];
+            let rangeWithDots = [];
+            let l;
+
+            for (let i = 1; i <= last; i++) {
+                if (
+                    i === 1 ||
+                    i === last ||
+                    (i >= current - delta && i <= current + delta)
+                ) {
+                    range.push(i);
+                }
+            }
+
+            for (let i of range) {
+                if (l) {
+                    if (i - l === 2) {
+                        rangeWithDots.push(l + 1);
+                    } else if (i - l !== 1) {
+                        rangeWithDots.push("...");
+                    }
+                }
+                rangeWithDots.push(i);
+                l = i;
+            }
+
+            return rangeWithDots;
         },
 
         openUploadMode() {
@@ -114,7 +143,6 @@ function mediaSelector() {
             }
         },
 
-        // PERBAIKAN 1: Menangani penentuan preview 1 file (Gambar/Video)
         handleUploadFile(event) {
             const file = event.target.files[0]; // Memastikan hanya mengambil file pertama
 
@@ -134,43 +162,51 @@ function mediaSelector() {
             }
         },
 
-        // PERBAIKAN 2: Penentuan tipe media yang lebih spesifik (image, video, document)
         async uploadAndSelect() {
             if (!this.uploadFile) return;
 
             this.uploading = true;
 
-            setTimeout(() => {
-                // Menentukan kategori media
-                let mediaType = "document";
-                if (this.uploadFile.type.startsWith("image/")) {
-                    mediaType = "image";
-                } else if (this.uploadFile.type.startsWith("video/")) {
-                    mediaType = "video";
-                }
+            const formData = new FormData();
+            formData.append("file", this.uploadFile);
+            // Masukkan CSRF Token Laravel
+            const token = document
+                .querySelector('meta[name="csrf-token"]')
+                ?.getAttribute("content");
 
+            try {
+                const response = await fetch("/cms/media/finalize", {
+                    // sesuaikan endpoint upload kamu
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": token,
+                    },
+                    body: formData,
+                });
+
+                if (!response.ok) throw new Error("Gagal mengunggah file.");
+
+                const result = await response.json(); // Mengembalikan data media yang baru dibuat DB
+
+                // Format sesuai dengan kebutuhan komponen
                 const newMedia = {
-                    id: Date.now(),
-                    name: this.uploadFile.name,
-                    type: mediaType,
-                    extension: this.uploadFile.name
-                        .split(".")
-                        .pop()
-                        .toUpperCase(),
-                    size: this.formatFileSize(this.uploadFile.size),
-                    url: this.uploadPreview,
+                    id: result.id,
+                    name: result.name,
+                    url: result.url,
+                    mime_type: result.mime_type,
                 };
 
-                // Menambahkan data baru ke daftar paling atas
+                // Masukkan file baru ke daftar paling atas & jadikan yang terpilih
                 this.media.unshift(newMedia);
-
-                // Langsung memilih file yang baru saja diunggah ini sebagai file tunggal
                 this.pendingMedia = newMedia;
 
-                this.uploading = false;
-
                 this.closeUploadMode();
-            }, 800);
+            } catch (error) {
+                alert("Upload gagal: " + error.message);
+            } finally {
+                this.uploading = false;
+            }
         },
 
         formatFileSize(bytes) {
@@ -189,8 +225,11 @@ function mediaSelector() {
         openMediaLibrary() {
             this.mediaPickerOpen = true;
             this.mediaSearch = "";
-            this.mediaFilter = "all";
+            this.mediaSort = "";
+            this.mediaFilter = this.initialFilter;
             this.pendingMedia = this.selectedMedia;
+
+            this.loadMedia(1);
         },
 
         closeMediaLibrary() {

@@ -1,6 +1,6 @@
 <x-cms-layout>
 
-    <div class="space-y-8 py-6" x-data="mediaSelector()">
+    <div class="space-y-8 py-6" x-data="mediaSelector('gambar')">
 
         {{-- ================================================= --}}
         {{-- Header --}}

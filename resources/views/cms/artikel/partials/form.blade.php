@@ -2,8 +2,7 @@
 {{-- Form --}}
 {{-- ================================================= --}}
 
-<form action="{{ route('cms.artikel.store') }}" method="POST" enctype="multipart/form-data">
-
+<form action="{{ route('cms.artikel.store') }}" method="POST">
     @csrf
 
     <div class="grid gap-8 xl:grid-cols-12">
@@ -26,16 +25,7 @@
         <div class="space-y-8 xl:col-span-4">
 
             <div class="space-y-8 xl:sticky xl:top-24">
-
-
-                {{-- @include('cms.artikel.partials.category') --}}
-
                 @include('cms.artikel.partials.thumbnail')
-
-                {{-- @include('cms.artikel.partials.seo') --}}
-
-                {{-- @include('cms.artikel.partials.tags') --}}
-
                 @include('cms.artikel.partials.publish')
 
 
