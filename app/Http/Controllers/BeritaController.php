@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artikel;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -9,9 +11,24 @@ use Illuminate\View\View;
 
 class BeritaController extends Controller
 {
-    public function isuKampus()
+    public function index($slug = null)
     {
-        return view('public.berita.isu-kampus');
+        // dd($kategori);
+        $artikels = Artikel::with(['kategori', 'media_asset.media', 'status'])
+            ->where('status_id', 2) // Published
+            ->whereHas('kategori', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+
+        $kategori = Kategori::where('slug', $slug)->first();
+
+        return view('public.berita.index', compact(
+            'artikels',
+            'kategori'
+        ));
     }
 
     public function nasional()

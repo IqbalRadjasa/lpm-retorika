@@ -23,17 +23,17 @@
 
                 <x-nav-dropdown title="Berita" :active="request()->routeIs('berita.*')">
 
-                    <x-nav-dropdown-link :href="route('berita.isu-kampus')" :active="request()->routeIs('berita.isu-kampus')">
+                    <x-nav-dropdown-link :href="route('berita.index', 'isu-kampus')" :active="request()->routeIs('berita.*') && request()->route('slug') === 'isu-kampus'">
                         <i class="ri-graduation-cap-line mr-3"></i>
                         Isu Kampus
                     </x-nav-dropdown-link>
 
-                    <x-nav-dropdown-link :href="route('berita.nasional')" :active="request()->routeIs('berita.nasional')">
+                    <x-nav-dropdown-link :href="route('berita.index', 'nasional')" :active="request()->routeIs('berita.*') && request()->route('slug') === 'nasional'">
                         <i class="ri-flag-line mr-3"></i>
                         Nasional
                     </x-nav-dropdown-link>
 
-                    <x-nav-dropdown-link :href="route('berita.opini')" :active="request()->routeIs('berita.opini')">
+                    <x-nav-dropdown-link :href="route('berita.index', 'opini')" :active="request()->routeIs('berita.*') && request()->route('slug') === 'opini'">
                         <i class="ri-user-voice-line mr-3"></i>
                         Opini
                     </x-nav-dropdown-link>
@@ -159,15 +159,15 @@
 
             <div x-show="beritaOpen" x-collapse x-cloak class="bg-gray-50">
 
-                <a href="{{ route('berita.isu-kampus') }}" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{ route('berita.index', 'isu-kampus') }}" class="block py-3 pl-14 hover:bg-gray-100">
                     Isu Kampus
                 </a>
 
-                <a href="{{ route('berita.nasional') }}" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{ route('berita.index', 'nasional') }}" class="block py-3 pl-14 hover:bg-gray-100">
                     Nasional
                 </a>
 
-                <a href="{{ route('berita.opini') }}" class="block py-3 pl-14 hover:bg-gray-100">
+                <a href="{{ route('berita.index', 'opini') }}" class="block py-3 pl-14 hover:bg-gray-100">
                     Opini
                 </a>
 

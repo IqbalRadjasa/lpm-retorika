@@ -16,7 +16,7 @@ Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 // BERITA
 Route::get('/berita/detail', [BeritaController::class, 'detail'])->name('berita.detail');
 // Isu Kampus
-Route::get('/berita/isu-kampus', [BeritaController::class, 'isuKampus'])->name('berita.isu-kampus');
+Route::get('/berita/kategori/{slug}', [BeritaController::class, 'index'])->name('berita.index');
 // Nasional
 Route::get('/berita/nasional', [BeritaController::class, 'nasional'])->name('berita.nasional');
 // Opini

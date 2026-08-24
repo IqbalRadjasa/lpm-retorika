@@ -19,23 +19,29 @@
 
             {{-- Background Decoration --}}
             <i
-                class="ri-graduation-cap-line
+                class="
                 absolute
                 -right-8
                 -bottom-16
-                lg:-right-8 lg:-bottom-22
+                lg:-right-8 lg:-bottom-24
                 text-[170px]
                 lg:text-[220px]
                 text-red-500/10
-                pointer-events-none">
-            </i>
+                pointer-events-none
+                @switch($kategori->slug)
+                    @case('isu-kampus') ri-graduation-cap-line @break
+                    @case('nasional') ri-flag-line @break
+                    @case('opini') ri-user-voice-line @break
+                    @default ri-article-line
+                @endswitch
+            "></i>
 
             <p class="relative z-10 text-sm font-semibold uppercase tracking-widest text-red-700">
                 Kategori
             </p>
 
             <h1 class="relative z-10 text-3xl md:text-4xl lg:text-5xl font-extrabold text-red-600">
-                Isu Kampus
+                {{ $kategori->nama }}
             </h1>
 
         </div>
