@@ -28,7 +28,7 @@
                     Kembali
                 </x-link-button.secondary-link>
 
-                <x-link-button.secondary-link :href="'#'" icon="ri-pencil-line" download>
+                <x-link-button.secondary-link :href="route('cms.artikel.edit', $data->id)" icon="ri-pencil-line">
                     Edit
                 </x-link-button.secondary-link>
 

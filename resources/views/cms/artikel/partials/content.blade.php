@@ -73,10 +73,9 @@
 
         <div class="min-w-0 max-w-full">
 
-            <textarea id="editor" name="isi_artikel">{!! old('isi_artikel') !!}</textarea>
-
+            <textarea id="editor" name="isi_artikel">
+                {!! old('isi_artikel', $mode === 'edit' ? $artikel->isi_artikel : '') !!}
+            </textarea>
         </div>
-
     </div>
-
 </div>

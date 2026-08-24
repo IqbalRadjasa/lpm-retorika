@@ -235,12 +235,11 @@
 
                                     </a>
 
-                                    <button
+                                    <a href="{{route('cms.artikel.edit', $art->id)}}"
                                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 text-blue-600 transition hover:bg-blue-50">
 
                                         <i class="ri-pencil-line"></i>
-
-                                    </button>
+                                    </a>
 
 
                                     <form action="{{ route('cms.artikel.destroy', $art->id) }}" method="POST"

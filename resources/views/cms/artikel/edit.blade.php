@@ -1,6 +1,22 @@
 <x-cms-layout>
+    @php
+        $mode = 'edit';
+        $media = $mode === 'edit' && isset($artikel) ? $artikel->media_asset?->getFirstMedia('library') : null;
 
-    <div class="space-y-8 py-6" x-data='mediaSelector("gambar")'>
+        $initialMedia = $media
+            ? [
+                'id' => $media->id,
+                'name' => $media->name,
+                'url' => $media->original_url,
+                'mime_type' => $media->mime_type,
+                'size' => $media->human_readable_size,
+            ]
+            : null;
+
+        // dd($initialMedia);
+
+    @endphp
+    <div class="space-y-8 py-6" x-data='mediaSelector("gambar", @json($initialMedia))'>
 
         {{-- ================================================= --}}
         {{-- Header --}}
@@ -12,13 +28,13 @@
             <div>
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
-                    Tambah Artikel
+                    Edit Artikel
 
                 </h1>
 
                 <p class="mt-2 text-gray-500">
 
-                    Tulis dan publikasikan artikel baru.
+                    Edit dan simpan perubahan baru artikel.
 
                 </p>
             </div>
@@ -52,7 +68,11 @@
         {{-- Form --}}
         {{-- ================================================= --}}
         @include('cms.artikel.partials.form', [
-            'mode' => 'create',
+            'mode' => $mode,
+            'artikel' => $artikel,
+            'kategoris' => $kategoris,
+            'statuses' => $statuses,
+            'mediaAssets' => $mediaAssets,
         ])
 
 

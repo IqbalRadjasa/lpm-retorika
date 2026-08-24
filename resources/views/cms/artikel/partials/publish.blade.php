@@ -30,9 +30,11 @@
     {{-- ================================================= --}}
     {{-- Body --}}
     {{-- ================================================= --}}
-
+    @php
+        $initialStatus = old('status_id', $mode === 'edit' && isset($artikel) ? $artikel->status_id : 2);
+    @endphp
     <div x-data="{
-        status: '2'
+        status: {{ $initialStatus }}
     }" class="space-y-6 p-6">
 
 
@@ -54,7 +56,7 @@
                 @foreach ($statuses as $st)
                     <label
                         class="flex cursor-pointer items-start gap-4 rounded-xl border border-gray-200 p-4 transition hover:border-red-300 hover:bg-red-50/50"
-                        :class="status === '{{ $st->id }}' ? 'border-red-500 bg-red-50' : ''">
+                        :class="status == {{ $st->id }} ? 'border-red-500 bg-red-50' : ''">
 
                         <input type="radio" name="status_id" value="{{ $st->id }}" x-model="status"
                             class="mt-1 text-red-600 focus:ring-red-500">
@@ -115,17 +117,18 @@
         {{-- ================================================= --}}
 
         <button type="submit"
-            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700">
+            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700"
+            x-cloak>
 
             <i class="ri-send-plane-fill" x-show="status !== '1'"></i>
 
             <i class="ri-draft-line" x-show="status === '1'"></i>
 
-            <span x-show="status === '1'">
+            <span x-show="status == '1'">
                 Simpan Draft
             </span>
 
-            <span x-show="status === '2'">
+            <span x-show="status == '2'">
                 Terbitkan Sekarang
             </span>
         </button>

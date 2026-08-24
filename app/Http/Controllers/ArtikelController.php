@@ -145,17 +145,83 @@ class ArtikelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Artikel $artikel, Request $request)
     {
-        //
+        $artikel->load(['kategori', 'media_asset.media', 'status']);
+
+        $kategoris = Kategori::where('jenis', 'artikel')->get();
+        $statuses = Status::all();
+
+
+        $query = MediaAsset::with('media');
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('type')) {
+            if ($request->type === 'image') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'like', 'image/%');
+                });
+            } elseif ($request->type === 'document') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'application/pdf');
+                });
+            } elseif ($request->type === 'video') {
+                $query->whereHas('media', function ($q) {
+                    $q->where('mime_type', 'like', 'video/%');
+                });
+            }
+        }
+
+        $mediaAssets = $query->paginate(5)->withQueryString();
+
+        return view('cms.artikel.edit', [
+            'artikel' => $artikel,
+            'kategoris' => $kategoris,
+            'statuses' => $statuses,
+            'mediaAssets' => $mediaAssets,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Artikel $artikel)
     {
-        //
+        // dd($request);
+        $validated = $request->validate([
+            'kategori_id' => 'required|integer',
+            'media_id' => 'required|integer',
+            'status_id' => 'required|integer|max:10',
+            'judul' => 'required|string|max:100',
+            // 'penulis' => 'required|string|max:100',
+            'ringkasan' => 'required|string',
+            'isi_artikel' => 'required|string',
+        ]);
+
+        try {
+            // dd('success');
+            $artikel->update([
+                'kategori_id' => $validated['kategori_id'],
+                'media_id' => $validated['media_id'],
+                'status_id' => $validated['status_id'],
+                'judul' => $validated['judul'],
+                'penulis' => 'Admin Retorika',
+                'ringkasan' => $validated['ringkasan'],
+                'isi_artikel' => $validated['isi_artikel'],
+            ]);
+
+            return redirect()
+                ->route('cms.artikel.index')
+                ->with('success', 'Data berhasil diperbarui!');
+        } catch (\Exception $e) {
+            // dd($e);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui data!');
+        }
     }
 
     /**

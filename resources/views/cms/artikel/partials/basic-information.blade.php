@@ -43,7 +43,8 @@
 
             </label>
 
-            <input id="judul" type="text" name="judul" value="{{ old('judul') }}"
+            <input id="judul" type="text" name="judul"
+                value="{{ old('judul', $mode === 'edit' ? $artikel->judul : '') }}"
                 placeholder="Contoh: Mahasiswa Berhasil Mengembangkan Website Pers"
                 class="w-full rounded-xl border-gray-300
                        focus:border-red-500
@@ -81,11 +82,16 @@
                     <option value="">
                         Pilih kategori
                     </option>
-
                     @foreach ($kategoris as $k)
-                        <option value="{{ $k->id }}">
-                            {{ $k->nama }}
-                        </option>
+                        @if ($mode === 'edit')
+                            <option value="{{ $k->id }}" {{ $artikel->kategori_id == $k->id ? 'selected' : '' }}>
+                                {{ $k->nama }}
+                            </option>
+                        @else
+                            <option value="{{ $k->id }}">
+                                {{ $k->nama }}
+                            </option>
+                        @endif
                     @endforeach
 
                 </select>
@@ -150,7 +156,7 @@
                 placeholder="Tulis ringkasan singkat artikel..."
                 class="w-full rounded-xl border-gray-300
                        focus:border-red-500
-                       focus:ring-red-500">{{ old('ringkasan') }}</textarea>
+                       focus:ring-red-500">{{ old('ringkasan', $mode === 'edit' ? $artikel->ringkasan : '') }}</textarea>
 
             <p class="mt-2 text-xs text-gray-400">
 

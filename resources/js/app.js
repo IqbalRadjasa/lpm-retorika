@@ -17,7 +17,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url
 ).toString();
 
-function mediaSelector(initialFilter = "all") {
+function mediaSelector(initialFilter = "all", initialMedia = null) {
     return {
         initialFilter: initialFilter,
         mediaSearch: "",
@@ -30,9 +30,10 @@ function mediaSelector(initialFilter = "all") {
         total: 0,
         loading: false,
 
+        selectedMedia: initialMedia, // Hanya menyimpan 1 objek media
+        pendingMedia: initialMedia, // Hanya menyimpan 1 objek media sementara
+
         mediaPickerOpen: false,
-        selectedMedia: null, // Hanya menyimpan 1 objek media
-        pendingMedia: null, // Hanya menyimpan 1 objek media sementara
         uploadMode: false,
         uploadFile: null, // Hanya menyimpan 1 file unggahan
         uploadPreview: null,
@@ -82,7 +83,7 @@ function mediaSelector(initialFilter = "all") {
         },
 
         // init() {
-        //     this.loadMedia();
+        //     console.log(selectedMedia);
         // },
 
         nextPage() {
