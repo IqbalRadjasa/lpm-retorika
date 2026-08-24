@@ -133,9 +133,13 @@ class ArtikelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Artikel $artikel)
     {
-        //
+        $artikel->load(['kategori', 'media_asset.media', 'status']);
+
+        return view('cms.artikel.show', [
+            'data' => $artikel
+        ]);
     }
 
     /**

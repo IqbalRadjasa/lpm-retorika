@@ -9,25 +9,6 @@
         <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
             <div>
-
-                <div class="flex items-center gap-2 text-sm text-gray-500">
-
-                    <a href="{{ route('cms.artikel.index') }}" class="transition hover:text-red-600">
-
-                        Artikel
-
-                    </a>
-
-                    <i class="ri-arrow-right-s-line"></i>
-
-                    <span class="text-gray-700">
-
-                        Detail
-
-                    </span>
-
-                </div>
-
                 <h1 class="mt-2 text-2xl font-bold text-gray-900">
 
                     Detail Artikel
@@ -39,32 +20,29 @@
                     Lihat informasi lengkap dan isi artikel.
 
                 </p>
-
             </div>
 
             {{-- Header Actions --}}
-            <div class="flex flex-wrap gap-3">
-
-                <a href="{{ route('cms.artikel.index') }}"
-                    class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
-
-                    <i class="ri-arrow-left-line"></i>
-
+            <div class="flex flex-col lg:flex-row gap-3">
+                <x-link-button.secondary-link :href="route('cms.artikel.index')" icon="ri-arrow-left-line">
                     Kembali
+                </x-link-button.secondary-link>
 
-                </a>
+                <x-link-button.secondary-link :href="'#'" icon="ri-pencil-line" download>
+                    Edit
+                </x-link-button.secondary-link>
 
-                <a href="#"
-                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-red-700">
+                <form action="{{ route('cms.artikel.destroy', $data->id) }}" method="POST"
+                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
+                    @csrf
+                    @method('DELETE')
 
-                    <i class="ri-edit-line"></i>
+                    <x-button.danger-button icon="ri-delete-bin-line">
+                        Hapus
+                    </x-button.danger-button>
 
-                    Edit Artikel
-
-                </a>
-
+                </form>
             </div>
-
         </div>
 
 
@@ -91,8 +69,8 @@
                     {{-- Thumbnail --}}
                     <div class="aspect-[16/8] overflow-hidden bg-gray-100">
 
-                        <img src="https://picsum.photos/1200/600?random=25" alt="Thumbnail artikel"
-                            class="h-full w-full object-cover">
+                        <img src="{{ $data->media_asset->getFirstMedia('library')->original_url }}"
+                            alt="Thumbnail artikel" class="h-full w-full object-cover">
 
                     </div>
 
@@ -102,18 +80,13 @@
 
                         {{-- Category --}}
                         <span class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                            Isu Kampus
-
+                            {{ $data->kategori->nama }}
                         </span>
 
 
                         {{-- Title --}}
                         <h2 class="mt-5 text-3xl font-bold leading-tight text-gray-900 md:text-4xl">
-
-                            Mahasiswa Berhasil Mengembangkan
-                            Platform Digital untuk Pers Kampus
-
+                            {{ $data->judul }}
                         </h2>
 
 
@@ -125,9 +98,7 @@
                                 <i class="ri-user-3-line"></i>
 
                                 <span>
-
-                                    Retorika
-
+                                    {{ $data->penulis }}
                                 </span>
 
                             </div>
@@ -137,25 +108,10 @@
                                 <i class="ri-calendar-line"></i>
 
                                 <span>
-
-                                    28 Juli 2026
-
+                                    {{ $data->created_at->translatedFormat('d F Y') }}
                                 </span>
 
                             </div>
-
-                            <div class="flex items-center gap-2">
-
-                                <i class="ri-time-line"></i>
-
-                                <span>
-
-                                    5 min read
-
-                                </span>
-
-                            </div>
-
                         </div>
 
 
@@ -163,17 +119,11 @@
                         <div class="mt-7 rounded-xl border border-gray-100 bg-gray-50 p-5">
 
                             <p class="text-sm font-medium text-gray-500">
-
                                 Ringkasan
-
                             </p>
 
                             <p class="mt-2 leading-7 text-gray-700">
-
-                                Mahasiswa berhasil mengembangkan sebuah platform
-                                digital yang dirancang untuk mendukung kegiatan
-                                pers mahasiswa dan publikasi informasi kampus.
-
+                                {{ $data->ringkasan }}
                             </p>
 
                         </div>
@@ -223,64 +173,7 @@
 
                     {{-- Content --}}
                     <article class="prose prose-gray max-w-none p-6 leading-8 md:p-8">
-
-                        <p>
-
-                            Perkembangan teknologi digital telah memberikan
-                            perubahan besar terhadap cara mahasiswa memperoleh
-                            dan menyebarkan informasi di lingkungan kampus.
-
-                        </p>
-
-                        <p>
-
-                            Melihat perkembangan tersebut, mahasiswa dari
-                            berbagai bidang mulai mengembangkan berbagai
-                            platform digital yang dapat membantu kegiatan
-                            organisasi dan pers mahasiswa.
-
-                        </p>
-
-
-                        <h3>
-
-                            Awal Pengembangan
-
-                        </h3>
-
-                        <p>
-
-                            Platform ini dikembangkan sebagai sebuah media
-                            yang dapat membantu proses publikasi berita,
-                            artikel, dan berbagai informasi kegiatan mahasiswa.
-
-                        </p>
-
-
-                        <blockquote>
-
-                            Pers mahasiswa memiliki peran penting sebagai
-                            media informasi dan kontrol sosial di lingkungan
-                            kampus.
-
-                        </blockquote>
-
-
-                        <h3>
-
-                            Dampak bagi Mahasiswa
-
-                        </h3>
-
-                        <p>
-
-                            Kehadiran platform digital tersebut diharapkan
-                            dapat memberikan akses informasi yang lebih mudah
-                            sekaligus mendorong mahasiswa untuk lebih aktif
-                            dalam kegiatan jurnalistik dan publikasi.
-
-                        </p>
-
+                        {!! $data->isi_artikel !!}
                     </article>
 
                 </div>
@@ -290,7 +183,7 @@
                 {{-- Tags --}}
                 {{-- ================================================= --}}
 
-                <div class="rounded-2xl bg-white p-6 shadow-sm md:p-8">
+                {{-- <div class="rounded-2xl bg-white p-6 shadow-sm md:p-8">
 
                     <div class="flex items-center gap-2">
 
@@ -332,7 +225,7 @@
 
                     </div>
 
-                </div>
+                </div> --}}
 
             </div>
 
@@ -396,12 +289,19 @@
                             <div class="mt-2">
 
                                 <span
-                                    class="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-sm font-semibold text-green-700">
+                                    class="inline-flex capitalize items-center gap-2 rounded-full  px-3 py-1.5 text-sm font-semibold"
+                                    :class="{
+                                        'bg-yellow-100 text-yellow-700': {{ $data->status->id }} == 1,
+                                        'bg-green-100 text-green-700': {{ $data->status->id }} == 2
+                                    }">
 
-                                    <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                                    <span class="h-2 w-2 rounded-full"
+                                        :class="{
+                                            'bg-yellow-500': {{ $data->status->id }} == 1,
+                                            'bg-green-500': {{ $data->status->id }} == 2,
+                                        }"></span>
 
-                                    Published
-
+                                    {{ $data->status->slug }}
                                 </span>
 
                             </div>
@@ -419,9 +319,7 @@
                             </p>
 
                             <p class="mt-2 text-sm font-medium text-gray-700">
-
-                                28 Juli 2026, 09:30
-
+                                {{ $data->created_at->translatedFormat('d F Y, H:i') }}
                             </p>
 
                         </div>
@@ -437,9 +335,7 @@
                             </p>
 
                             <p class="mt-2 text-sm font-medium text-gray-700">
-
-                                28 Juli 2026, 10:15
-
+                                {{ $data->updated_at->translatedFormat('d F Y, H:i') }}
                             </p>
 
                         </div>
@@ -482,13 +378,10 @@
                                 <p class="text-xs text-gray-400">
 
                                     Penulis
-
                                 </p>
 
                                 <p class="font-semibold text-gray-800">
-
-                                    Retorika
-
+                                    {{ $data->penulis }}
                                 </p>
 
                             </div>
@@ -506,33 +399,10 @@
                             </span>
 
                             <span class="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                Isu Kampus
-
+                                {{ $data->kategori->nama }}
                             </span>
-
                         </div>
-
-
-                        {{-- Reading Time --}}
-                        <div class="flex items-center justify-between">
-
-                            <span class="text-sm text-gray-500">
-
-                                Waktu Baca
-
-                            </span>
-
-                            <span class="text-sm font-medium text-gray-700">
-
-                                5 menit
-
-                            </span>
-
-                        </div>
-
                     </div>
-
                 </div>
 
 
@@ -540,7 +410,7 @@
                 {{-- SEO Preview --}}
                 {{-- ================================================= --}}
 
-                <div class="rounded-2xl bg-white shadow-sm">
+                {{-- <div class="rounded-2xl bg-white shadow-sm">
 
                     <div class="border-b border-gray-100 px-6 py-5">
 
@@ -598,58 +468,8 @@
 
                     </div>
 
-                </div>
-
-
-                {{-- ================================================= --}}
-                {{-- Actions --}}
-                {{-- ================================================= --}}
-
-                <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                    <h3 class="font-semibold text-gray-900">
-
-                        Aksi
-
-                    </h3>
-
-                    <div class="mt-4 space-y-3">
-
-                        <a href="#"
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 font-semibold text-white transition hover:bg-red-700">
-
-                            <i class="ri-edit-line"></i>
-
-                            Edit Artikel
-
-                        </a>
-
-                        <a href="#"
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-300 px-5 py-3 font-medium text-gray-700 transition hover:bg-gray-50">
-
-                            <i class="ri-external-link-line"></i>
-
-                            Lihat di Website
-
-                        </a>
-
-                        <button type="button"
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3 font-medium text-red-600 transition hover:bg-red-100">
-
-                            <i class="ri-delete-bin-line"></i>
-
-                            Hapus Artikel
-
-                        </button>
-
-                    </div>
-
-                </div>
-
+                </div> --}}
             </div>
-
         </div>
-
     </div>
-
 </x-cms-layout>
