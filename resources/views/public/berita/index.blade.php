@@ -67,8 +67,9 @@
 
                                 {{-- Thumbnail --}}
                                 <div class="overflow-hidden">
-                                    <a href="{{ route('berita.detail') }}">
-                                        <img src="{{ $art->media_asset->getFirstMedia('library')->original_url }}"
+                                    <a
+                                        href="{{ route('berita.show', ['slug' => $art->kategori->slug, 'artikel' => $art->id]) }}">
+                                        <img src="{{ $art->media_asset?->getFirstMedia('library')?->original_url }}"
                                             class="h-full w-full object-cover transition duration-700 group-hover/article:scale-105">
                                     </a>
                                 </div>
@@ -81,7 +82,7 @@
                                         {{ $art->kategori->nama }}
                                     </span>
 
-                                    <a href="{{ route('berita.detail') }}"
+                                    <a href="{{ route('berita.show', ['slug' => $art->kategori->slug, 'artikel' => $art->id]) }}"
                                         class="mt-4 text-2xl font-bold leading-tight transition group-hover/article:text-red-600">
                                         {{ $art->judul }}
                                     </a>
@@ -95,9 +96,13 @@
                                             <i class="ri-calendar-line"></i>
                                             {{ $art->created_at->translatedFormat('d F Y') }}
                                         </span>
+                                        <span class="flex items-center gap-2">
+                                            <i class="ri-time-line"></i>
+                                            Updated {{ $art->updated_at?->diffForHumans() ?? 'Never' }}
+                                        </span>
                                     </div>
 
-                                    <a href="{{ route('berita.detail') }}"
+                                    <a href="{{ route('berita.show', ['slug' => $art->kategori->slug, 'artikel' => $art->id]) }}"
                                         class="group/button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
 
                                         <span>Baca Selengkapnya</span>

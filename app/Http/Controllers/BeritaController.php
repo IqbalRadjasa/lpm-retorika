@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class BeritaController extends Controller
 {
-    public function index($slug = null)
+    public function index($slug)
     {
         // dd($kategori);
         $artikels = Artikel::with(['kategori', 'media_asset.media', 'status'])
@@ -31,18 +31,17 @@ class BeritaController extends Controller
         ));
     }
 
-    public function nasional()
+    public function show($slug, Artikel $artikel)
     {
-        return view('public.berita.nasional');
-    }
+        if ($artikel->kategori->slug !== $slug) {
+            abort(404);
+        }
 
-    public function opini()
-    {
-        return view('public.berita.opini');
-    }
+        $artikel->load(['kategori', 'media_asset.media', 'status']);
 
-    public function detail()
-    {
-        return view('public.berita.detail-berita');
+        return view('public.berita.show', compact(
+            'artikel',
+            'slug'
+        ));
     }
 }

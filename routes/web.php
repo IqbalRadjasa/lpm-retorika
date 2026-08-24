@@ -14,13 +14,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
 // BERITA
-Route::get('/berita/detail', [BeritaController::class, 'detail'])->name('berita.detail');
-// Isu Kampus
 Route::get('/berita/kategori/{slug}', [BeritaController::class, 'index'])->name('berita.index');
-// Nasional
-Route::get('/berita/nasional', [BeritaController::class, 'nasional'])->name('berita.nasional');
-// Opini
-Route::get('/berita/opini', [BeritaController::class, 'opini'])->name('berita.opini');
+// Show
+Route::get('/berita/kategori/{slug}/{artikel}/show', [BeritaController::class, 'show'])->name('berita.show');
 
 // PODCAST
 Route::get('/podcast', function () {
