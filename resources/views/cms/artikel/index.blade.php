@@ -228,7 +228,7 @@
 
                                 <div class="flex flex-wrap gap-3">
 
-                                    <a href="{{ route('cms.artikel.show') }}"
+                                    <a href="{{ route('cms.artikel.show', $art->id) }}"
                                         class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-100">
 
                                         <i class="ri-eye-line"></i>
@@ -242,12 +242,18 @@
 
                                     </button>
 
-                                    <button
-                                        class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-200 text-red-600 transition hover:bg-red-50">
 
-                                        <i class="ri-delete-bin-line"></i>
+                                    <form action="{{ route('cms.artikel.destroy', $art->id) }}" method="POST"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-200 text-red-600 transition hover:bg-red-50">
 
-                                    </button>
+                                            <i class="ri-delete-bin-line"></i>
+
+                                        </button>
+                                    </form>
 
                                 </div>
 

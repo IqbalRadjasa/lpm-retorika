@@ -62,21 +62,7 @@ Route::get('/cms/dashboard', function () {
     return view('cms.dashboard');
 })->name('cms.dashboard');
 
-// ARTIKEL
-Route::get('/cms/artikel', [ArtikelController::class, 'index'])->name('cms.artikel.index');
-// Create
-Route::get('/cms/artikel/create', [ArtikelController::class, 'create'])->name('cms.artikel.create');
-// Store
-Route::post('/cms/artikel/store', [ArtikelController::class, 'store'])->name('cms.artikel.store');
 
-// // Edit
-// Route::get('/cms/artikel/{article}/edit', function () {
-//     return view('cms.artikel.form');
-// })->name('cms.artikel.edit');
-// Show
-Route::get('/cms/artikel/show', function () {
-    return view('cms.artikel.show');
-})->name('cms.artikel.show');
 
 // PUBLIKASI
 Route::get('/cms/publikasi', function () {
@@ -100,8 +86,12 @@ Route::get('/cms/mading/edit', function () {
     return view('cms.mading.edit');
 })->name('cms.mading.edit');
 
-// MEDIA
 Route::prefix('cms')->name('cms.')->group(function () {
+
+    // ARTIKEL
+    Route::resource('artikel', ArtikelController::class);
+
+    // MEDIA
     Route::post('media/finalize', [MediaController::class, 'finalize'])
         ->name('media.finalize');
 

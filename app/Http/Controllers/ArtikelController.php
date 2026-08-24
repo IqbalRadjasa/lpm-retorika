@@ -120,13 +120,13 @@ class ArtikelController extends Controller
 
             return redirect()
                 ->route('cms.artikel.index')
-                ->with('success', 'Artikel berhasil dibuat!');
+                ->with('success', 'Data berhasil dibuat!');
         } catch (\Exception $e) {
             // dd($e);
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Failed to create data!');
+                ->with('error', 'Gagal menyimpan data!');
         }
     }
 
@@ -157,8 +157,18 @@ class ArtikelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Artikel $artikel)
     {
-        //
+        try {
+            $artikel->delete();
+
+            return redirect()
+                ->route('cms.artikel.index')
+                ->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $th) {
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus data!');
+        }
     }
 }
