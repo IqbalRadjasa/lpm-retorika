@@ -28,4 +28,9 @@ class MediaAsset extends Model implements HasMedia
     {
         return $this->hasMany(Artikel::class);
     }
+
+    public function publikasis()
+    {
+        return $this->hasMany(Publikasi::class);
+    }
 }
