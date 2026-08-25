@@ -122,7 +122,7 @@
                         </span>
 
                         <p
-                            class="mt-4 sm:text-lg md:text-2xl lg:text-4xl font-bold leading-tight max-w-3xl transition group-hover/beritaUtama:text-red-600">
+                            class="mt-4 sm:text-lg md:text-2xl lg:text-4xl font-bold leading-tight max-w-3xl transition group-hover/beritaUtama:text-red-400">
                             <a
                                 href="{{ route('berita.show', ['slug' => $beritaUtama->kategori->slug, 'artikel' => $beritaUtama->id]) }}">
                                 {{ $beritaUtama->judul }}
@@ -176,7 +176,7 @@
                                 </span>
 
                                 <div class="absolute bottom-4 left-4 right-4 text-white">
-                                    <h3 class="font-bold leading-6 group-hover/beritaLainnya:text-red-600">
+                                    <h3 class="font-bold leading-6 group-hover/beritaLainnya:text-red-400">
                                         <a
                                             href="{{ route('berita.show', ['slug' => $bl->kategori->slug, 'artikel' => $bl->id]) }}">
                                             {{ $bl->judul }}
@@ -633,7 +633,7 @@
 
                 </div>
 
-                <a href="#"
+                <a href="{{ route('berita.index', 'isu-kampus') }}"
                     class="relative z-10
                     group inline-flex items-center gap-2
                     rounded-full
@@ -667,7 +667,7 @@
                     <article
                         class="group lg:col-span-2 relative overflow-hidden rounded-3xl h-[280px] sm:h-[340px] lg:h-[450px]">
 
-                        <img src="https://picsum.photos/900/600?random=1"
+                        <img src="{{ $beritaTerbaru->media_asset?->getFirstMedia('library')?->original_url }}"
                             class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-105">
 
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
@@ -682,26 +682,26 @@
                             </span>
 
                             <h3
-                                class="mt-4 text-xl sm:text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-300 transition">
+                                class="mt-4 text-xl sm:text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-400 transition">
 
-                                Judul artikel terbaru paling utama
+                                <a
+                                    href="{{ route('berita.show', ['slug' => $beritaUtama->kategori->slug, 'artikel' => $beritaUtama->id]) }}">
+                                    {{ $beritaTerbaru->judul }}
+                                </a>
 
                             </h3>
 
                             <p class="hidden lg:block mt-4 max-w-xl text-gray-200">
-
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Dolore, asperiores. Quasi magni sapiente aspernatur.
-
+                                {{ $beritaTerbaru->ringkasan }}
                             </p>
 
                             <div class="mt-5 flex flex-wrap gap-3 text-sm text-gray-300">
 
-                                <span>14 Juli 2026</span>
-
+                                <span>{{ $beritaTerbaru->created_at->translatedFormat('d F Y') }}</span>
                                 <span>•</span>
-
-                                <span>5 min read</span>
+                                <span>
+                                    Updated {{ $beritaTerbaru->updated_at?->diffForHumans() ?? 'Never' }}
+                                </span>
 
                             </div>
 
@@ -712,34 +712,39 @@
                     {{-- Secondary Articles --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
 
-                        @foreach (range(2, 3) as $item)
+                        @foreach ($secondaryBerita as $sb)
                             <article
                                 class="group flex gap-4 rounded-2xl border border-gray-200 p-4 hover:shadow-lg transition">
 
-                                <img src="https://picsum.photos/240/180?random={{ $item }}"
-                                    class="w-28 sm:w-32 lg:w-36 self-stretch rounded-xl object-cover shrink-0">
+                                <a
+                                    href="{{ route('berita.show', ['slug' => $sb->kategori->slug, 'artikel' => $sb->id]) }}">
+                                    <img src="{{ $sb->media_asset?->getFirstMedia('library')?->original_url }}"
+                                        class="w-28 sm:w-32 lg:w-36 self-stretch rounded-xl object-cover shrink-0">
+                                </a>
 
                                 <div class="flex flex-1 flex-col min-w-0">
 
                                     <span class="text-xs font-semibold uppercase text-red-600">
-                                        Berita
+                                        {{ $sb->kategori->nama }}
                                     </span>
 
                                     <h4
                                         class="mt-2 text-base lg:text-lg font-bold leading-6 group-hover:text-red-600 transition">
 
-                                        Judul artikel terbaru ke {{ $item }}
+                                        <a
+                                            href="{{ route('berita.show', ['slug' => $sb->kategori->slug, 'artikel' => $sb->id]) }}">
+                                            {{ $sb->judul }}
+                                        </a>
 
                                     </h4>
 
-                                    <div
-                                        class="mt-3 flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 text-sm text-gray-400">
+                                    <div class="mt-3 flex flex-col gap-2 text-sm text-gray-400">
 
-                                        <span>14 Jul 2026</span>
+                                        <span>{{ $sb->created_at->translatedFormat('d F Y') }}</span>
 
                                         <span class="flex items-center gap-1">
                                             <i class="ri-time-line"></i>
-                                            5 min
+                                            Updated {{ $sb->updated_at?->diffForHumans() ?? 'Never' }}
                                         </span>
 
                                     </div>
@@ -759,15 +764,16 @@
 
                 <div class="hidden xl:grid xl:grid-cols-3 gap-6">
 
-                    @foreach (range(4, 6) as $item)
+                    @foreach ($remainingBerita as $rb)
                         <article
                             class="group rounded-2xl overflow-hidden border border-gray-200 bg-white hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
 
                             <div class="overflow-hidden">
-
-                                <img src="https://picsum.photos/500/350?random={{ $item }}"
-                                    class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105">
-
+                                <a
+                                    href="{{ route('berita.show', ['slug' => $rb->kategori->slug, 'artikel' => $rb->id]) }}">
+                                    <img src="{{ $rb->media_asset?->getFirstMedia('library')?->original_url }}"
+                                        class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105">
+                                </a>
                             </div>
 
                             <div class="p-5">
@@ -777,27 +783,25 @@
                                 </span>
 
                                 <h3 class="mt-2 text-lg font-bold leading-7 group-hover:text-red-600 transition">
-                                    Judul artikel terbaru ke {{ $item }}
+                                    <a
+                                        href="{{ route('berita.show', ['slug' => $rb->kategori->slug, 'artikel' => $rb->id]) }}">
+                                        {{ $rb->judul }}
+                                    </a>
                                 </h3>
 
                                 <p class="mt-3 text-sm text-gray-500 line-clamp-2">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Dolorem, magni.
+                                    {{ $rb->ringkasan }}
                                 </p>
 
                                 <div class="mt-5 flex items-center justify-between text-sm text-gray-400">
-
-                                    <span>14 Jul 2026</span>
+                                    <span>{{ $sb->created_at->translatedFormat('d F Y') }}</span>
 
                                     <span class="flex items-center gap-1">
                                         <i class="ri-time-line"></i>
-                                        5 min
+                                        Updated {{ $sb->updated_at?->diffForHumans() ?? 'Never' }}
                                     </span>
-
                                 </div>
-
                             </div>
-
                         </article>
                     @endforeach
 
@@ -815,368 +819,144 @@
                 {{-- ================================================= --}}
                 {{-- ISU KAMPUS --}}
                 {{-- ================================================= --}}
-                <div class="space-y-6">
+                @foreach ($beritaPerKategori as $slug => $data)
+                    <div class="space-y-6">
+                        <article
+                            class="group overflow-hidden rounded-3xl border border-gray-200 bg-white hover:shadow-xl transition">
 
-                    {{-- Featured Campus News --}}
-                    <article
-                        class="group overflow-hidden rounded-3xl border border-gray-200 bg-white hover:shadow-xl transition">
-
-                        <div class="overflow-hidden">
-
-                            <img src="https://picsum.photos/700/450?random=100"
-                                class="aspect-[16/10] lg:aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105">
-
-                        </div>
-
-                        <div class="p-5 lg:p-6">
-
-                            <span
-                                class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                Isu Kampus
-
-                            </span>
-
-                            <h3
-                                class="mt-4 text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-600 transition">
-
-                                Mahasiswa Menggelar Aksi Lingkungan Hidup di Kampus
-
-                            </h3>
-
-                            <p class="hidden sm:block mt-4 text-gray-500 leading-7">
-
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Dolorem molestiae laboriosam expedita asperiores.
-
-                            </p>
-
-                            <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-gray-400">
-
-                                <span>18 Juli 2026</span>
-
-                                <span class="hidden sm:inline">•</span>
-
-                                <span>5 min read</span>
-
+                            <div class="overflow-hidden">
+                                <a
+                                    href="{{ route('berita.show', ['slug' => $slug, 'artikel' => $data['parent']->id]) }}">
+                                    <img src="{{ $data['parent']->media_asset?->getFirstMedia('library')?->original_url }}"
+                                        class="aspect-[16/10] lg:aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105">
+                                </a>
                             </div>
 
-                        </div>
+                            <div class="p-5 lg:p-6">
 
-                    </article>
+                                <span
+                                    class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                                    {{ $data['parent']->kategori->nama }}
+                                </span>
 
-                    {{-- Editorial List --}}
-                    <div
-                        class="relative rounded-3xl border border-gray-100 bg-white p-4 lg:p-6 overflow-hidden shadow-sm">
+                                <h3
+                                    class="mt-4 text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-600 transition">
+                                    <a
+                                        href="{{ route('berita.show', ['slug' => $slug, 'artikel' => $data['parent']->id]) }}">
+                                        {{ $data['parent']->judul }}
+                                    </a>
+                                </h3>
 
-                        {{-- Background Decoration --}}
-                        <i
-                            class="ri-graduation-cap-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
-                        </i>
+                                <p class="hidden sm:block mt-4 text-gray-500 leading-7">
+                                    {{ $data['parent']->ringkasan }}
+                                </p>
 
-                        <div class="relative divide-y divide-gray-200">
+                                <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-gray-400">
 
-                            @foreach (range(1, 4) as $item)
-                                <article
-                                    class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
+                                    <span>{{ $data['parent']->created_at->translatedFormat('d F Y') }}</span>
 
-                                    <span
-                                        class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
+                                    <span class="hidden sm:inline">•</span>
 
-                                        {{ sprintf('%02d', $item) }}
-
+                                    <span>
+                                        Updated {{ $data['parent']->updated_at?->diffForHumans() ?? 'Never' }}
                                     </span>
 
-                                    <div class="flex-1 min-w-0">
+                                </div>
 
+                            </div>
+
+                        </article>
+
+                        {{-- Editorial List --}}
+                        <div
+                            class="relative rounded-3xl border border-gray-100 bg-white p-4 lg:p-6 overflow-hidden shadow-sm">
+
+                            {{-- Background Decoration --}}
+                            @switch($slug)
+                                @case('isu-kampus')
+                                    <i
+                                        class="ri-graduation-cap-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
+                                    </i>
+                                @break
+
+                                @case('nasional')
+                                    <i
+                                        class="ri-flag-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
+                                    </i>
+                                @break
+
+                                @case('opini')
+                                    <i
+                                        class="ri-user-voice-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
+                                    </i>
+                                @break
+                            @endswitch
+
+                            <div class="relative divide-y divide-gray-200">
+                                @forelse ($data['sub_parent'] as $sub)
+                                    <a href="{{ route('berita.show', ['slug' => $slug, 'artikel' => $sub->id]) }}">
+                                        <article
+                                            class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
+
+                                            <span
+                                                class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
+
+                                                {{ sprintf('%02d', $loop->iteration) }}
+
+                                            </span>
+
+                                            <div class="flex-1 min-w-0">
+
+                                                <h4
+                                                    class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
+                                                    {{ $sub->judul }}
+                                                </h4>
+
+                                                <div
+                                                    class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
+
+                                                    <i class="ri-calendar-line"></i>
+
+                                                    <span>{{ $sub->created_at->translatedFormat('d F Y') }}</span>
+
+                                                </div>
+
+                                            </div>
+
+                                            <i
+                                                class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition">
+                                            </i>
+
+                                        </article>
+                                    </a>
+                                @empty
+                                    <div class="flex flex-col text-gray-400 justify-center items-center">
                                         <h4
-                                            class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
-
-                                            Judul berita kampus {{ $item }}
-
+                                            class="text-base lg:text-md font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition italic">
+                                            Belum ada berita lainnya di kategori ini.
                                         </h4>
-
-                                        <div class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
-
-                                            <i class="ri-calendar-line"></i>
-
-                                            <span>18 Juli 2026</span>
-
-                                        </div>
-
                                     </div>
+                                @endforelse
 
-                                    <i
-                                        class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition">
-                                    </i>
+                                <div class="pt-5">
 
-                                </article>
-                            @endforeach
+                                    <a href="{{ route('berita.index', $slug) }}"
+                                        class="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
 
-                            <div class="pt-5">
+                                        <span>Lihat Semua</span>
 
-                                <a href="#"
-                                    class="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
+                                        <i
+                                            class="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-1">
+                                        </i>
 
-                                    <span>Lihat Semua</span>
+                                    </a>
 
-                                    <i
-                                        class="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-1">
-                                    </i>
-
-                                </a>
-
+                                </div>
                             </div>
 
                         </div>
-
                     </div>
-                </div>
-
-                {{-- ================================================= --}}
-                {{-- NASIONAL --}}
-                {{-- ================================================= --}}
-                <div class="space-y-6">
-
-                    {{-- Featured National News --}}
-                    <article
-                        class="group overflow-hidden rounded-3xl border border-gray-200 bg-white hover:shadow-xl transition">
-
-                        <div class="overflow-hidden">
-
-                            <img src="https://picsum.photos/700/450?random=200"
-                                class="aspect-[16/10] lg:aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105">
-
-                        </div>
-
-                        <div class="p-5 lg:p-6">
-
-                            <span
-                                class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                Nasional
-
-                            </span>
-
-                            <h3
-                                class="mt-4 text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-600 transition">
-
-                                Pemerintah Umumkan Kebijakan Pendidikan Baru
-
-                            </h3>
-
-                            <p class="hidden sm:block mt-4 text-gray-500 leading-7">
-
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Dolorem molestiae laboriosam expedita asperiores.
-
-                            </p>
-
-                            <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-gray-400">
-
-                                <span>18 Juli 2026</span>
-
-                                <span class="hidden sm:inline">•</span>
-
-                                <span>5 min read</span>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                    {{-- Editorial List --}}
-                    <div
-                        class="relative rounded-3xl border border-gray-100 bg-white p-4 lg:p-6 overflow-hidden shadow-sm">
-
-                        {{-- Background Decoration --}}
-                        <i
-                            class="ri-flag-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
-                        </i>
-
-                        <div class="relative divide-y divide-gray-200">
-
-                            @foreach (range(1, 4) as $item)
-                                <article
-                                    class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
-
-                                    <span
-                                        class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
-
-                                        {{ sprintf('%02d', $item) }}
-
-                                    </span>
-
-                                    <div class="flex-1 min-w-0">
-
-                                        <h4
-                                            class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
-
-                                            Judul berita nasional {{ $item }}
-
-                                        </h4>
-
-                                        <div class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
-
-                                            <i class="ri-calendar-line"></i>
-
-                                            <span>18 Juli 2026</span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <i
-                                        class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition">
-                                    </i>
-
-                                </article>
-                            @endforeach
-
-                            <div class="pt-5">
-
-                                <a href="#"
-                                    class="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
-
-                                    <span>Lihat Semua</span>
-
-                                    <i
-                                        class="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-1">
-                                    </i>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- ================================================= --}}
-                {{-- Opini --}}
-                {{-- ================================================= --}}
-                <div class="space-y-6">
-
-                    {{-- Featured Opini News --}}
-                    <article
-                        class="group overflow-hidden rounded-3xl border border-gray-200 bg-white hover:shadow-xl transition">
-
-                        <div class="overflow-hidden">
-
-                            <img src="https://picsum.photos/700/450?random=200"
-                                class="aspect-[16/10] lg:aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105">
-
-                        </div>
-
-                        <div class="p-5 lg:p-6">
-
-                            <span
-                                class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                Opini
-
-                            </span>
-
-                            <h3
-                                class="mt-4 text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-600 transition">
-
-                                Opini Pemerintah
-
-                            </h3>
-
-                            <p class="hidden sm:block mt-4 text-gray-500 leading-7">
-
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Dolorem molestiae laboriosam expedita asperiores.
-
-                            </p>
-
-                            <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-gray-400">
-
-                                <span>18 Juli 2026</span>
-
-                                <span class="hidden sm:inline">•</span>
-
-                                <span>5 min read</span>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                    {{-- Editorial List --}}
-                    <div
-                        class="relative rounded-3xl border border-gray-100 bg-white p-4 lg:p-6 overflow-hidden shadow-sm">
-
-                        {{-- Background Decoration --}}
-                        <i
-                            class="ri-user-voice-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
-                        </i>
-
-                        <div class="relative divide-y divide-gray-200">
-
-                            @foreach (range(1, 4) as $item)
-                                <article
-                                    class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
-
-                                    <span
-                                        class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
-
-                                        {{ sprintf('%02d', $item) }}
-
-                                    </span>
-
-                                    <div class="flex-1 min-w-0">
-
-                                        <h4
-                                            class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
-
-                                            Judul berita opini {{ $item }}
-
-                                        </h4>
-
-                                        <div class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
-
-                                            <i class="ri-calendar-line"></i>
-
-                                            <span>18 Juli 2026</span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <i
-                                        class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition">
-                                    </i>
-
-                                </article>
-                            @endforeach
-
-                            <div class="pt-5">
-
-                                <a href="#"
-                                    class="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
-
-                                    <span>Lihat Semua</span>
-
-                                    <i
-                                        class="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-1">
-                                    </i>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                @endforeach
             </div>
         </section>
 
