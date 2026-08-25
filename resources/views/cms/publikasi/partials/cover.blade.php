@@ -10,13 +10,13 @@
 
             <h2 class="text-lg font-semibold text-gray-900">
 
-                Thumbnail
+                Cover
 
             </h2>
 
             <p class="mt-1 text-sm text-gray-500">
 
-                Pilih gambar utama yang akan mewakili publikasi.
+                Pilih cover yang akan mewakili publikasi.
 
             </p>
 
@@ -59,14 +59,14 @@
 
                 <h3 class="mt-5 text-lg font-semibold text-gray-900">
 
-                    Belum ada thumbnail
+                    Belum ada cover
 
                 </h3>
 
                 <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
 
                     Pilih gambar dari Media Library untuk digunakan
-                    sebagai thumbnail publikasi.
+                    sebagai cover publikasi.
 
                 </p>
 
@@ -184,7 +184,7 @@
         {{-- Hidden Input --}}
         {{-- ================================================= --}}
 
-        <input type="hidden" name="thumbnail_id" :value="selectedMedia ? selectedMedia.id : ''">
+        <input type="hidden" name="cover_id" :value="selectedMedia ? selectedMedia.id : ''">
 
 
         {{-- ================================================= --}}

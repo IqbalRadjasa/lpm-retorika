@@ -82,9 +82,9 @@ Route::prefix('cms')->name('cms.')->group(function () {
 });
 
 // PUBLIKASI
-Route::get('/cms/publikasi', function () {
-    return view('cms.publikasi.index');
-})->name('cms.publikasi.index');
+// Route::get('/cms/publikasi', function () {
+//     return view('cms.publikasi.index');
+// })->name('cms.publikasi.index');
 //  Create
 // Route::get('/cms/publikasi/form', function () {
 //     return view('cms.publikasi.form');

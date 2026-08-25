@@ -100,8 +100,7 @@
 
                     <p class="mt-1 text-sm leading-6 text-blue-700">
 
-                        Pastikan judul, kategori, thumbnail,
-                        dan isi artikel sudah diperiksa.
+                        Pastikan cover, dokumen dan seluruh informasi sudah diperiksa.
 
                     </p>
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('status_id')->constrained('status');
             $table->foreignId('kategori_id')->constrained('kategori');
-            $table->foreignId('thumbnail_id')->constrained('media_assets');
+            $table->foreignId('cover_id')->constrained('media_assets');
             $table->foreignId('doc_id')->constrained('media_assets');
             $table->string('judul');
             $table->string('edisi_or_vol')->nullable();

@@ -11,7 +11,7 @@ class Publikasi extends Model
     protected $fillable = [
         'status_id',
         'kategori_id',
-        'thumbnail_id',
+        'cover_id',
         'doc_id',
         'judul',
         'edisi_or_vol',
@@ -23,9 +23,9 @@ class Publikasi extends Model
         return $this->belongsTo(Kategori::class);
     }
 
-    public function thumbnail_asset()
+    public function cover_asset()
     {
-        return $this->belongsTo(MediaAsset::class, 'thumbnail_id');
+        return $this->belongsTo(MediaAsset::class, 'cover_id');
     }
 
     public function doc_asset()
