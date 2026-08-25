@@ -2,9 +2,7 @@
 {{-- File Publikasi --}}
 {{-- ================================================= --}}
 
-<div
-    x-data="publicationFileUploader()"
-    class="overflow-hidden rounded-2xl bg-white shadow-sm">
+<div x-data='mediaSelector("document")' class="overflow-hidden rounded-2xl bg-white shadow-sm">
 
     {{-- ================================================= --}}
     {{-- Header --}}
@@ -28,8 +26,7 @@
 
         </div>
 
-        <div
-            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
 
             <i class="ri-file-pdf-2-line text-xl"></i>
 
@@ -44,197 +41,156 @@
 
     <div class="p-6">
 
-        {{-- ========================================= --}}
-        {{-- File Input --}}
-        {{-- ========================================= --}}
+        {{-- ================================================= --}}
+        {{-- No Media Selected --}}
+        {{-- ================================================= --}}
 
-        <input
-            x-ref="input"
-            type="file"
-            name="file"
-            accept="application/pdf"
-            class="hidden"
-            @change="selectFile">
+        <template x-if="!selectedMedia">
 
+            <div
+                class="rounded-2xl border-2 border-dashed border-gray-300
+                       bg-gray-50 p-8 text-center">
 
-        {{-- ========================================= --}}
-        {{-- Upload Area --}}
-        {{-- ========================================= --}}
+                <div
+                    class="mx-auto flex h-16 w-16 items-center
+                           justify-center rounded-2xl bg-white shadow-sm">
 
-        <div
-            @click="$refs.input.click()"
-            @dragover.prevent
-            @drop.prevent="dropFile"
-            class="cursor-pointer rounded-2xl border-2 border-dashed border-gray-300
-                   p-8 text-center transition
-                   hover:border-red-400 hover:bg-red-50">
+                    <i class="ri-file-pdf-2-line text-3xl text-red-500">
+                    </i>
 
+                </div>
 
-            {{-- ========================================= --}}
-            {{-- Empty State --}}
-            {{-- ========================================= --}}
+                <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                    Upload File Publikasi
+                </h3>
 
-            <template x-if="!file">
+                <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
+                    Drag & drop file PDF ke sini
+                    atau klik untuk memilih.
+                </p>
 
-                <div>
+                <button type="button" @click="openMediaLibrary"
+                    class="mt-6 inline-flex items-center gap-2
+                           rounded-xl bg-red-600 px-5 py-3
+                           font-medium text-white
+                           transition hover:bg-red-700">
 
-                    <div
-                        class="mx-auto flex h-16 w-16 items-center justify-center
-                               rounded-2xl bg-red-50">
+                    <i class="ri-image-add-line"></i>
 
-                        <i
-                            class="ri-file-pdf-2-line text-3xl text-red-500">
-                        </i>
+                    Pilih dari Media
 
-                    </div>
+                </button>
 
+            </div>
 
-                    <h3 class="mt-5 text-lg font-semibold text-gray-900">
-
-                        Upload File Publikasi
-
-                    </h3>
+        </template>
 
 
-                    <p class="mt-2 text-sm leading-6 text-gray-500">
+        {{-- ================================================= --}}
+        {{-- Selected Media --}}
+        {{-- ================================================= --}}
+        <template x-if="selectedMedia">
 
-                        Drag & drop file PDF ke sini
-                        atau klik untuk memilih.
+            <div>
 
-                    </p>
+                {{-- Preview --}}
+                <div class="text-center">
 
+                    <i class="ri-file-pdf-2-line text-[50px] text-red-600">
+                    </i>
 
-                    <p class="mt-3 text-xs text-gray-400">
-
-                        PDF • Maks. 20 MB
-
+                    <p class="text-sm font-semibold text-red-600">
+                        PDF
                     </p>
 
                 </div>
 
-            </template>
 
-
-            {{-- ========================================= --}}
-            {{-- File Selected --}}
-            {{-- ========================================= --}}
-
-            <template x-if="file">
-
-                <div>
+                {{-- Media Information --}}
+                <div class="mt-4">
 
                     <div
-                        class="mx-auto flex h-20 w-20 items-center justify-center
-                               rounded-2xl bg-red-50">
+                        class="flex flex-col gap-4
+                               sm:flex-row sm:items-start
+                               sm:justify-between">
 
-                        <i
-                            class="ri-file-pdf-2-line text-4xl text-red-500">
-                        </i>
+                        <div class="min-w-0">
+
+                            <p class="truncate font-semibold text-gray-900" x-text="selectedMedia.name">
+                            </p>
+
+                            <p class="mt-1 text-sm text-gray-500">
+
+                                <span x-text="selectedMedia.extension || 'FILE'"></span>
+
+                                <span class="mx-1 text-gray-300">
+                                    •
+                                </span>
+
+                                <span x-text="selectedMedia.size"></span>
+
+                            </p>
+
+                        </div>
+
+                        <span
+                            class="inline-flex shrink-0 items-center gap-2
+                                   rounded-full bg-green-50 px-3 py-1.5
+                                   text-xs font-medium text-green-700">
+
+                            <i class="ri-checkbox-circle-line"></i>
+
+                            Dipilih
+
+                        </span>
 
                     </div>
 
-
-                    <h4
-                        class="mx-auto mt-5 max-w-md truncate
-                               font-semibold text-gray-900"
-                        x-text="file.name">
-                    </h4>
-
-
-                    <p
-                        class="mt-2 text-sm text-gray-500"
-                        x-text="formatSize(file.size)">
-                    </p>
-
-
-                    <p class="mt-3 text-xs text-gray-400">
-
-                        Klik untuk mengganti file.
-
-                    </p>
-
                 </div>
 
-            </template>
 
-        </div>
+                {{-- Actions --}}
+                <div class="mt-5 flex flex-col gap-3 sm:flex-row">
 
+                    <button type="button" @click="openMediaLibrary"
+                        class="inline-flex items-center justify-center
+                               gap-2 rounded-xl border border-gray-300
+                               bg-white px-4 py-2.5 text-sm font-medium
+                               text-gray-700 transition hover:bg-gray-50">
 
-        {{-- ========================================= --}}
-        {{-- File Actions --}}
-        {{-- ========================================= --}}
+                        <i class="ri-image-edit-line"></i>
 
-        <div
-            x-show="file"
-            x-cloak
-            class="mt-5 flex flex-wrap gap-3">
+                        Ganti Dokumen
 
-            <button
-                type="button"
-                @click="$refs.input.click()"
-                class="inline-flex items-center gap-2 rounded-xl
-                       border border-gray-300 px-4 py-2
-                       text-sm font-medium text-gray-700
-                       transition hover:bg-gray-100">
+                    </button>
 
-                <i class="ri-refresh-line"></i>
+                    <button type="button" @click="removeMedia"
+                        class="inline-flex items-center justify-center
+                               gap-2 rounded-xl border border-red-200
+                               bg-red-50 px-4 py-2.5 text-sm font-medium
+                               text-red-600 transition hover:bg-red-100">
 
-                Ganti File
+                        <i class="ri-delete-bin-line"></i>
 
-            </button>
+                        Hapus
 
-
-            <button
-                type="button"
-                @click="removeFile"
-                class="inline-flex items-center gap-2 rounded-xl
-                       border border-red-200 bg-red-50 px-4 py-2
-                       text-sm font-medium text-red-600
-                       transition hover:bg-red-100">
-
-                <i class="ri-delete-bin-line"></i>
-
-                Hapus
-
-            </button>
-
-        </div>
-
-
-        {{-- ========================================= --}}
-        {{-- Information --}}
-        {{-- ========================================= --}}
-
-        <div class="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4">
-
-            <div class="flex items-start gap-3">
-
-                <i
-                    class="ri-information-line mt-0.5 text-lg text-blue-500">
-                </i>
-
-                <div>
-
-                    <p class="text-sm font-medium text-blue-900">
-
-                        Tentang File Publikasi
-
-                    </p>
-
-                    <p class="mt-1 text-sm leading-6 text-blue-700">
-
-                        File PDF ini akan digunakan sebagai sumber
-                        untuk menampilkan publikasi dalam bentuk
-                        flipbook pada halaman publik.
-
-                    </p>
+                    </button>
 
                 </div>
 
             </div>
 
-        </div>
+        </template>
 
+
+        {{-- ================================================= --}}
+        {{-- Hidden Input --}}
+        {{-- ================================================= --}}
+
+        <input type="hidden" name="doc_id" :value="selectedMedia ? selectedMedia.id : ''">
     </div>
 
+
+    {{-- Media Picker --}}
+    @include('components.cms.media-picker')
 </div>

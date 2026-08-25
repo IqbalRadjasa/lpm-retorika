@@ -45,6 +45,47 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
         totalBytes: 0,
         uploadStatus: "",
 
+        formatMimeType(mimeType = "", uppercase = true) {
+            if (typeof mimeType !== "string" || !mimeType) return "";
+
+            // Mengambil bagian setelah tanda garis miring (/)
+            let ext = mimeType.split("/")[1] || mimeType;
+
+            // Pembersihan khusus untuk MIME type umum
+            switch (ext.toLowerCase()) {
+                case "jpeg":
+                    ext = "jpg";
+                    break;
+                case "svg+xml":
+                    ext = "svg";
+                    break;
+                case "vnd.openxmlformats-officedocument.wordprocessingml.document":
+                    ext = "docx";
+                    break;
+                case "msword":
+                    ext = "doc";
+                    break;
+                case "plain":
+                    ext = "txt";
+                    break;
+            }
+
+            return uppercase ? ext.toUpperCase() : ext.toLowerCase();
+        },
+
+        formatFileSize(bytes) {
+            if (bytes === 0) return "0 Bytes";
+
+            const units = ["Bytes", "KB", "MB", "GB"];
+            const index = Math.floor(Math.log(bytes) / Math.log(1024));
+
+            return (
+                parseFloat((bytes / Math.pow(1024, index)).toFixed(2)) +
+                " " +
+                units[index]
+            );
+        },
+
         async loadMedia(page = 1) {
             this.loading = true;
 
@@ -328,8 +369,6 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                 });
 
                 const data = await finalizeResponse.json();
-                console.log("wlawaer");
-                console.log(data);
 
                 if (!finalizeResponse.ok) {
                     throw new Error(
@@ -344,7 +383,8 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                     id: data.media.id,
                     name: data.media.name,
                     url: data.media.original_url,
-                    mime_type: data.media.mime_type,
+                    extension: this.formatMimeType(data.media.mime_type),
+                    size: this.formatFileSize(data.media.size),
                 };
 
                 /*
@@ -368,7 +408,6 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                      * Automatically confirm selection
                      */
 
-                    console.log(newMedia);
                     this.selectedMedia = newMedia;
                     this.mediaPickerOpen = false;
                     this.pendingMedia = null;
@@ -382,19 +421,6 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
             } finally {
                 this.uploading = false;
             }
-        },
-
-        formatFileSize(bytes) {
-            if (bytes === 0) return "0 Bytes";
-
-            const units = ["Bytes", "KB", "MB", "GB"];
-            const index = Math.floor(Math.log(bytes) / Math.log(1024));
-
-            return (
-                parseFloat((bytes / Math.pow(1024, index)).toFixed(2)) +
-                " " +
-                units[index]
-            );
         },
 
         openMediaLibrary() {

@@ -1,33 +1,31 @@
 <x-cms-layout>
 
-    <div class="space-y-8 py-6" x-data='mediaSelector("gambar")'>
+    <div class="space-y-8 py-6">
 
         {{-- ================================================= --}}
         {{-- Header --}}
         {{-- ================================================= --}}
-
 
         <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
-                    Tambah Artikel
+                    Tambah Publikasi
 
                 </h1>
 
                 <p class="mt-2 text-gray-500">
 
-                    Tulis dan publikasikan artikel baru.
+                    Tambahkan majalah, tabloid, atau buletin baru.
 
                 </p>
             </div>
 
-            <x-link-button.secondary-link :href="route('cms.artikel.index')" icon="ri-arrow-left-line">
+            <x-link-button.secondary-link :href="route('cms.publikasi.index')" icon="ri-arrow-left-line">
                 Kembali
             </x-link-button.secondary-link>
         </div>
-
 
         @if (session('success'))
             <div
@@ -52,13 +50,10 @@
         {{-- ================================================= --}}
         {{-- Form --}}
         {{-- ================================================= --}}
-        @include('cms.artikel.partials.form', [
+        @include('cms.publikasi.partials.form', [
             'mode' => 'create',
         ])
 
-
-        {{-- Media Picker --}}
-        @include('components.cms.media-picker')
     </div>
 
 </x-cms-layout>

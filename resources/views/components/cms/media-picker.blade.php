@@ -115,7 +115,7 @@
                     <div class="flex flex-wrap gap-2">
 
                         {{-- Filter Sort --}}
-                        <select name="sort" x-model="mediaSort" @change="loadMedia(1)"
+                        <select x-model="mediaSort" @change="loadMedia(1)"
                             class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500 sm:w-40">
                             <option value="">Terbaru</option>
                             <option value="oldest">Terlama</option>

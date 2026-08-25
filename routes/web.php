@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\MadingController;
 use App\Http\Controllers\MajalahController;
@@ -7,7 +8,8 @@ use App\Http\Controllers\TabloidController;
 use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ArtikelController;
-use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PublikasiController;
+
 use Illuminate\Support\Facades\Route;
 
 // Beranda
@@ -53,36 +55,12 @@ Route::get('/tentang-kami', function () {
 
 
 // CMS
-// DASHBOARD
-Route::get('/cms/dashboard', function () {
-    return view('cms.dashboard');
-})->name('cms.dashboard');
-
-
-
-// PUBLIKASI
-Route::get('/cms/publikasi', function () {
-    return view('cms.publikasi.index');
-})->name('cms.publikasi.index');
-//  Create
-Route::get('/cms/publikasi/form', function () {
-    return view('cms.publikasi.form');
-})->name('cms.publikasi.form');
-//  Show
-Route::get('/cms/publikasi/show', function () {
-    return view('cms.publikasi.show');
-})->name('cms.publikasi.show');
-
-// MADING
-Route::get('/cms/mading', function () {
-    return view('cms.mading.index');
-})->name('cms.mading.index');
-// Edit
-Route::get('/cms/mading/edit', function () {
-    return view('cms.mading.edit');
-})->name('cms.mading.edit');
-
 Route::prefix('cms')->name('cms.')->group(function () {
+
+    // DASHBOARD
+    Route::get('/dashboard', function () {
+        return view('cms.dashboard');
+    })->name('dashboard');
 
     // ARTIKEL
     Route::resource('artikel', ArtikelController::class);
@@ -98,10 +76,33 @@ Route::prefix('cms')->name('cms.')->group(function () {
         ->parameters([
             'media' => 'asset',
         ]);
+
+    // PUBLIKASI
+    Route::resource('publikasi', PublikasiController::class);
 });
-// Route::get('/cms/media/show', function () {
-//     return view('cms.media.show');
-// })->name('cms.media.show');
+
+// PUBLIKASI
+Route::get('/cms/publikasi', function () {
+    return view('cms.publikasi.index');
+})->name('cms.publikasi.index');
+//  Create
+// Route::get('/cms/publikasi/form', function () {
+//     return view('cms.publikasi.form');
+// })->name('cms.publikasi.form');
+//  Show
+Route::get('/cms/publikasi/show', function () {
+    return view('cms.publikasi.show');
+})->name('cms.publikasi.show');
+
+// MADING
+Route::get('/cms/mading', function () {
+    return view('cms.mading.index');
+})->name('cms.mading.index');
+// Edit
+Route::get('/cms/mading/edit', function () {
+    return view('cms.mading.edit');
+})->name('cms.mading.edit');
+
 
 // KATEGORI
 Route::get('/cms/kategori', function () {

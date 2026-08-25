@@ -26,8 +26,7 @@
 
         </div>
 
-        <div
-            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
 
             <i class="ri-booklet-line text-xl"></i>
 
@@ -47,91 +46,35 @@
         {{-- ========================================= --}}
 
         <div>
-
-            <label
-                for="title"
-                class="mb-2 block text-sm font-medium text-gray-700">
-
-                Judul Publikasi
-
-            </label>
-
-            <input
-                id="title"
-                type="text"
-                name="title"
-                value="{{ old('title') }}"
-                placeholder="Contoh: DIKSI VOL.1 2026"
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">
-
-            <p class="mt-2 text-xs text-gray-400">
-
-                Masukkan nama atau judul publikasi.
-
-            </p>
-
+            <x-form.input-label for="judul" :value="__('Judul')" />
+            <x-form.text-input id="judul" type="text" name="judul" :value="old('judul')"
+                placeholder="Contoh: DIKSI VOL.1 2026" required autofocus />
+            <x-form.input-error :messages="$errors->get('judul')" />
         </div>
 
 
         {{-- ========================================= --}}
-        {{-- Jenis Publikasi --}}
+        {{-- Kategori Publikasi --}}
         {{-- ========================================= --}}
 
         <div>
+            <x-form.input-label for="kategori_id" :value="__('Kategori')" />
+            <x-form.select-input name="kategori_id" id="kategori_id">
+                <option value="">Select Major</option>
 
-            <label
-                for="type"
-                class="mb-2 block text-sm font-medium text-gray-700">
-
-                Jenis Publikasi
-
-            </label>
-
-            <select
-                id="type"
-                name="type"
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">
-
-                <option value="">
-                    Pilih jenis publikasi
-                </option>
-
-                <option
-                    value="majalah"
-                    @selected(old('type') === 'majalah')>
-
-                    Majalah
-
-                </option>
-
-                <option
-                    value="tabloid"
-                    @selected(old('type') === 'tabloid')>
-
-                    Tabloid
-
-                </option>
-
-                <option
-                    value="buletin"
-                    @selected(old('type') === 'buletin')>
-
-                    Buletin
-
-                </option>
-
-            </select>
+                @foreach ($kategoris as $k)
+                    <option value="{{ $k->id }}">
+                        {{ $k->nama }}
+                    </option>
+                @endforeach
+            </x-form.select-input>
+            <x-form.input-error :messages="$errors->get('kategori_id')" />
 
             <p class="mt-2 text-xs text-gray-400">
 
                 Pilih jenis publikasi yang akan diterbitkan.
 
             </p>
-
         </div>
 
 
@@ -140,80 +83,26 @@
         {{-- ========================================= --}}
 
         <div>
-
-            <label
-                for="edition"
-                class="mb-2 block text-sm font-medium text-gray-700">
-
-                Edisi / Volume
-
-            </label>
-
-            <input
-                id="edition"
-                type="text"
-                name="edition"
-                value="{{ old('edition') }}"
-                placeholder="Contoh: Volume 1"
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">
-
+            <x-form.input-label for="edisi_or_vol" :value="__('Edisi / Volume')" />
+            <x-form.text-input id="edisi_or_vol" type="text" name="edisi_or_vol" :value="old('edisi_or_vol')"
+                placeholder="Contoh: Volume 1" required />
+            <x-form.input-error :messages="$errors->get('edisi_or_vol')" />
             <p class="mt-2 text-xs text-gray-400">
 
                 Masukkan informasi edisi atau volume jika tersedia.
 
             </p>
-
         </div>
 
-
         {{-- ========================================= --}}
-        {{-- Tanggal Terbit --}}
-        {{-- ========================================= --}}
-
-        <div>
-
-            <label
-                for="publication_date"
-                class="mb-2 block text-sm font-medium text-gray-700">
-
-                Tanggal Terbit
-
-            </label>
-
-            <input
-                id="publication_date"
-                type="date"
-                name="publication_date"
-                value="{{ old('publication_date') }}"
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">
-
-            <p class="mt-2 text-xs text-gray-400">
-
-                Tanggal yang tercantum sebagai tanggal terbit publikasi.
-
-            </p>
-
-        </div>
-
-
-        {{-- ========================================= --}}
-        {{-- Deskripsi --}}
+        {{-- Ringkasan --}}
         {{-- ========================================= --}}
 
         <div>
 
             <div class="mb-2 flex items-center justify-between">
-
-                <label
-                    for="description"
-                    class="block text-sm font-medium text-gray-700">
-
-                    Deskripsi Singkat
-
+                <label for="ringkasan" class="block text-sm font-medium text-gray-700">
+                    Ringkasan
                 </label>
 
                 <span class="text-xs text-gray-400">
@@ -224,19 +113,14 @@
 
             </div>
 
-            <textarea
-                id="description"
-                name="description"
-                rows="5"
-                maxlength="500"
-                placeholder="Tulis deskripsi singkat mengenai publikasi ini..."
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">{{ old('description') }}</textarea>
+            <x-form.textarea rows="5" maxlength="500" id="ringkasan" name="ringkasan" :value="old('ringkasan')"
+                placeholder="Tulis deskripsi singkat mengenai publikasi ini..." required>
+                {{ old('ringkasan') }}
+            </x-form.textarea>
 
             <p class="mt-2 text-xs text-gray-400">
 
-                Deskripsi akan ditampilkan pada halaman daftar publikasi
+                Ringkasan akan ditampilkan pada halaman daftar publikasi
                 dan dapat membantu pembaca memahami isi publikasi.
 
             </p>

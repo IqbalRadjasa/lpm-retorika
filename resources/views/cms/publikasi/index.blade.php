@@ -5,6 +5,25 @@
         {{-- ================================================= --}}
         {{-- Header --}}
         {{-- ================================================= --}}
+        @if (session('success'))
+            <div
+                class="mb-6 rounded-xl border border-green-200
+                        bg-green-50 px-4 py-3 text-sm text-green-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div
+                class="mb-6 rounded-xl border border-red-200
+                        bg-red-50 px-4 py-3 text-sm text-red-700">
+                <ul class="list-disc space-y-1 pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="flex flex-col gap-4 pb-6 md:flex-row md:items-center md:justify-between">
 
@@ -20,7 +39,7 @@
 
             </div>
 
-            <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-add-line">
+            <x-link-button.primary-link :href="route('cms.publikasi.create')" icon="ri-add-line">
 
                 Tambah Publikasi
 
@@ -191,11 +210,11 @@
 
                     {{-- Actions --}}
                     <div class="mt-5 flex gap-2">
-                        <x-link-button.secondary-link :href="route('cms.publikasi.show')" icon="ri-eye-line" class="flex-1">
+                        <x-link-button.secondary-link :href="'#'" icon="ri-eye-line" class="flex-1">
                             Detail
                         </x-link-button.secondary-link>
 
-                        <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-edit-line" class="flex-1">
+                        <x-link-button.primary-link :href="'#'" icon="ri-edit-line" class="flex-1">
                             Edit
                         </x-link-button.primary-link>
                     </div>
@@ -286,11 +305,11 @@
 
                     {{-- Actions --}}
                     <div class="mt-5 flex gap-2">
-                        <x-link-button.secondary-link :href="route('cms.publikasi.show')" icon="ri-eye-line" class="flex-1">
+                        <x-link-button.secondary-link :href="'#'" icon="ri-eye-line" class="flex-1">
                             Detail
                         </x-link-button.secondary-link>
 
-                        <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-edit-line" class="flex-1">
+                        <x-link-button.primary-link :href="'#'" icon="ri-edit-line" class="flex-1">
                             Edit
                         </x-link-button.primary-link>
                     </div>
@@ -381,11 +400,11 @@
 
                     {{-- Actions --}}
                     <div class="mt-5 flex gap-2">
-                        <x-link-button.secondary-link :href="route('cms.publikasi.show')" icon="ri-eye-line" class="flex-1">
+                        <x-link-button.secondary-link :href="'#'" icon="ri-eye-line" class="flex-1">
                             Detail
                         </x-link-button.secondary-link>
 
-                        <x-link-button.primary-link :href="route('cms.publikasi.form')" icon="ri-edit-line" class="flex-1">
+                        <x-link-button.primary-link :href="'#'" icon="ri-edit-line" class="flex-1">
                             Edit
                         </x-link-button.primary-link>
                     </div>
