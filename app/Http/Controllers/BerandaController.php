@@ -23,6 +23,7 @@ class BerandaController extends Controller
         $beritaLainnya = $publishedArticle
             ->latest()
             ->limit(2)
+            ->skip(1)
             ->get();
 
         // RILISAN TERBARU
