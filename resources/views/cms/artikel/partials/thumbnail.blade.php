@@ -118,7 +118,8 @@
 
                             <p class="mt-1 text-sm text-gray-500">
 
-                                <span x-text="selectedMedia.extension || 'FILE'"></span>
+                                <span
+                                    x-text="selectedMedia.extension || formatMimeType(selectedMedia.mime_type) || 'FILE'"></span>
 
                                 <span class="mx-1 text-gray-300">
                                     •
