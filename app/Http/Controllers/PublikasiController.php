@@ -81,7 +81,7 @@ class PublikasiController extends Controller
             'judul' => 'required|string|max:100',
             'edisi' => 'string|max:100',
             'volume' => 'string|max:100',
-            'ringkasan' => 'required|string',
+            'deskripsi' => 'required|string',
         ]);
 
         try {
@@ -93,7 +93,7 @@ class PublikasiController extends Controller
                 'judul' => $validated['judul'],
                 'edisi' => $validated['edisi'],
                 'volume' => $validated['volume'],
-                'ringkasan' => $validated['ringkasan'],
+                'deskripsi' => $validated['deskripsi'],
             ]);
 
             return redirect()

@@ -238,7 +238,7 @@
 
 
                         <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
-                            {{ $p->ringkasan }}
+                            {{ $p->deskripsi }}
                         </p>
 
 

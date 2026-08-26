@@ -1,5 +1,8 @@
 <x-cms-layout>
 
+    @php
+        $media = $publikasi->doc_asset?->getFirstMedia('library');
+    @endphp
     <div class="py-6">
 
         {{-- ================================================= --}}
@@ -77,7 +80,7 @@
                             </x-link-button.primary-link>
 
 
-                            <x-link-button.secondary-link :href="route('cms.publikasi.index')" icon="ri-download-line"
+                            <x-link-button.secondary-link :href="route('media.download', $media->id)" icon="ri-download-line"
                                 class="flex-1 rounded-xl py-3">
                                 Download
                             </x-link-button.secondary-link>
@@ -104,23 +107,30 @@
                             </span>
 
                             <h2 class="mt-4 text-2xl font-bold text-gray-900">
-                                DIKSI
+                                {{ $publikasi->judul }}
                             </h2>
 
                             <p class="mt-1 text-gray-500">
-                                Edisi 12 · Volume 6
+                                {{ $publikasi->edisi }} · {{ $publikasi->volume }}
                             </p>
                         </div>
 
 
                         {{-- Status --}}
                         <span
-                            class="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-xs font-semibold text-green-700">
+                            class="inline-flex capitalize items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold"
+                            :class="{
+                                'bg-yellow-100 text-yellow-700': {{ $publikasi->status_id }} == 1,
+                                'bg-green-100 text-green-700': {{ $publikasi->status_id }} == 2
+                            }">
 
-                            <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                            <span class="h-2 w-2 rounded-full"
+                                :class="{
+                                    'bg-yellow-500': {{ $publikasi->status_id }} == 1,
+                                    'bg-green-500': {{ $publikasi->status_id }} == 2,
+                                }"></span>
 
-                            Published
-
+                            {{ $publikasi->status->slug }}
                         </span>
 
                     </div>
@@ -131,22 +141,13 @@
 
                         {{-- Description --}}
                         <div>
-
                             <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-400">
-
                                 Deskripsi
-
                             </h3>
 
                             <p class="mt-3 leading-7 text-gray-600">
-
-                                DIKSI merupakan majalah LPM Retorika yang
-                                membahas berbagai isu kampus, pendidikan,
-                                organisasi mahasiswa, dan perkembangan
-                                sosial di lingkungan mahasiswa.
-
+                                {{ $publikasi->deskripsi }}
                             </p>
-
                         </div>
 
 
@@ -166,9 +167,7 @@
                                 </div>
 
                                 <p class="mt-2 font-medium text-gray-900">
-
-                                    15 Agustus 2026
-
+                                    {{ $publikasi->created_at->translatedFormat('d F Y') }}
                                 </p>
 
                             </div>
@@ -186,9 +185,7 @@
                                 </div>
 
                                 <p class="mt-2 font-medium text-gray-900">
-
-                                    LPM Retorika
-
+                                    Admin Retorika
                                 </p>
 
                             </div>
@@ -200,15 +197,11 @@
                                 <div class="flex items-center gap-2 text-sm text-gray-400">
 
                                     <i class="ri-bookmark-line"></i>
-
                                     Edisi
-
                                 </div>
 
                                 <p class="mt-2 font-medium text-gray-900">
-
-                                    Edisi 12
-
+                                    {{ $publikasi->edisi }}
                                 </p>
 
                             </div>
@@ -222,13 +215,10 @@
                                     <i class="ri-stack-line"></i>
 
                                     Volume
-
                                 </div>
 
                                 <p class="mt-2 font-medium text-gray-900">
-
-                                    Volume 6
-
+                                    {{ $publikasi->volume }}
                                 </p>
 
                             </div>
@@ -249,28 +239,28 @@
                                 </div>
 
                                 <div class="min-w-0 flex-1">
+                                    @if ($media)
+                                        <p class="font-medium text-gray-900">
+                                            {{ $media->file_name }}
+                                        </p>
 
-                                    <p class="font-medium text-gray-900">
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            {{ strtoupper($media->extension) }}
 
-                                        DIKSI-Edisi-12.pdf
+                                            @if ($media->getCustomProperty('page_count'))
+                                                · {{ $media->getCustomProperty('page_count') }} halaman
+                                            @endif
 
-                                    </p>
-
-                                    <p class="mt-1 text-sm text-gray-500">
-
-                                        PDF · 24 halaman · 8.4 MB
-
-                                    </p>
+                                            · {{ $media->human_readable_size }}
+                                        </p>
+                                    @endif
 
                                 </div>
 
-                                <a href="#"
+                                <a href="{{ route('media.download', $media->id) }}"
                                     class="hidden shrink-0 text-sm font-medium text-red-600 hover:underline sm:block">
-
                                     Download
-
                                 </a>
-
                             </div>
 
                         </div>
@@ -320,45 +310,9 @@
 
 
             {{-- Preview Placeholder --}}
-            <div class="p-6">
+            <div class="p-6 flex min-h-[500px] items-center justify-center rounded-2xl bg-gray-50">
 
-                <div
-                    class="flex min-h-[500px] items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-gray-50">
-
-                    <div class="max-w-md px-6 text-center">
-
-                        <div
-                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-
-                            <i class="ri-file-pdf-2-line text-3xl"></i>
-
-                        </div>
-
-                        <h3 class="mt-5 text-lg font-semibold text-gray-900">
-
-                            PDF Preview
-
-                        </h3>
-
-                        <p class="mt-2 text-sm leading-6 text-gray-500">
-
-                            PDF viewer akan ditampilkan di area ini
-                            setelah fitur preview publikasi terhubung
-                            dengan backend.
-
-                        </p>
-
-                        <a href="#"
-                            class="mt-5 inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800">
-
-                            <i class="ri-external-link-line"></i>
-
-                            Buka PDF
-
-                        </a>
-
-                    </div>
-
+                <div id="flipbook" data-pdf-url="{{ parse_url($media->original_url, PHP_URL_PATH) }}" class="">
                 </div>
 
             </div>
@@ -370,9 +324,7 @@
         {{-- Additional Information --}}
         {{-- ================================================= --}}
 
-        <div class="mt-8 grid gap-8 md:grid-cols-2">
-
-
+        <div class="mt-8 grid grid-cols-1">
             {{-- Created Information --}}
             <div class="rounded-2xl bg-white p-6 shadow-sm">
 
@@ -414,9 +366,7 @@
                         </span>
 
                         <span class="font-medium text-gray-900">
-
-                            10 Agustus 2026, 14:32
-
+                            {{ $publikasi->created_at->translatedFormat('d F Y, H:i') }}
                         </span>
 
                     </div>
@@ -430,73 +380,8 @@
                         </span>
 
                         <span class="font-medium text-gray-900">
-
-                            15 Agustus 2026, 09:15
-
+                            {{ $publikasi->updated_at->translatedFormat('d F Y, H:i') }}
                         </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            {{-- Publication Status --}}
-            <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                <div class="flex items-center gap-3">
-
-                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600">
-
-                        <i class="ri-checkbox-circle-line"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h3 class="font-semibold text-gray-900">
-
-                            Status Publikasi
-
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-
-                            Status saat ini.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="mt-6 rounded-xl bg-green-50 p-4">
-
-                    <div class="flex items-center gap-3">
-
-                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-green-100">
-
-                            <i class="ri-check-line text-green-600"></i>
-
-                        </span>
-
-                        <div>
-
-                            <p class="font-medium text-green-900">
-
-                                Publikasi telah diterbitkan
-
-                            </p>
-
-                            <p class="mt-1 text-sm text-green-700">
-
-                                Konten dapat diakses oleh pengunjung website.
-
-                            </p>
-
-                        </div>
 
                     </div>
 
@@ -507,5 +392,7 @@
         </div>
 
     </div>
+
+    @vite('resources/js/flipbook.js')
 
 </x-cms-layout>

@@ -114,7 +114,7 @@
 
             <div class="mb-2 flex items-center justify-between">
                 <label for="ringkasan" class="block text-sm font-medium text-gray-700">
-                    Ringkasan
+                    Deskripsi
                 </label>
 
                 <span class="text-xs text-gray-400">
@@ -125,14 +125,14 @@
 
             </div>
 
-            <x-form.textarea rows="5" maxlength="500" id="ringkasan" name="ringkasan" :value="old('ringkasan')"
+            <x-form.textarea rows="5" maxlength="500" id="deskripsi" name="deskripsi" :value="old('deskripsi')"
                 placeholder="Tulis deskripsi singkat mengenai publikasi ini..." required>
-                {{ old('ringkasan') }}
+                {{ old('deskripsi') }}
             </x-form.textarea>
 
             <p class="mt-2 text-xs text-gray-400">
 
-                Ringkasan akan ditampilkan pada halaman daftar publikasi
+                Deskripsi akan ditampilkan pada halaman daftar publikasi
                 dan dapat membantu pembaca memahami isi publikasi.
 
             </p>

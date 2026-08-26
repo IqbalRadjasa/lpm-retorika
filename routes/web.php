@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\MediaAsset;
+
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\MadingController;
@@ -134,6 +136,14 @@ Route::get('/cms/podcast/show', function () {
     return view('cms.podcast.show');
 })->name('cms.podcast.show');
 
+Route::get('/media/{media}/download', function (MediaAsset $media) {
+    $spatieMedia = $media->getFirstMedia('library');
 
+    if (!$spatieMedia) {
+        abort(404, 'File media tidak ditemukan.');
+    }
+
+    return response()->download($spatieMedia->getPath(), $spatieMedia->file_name);
+})->name('media.download');
 
 require __DIR__ . '/auth.php';

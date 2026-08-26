@@ -16,7 +16,7 @@ class Publikasi extends Model
         'judul',
         'edisi',
         'volume',
-        'ringkasan',
+        'deskripsi',
     ];
 
     public function kategori()

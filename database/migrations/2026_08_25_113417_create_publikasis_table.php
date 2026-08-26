@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('edisi')->nullable();
             $table->string('volume')->nullable();
-            $table->text('ringkasan');
+            $table->text('deskripsi');
             $table->timestamps();
         });
     }
