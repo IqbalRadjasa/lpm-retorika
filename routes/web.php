@@ -42,21 +42,6 @@ Route::get('/podcast/show', function () {
     return view('public.podcast.show');
 })->name('podcast.show');
 
-// MAJALAH
-Route::get('/majalah', [MajalahController::class, 'index'])->name('majalah.index');
-// Show
-Route::get('/majalah/show', [MajalahController::class, 'show'])->name('majalah.show');
-
-// TABLOID
-Route::get('/tabloid', [TabloidController::class, 'index'])->name('tabloid.index');
-// Show
-Route::get('/tabloid/show', [TabloidController::class, 'show'])->name('tabloid.show');
-
-// Buletin
-Route::get('/buletin', [BuletinController::class, 'index'])->name('buletin.index');
-// Show
-Route::get('/buletin/show', [BuletinController::class, 'show'])->name('buletin.show');
-
 // MADING
 Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');
 
@@ -93,19 +78,6 @@ Route::prefix('cms')->name('cms.')->group(function () {
     // PUBLIKASI
     Route::resource('publikasi', PublikasiController::class);
 });
-
-// PUBLIKASI
-// Route::get('/cms/publikasi', function () {
-//     return view('cms.publikasi.index');
-// })->name('cms.publikasi.index');
-//  Create
-// Route::get('/cms/publikasi/form', function () {
-//     return view('cms.publikasi.form');
-// })->name('cms.publikasi.form');
-//  Show
-// Route::get('/cms/publikasi/show', function () {
-//     return view('cms.publikasi.show');
-// })->name('cms.publikasi.show');
 
 // MADING
 Route::get('/cms/mading', function () {
