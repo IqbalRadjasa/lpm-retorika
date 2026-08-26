@@ -243,14 +243,25 @@
 
 
                         {{-- Actions --}}
-                        <div class="mt-5 flex gap-2">
+                        <div class="mt-5 flex flex-col gap-2">
                             <x-link-button.secondary-link :href="route('cms.publikasi.show', $p->id)" icon="ri-eye-line" class="flex-1">
                                 Detail
                             </x-link-button.secondary-link>
 
-                            <x-link-button.primary-link :href="'#'" icon="ri-edit-line" class="flex-1">
+                            <x-link-button.secondary-link :href="route('cms.publikasi.show', $p->id)" icon="ri-pencil-line" class="flex-1">
                                 Edit
-                            </x-link-button.primary-link>
+                            </x-link-button.secondary-link>
+
+                            <form action="{{ route('cms.publikasi.destroy', $p->id) }}" method="POST" class="flex"
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus publikasi ini?')">
+                                @csrf
+                                @method('DELETE')
+
+                                <x-button.danger-button icon="ri-delete-bin-line" class="flex-1">
+                                    Hapus
+                                </x-button.danger-button>
+
+                            </form>
                         </div>
                     </div>
                 </article>

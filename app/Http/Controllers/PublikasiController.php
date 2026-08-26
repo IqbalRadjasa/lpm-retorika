@@ -136,8 +136,18 @@ class PublikasiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Publikasi $publikasi)
     {
-        //
+        try {
+            $publikasi->delete();
+
+            return redirect()
+                ->route('cms.publikasi.index')
+                ->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $th) {
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus data!');
+        }
     }
 }

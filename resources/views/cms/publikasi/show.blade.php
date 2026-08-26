@@ -32,10 +32,16 @@
                     Edit
                 </x-link-button.secondary-link>
 
+                <form action="{{ route('cms.publikasi.destroy', $publikasi->id) }}" method="POST"
+                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus publikasi ini?')">
+                    @csrf
+                    @method('DELETE')
 
-                <x-link-button.primary-link :href="route('cms.publikasi.index')" icon="ri-delete-bin-line">
-                    Hapus
-                </x-link-button.primary-link>
+                    <x-button.danger-button icon="ri-delete-bin-line">
+                        Hapus
+                    </x-button.danger-button>
+
+                </form>
 
             </div>
 
