@@ -80,16 +80,16 @@
                     {{-- Cover Actions --}}
                     <div class="border-t border-gray-100 p-5">
                         <div class="flex flex-col gap-3 sm:flex-row">
-                            <x-link-button.primary-link :href="route('cms.publikasi.index')" icon="ri-eye-line"
+                            {{-- <x-link-button.primary-link :href="route('cms.publikasi.index')" icon="ri-eye-line"
                                 class="flex-1 rounded-xl py-3">
                                 Buka Preview
-                            </x-link-button.primary-link>
+                            </x-link-button.primary-link> --}}
 
 
-                            <x-link-button.secondary-link :href="route('media.download', $media->id)" icon="ri-download-line"
+                            <x-link-button.primary-link :href="route('media.download', $publikasi->cover_id)" icon="ri-download-line"
                                 class="flex-1 rounded-xl py-3">
-                                Download
-                            </x-link-button.secondary-link>
+                                Download Cover
+                            </x-link-button.primary-link>
                         </div>
                     </div>
                 </div>

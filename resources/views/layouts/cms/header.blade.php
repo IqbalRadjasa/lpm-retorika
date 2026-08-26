@@ -8,13 +8,11 @@
     </div>
 
 
-    <div class="">
-        {{-- Theme Toggle --}}
-        {{-- <div class="flex items-center ml-5">
-            <button class="px-3 py-2 rounded bg-gray-200">
-                🌙
-            </button>
-        </div> --}}
+    <div class="flex flex-row">
+        <x-link-button.secondary-link :href="route('beranda')" icon="ri-external-link-line">
+            Kunjungi Website
+        </x-link-button.secondary-link>
+
         <x-dropdown.dropdown align="right" width="48">
             <x-slot name="trigger">
                 <button @click="openProfile = !openProfile"
