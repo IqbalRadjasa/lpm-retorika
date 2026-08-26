@@ -248,7 +248,7 @@
                                 Detail
                             </x-link-button.secondary-link>
 
-                            <x-link-button.secondary-link :href="route('cms.publikasi.show', $p->id)" icon="ri-pencil-line" class="flex-1">
+                            <x-link-button.secondary-link :href="route('cms.publikasi.edit', $p->id)" icon="ri-pencil-line" class="flex-1">
                                 Edit
                             </x-link-button.secondary-link>
 

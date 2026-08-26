@@ -28,7 +28,7 @@
                     Kembali
                 </x-link-button.secondary-link>
 
-                <x-link-button.secondary-link :href="route('cms.publikasi.index')" icon="ri-edit-line">
+                <x-link-button.secondary-link :href="route('cms.publikasi.edit', $publikasi->id)" icon="ri-edit-line">
                     Edit
                 </x-link-button.secondary-link>
 

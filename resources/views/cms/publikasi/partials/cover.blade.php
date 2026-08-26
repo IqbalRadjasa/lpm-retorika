@@ -1,4 +1,22 @@
-<div x-data='mediaSelector("gambar")' class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+@php
+    $media = $mode === 'edit' && isset($publikasi) ? $publikasi->cover_asset?->getFirstMedia('library') : null;
+
+    $initialMedia = $media
+        ? [
+            'id' => $media->id,
+            'name' => $media->name,
+            'url' => $media->original_url,
+            'mime_type' => strtoupper(pathinfo($media->file_name, PATHINFO_EXTENSION)),
+            'size' => $media->human_readable_size,
+        ]
+        : null;
+
+    // dd($initialMedia);
+
+@endphp
+
+<div x-data='mediaSelector("gambar", @json($initialMedia))'
+    class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
     {{-- ================================================= --}}
     {{-- Header --}}
@@ -117,8 +135,8 @@
                             </p>
 
                             <p class="mt-1 text-sm text-gray-500">
-
-                                <span x-text="selectedMedia.extension || 'FILE'"></span>
+                                <span
+                                    x-text="selectedMedia.extension || formatMimeType(selectedMedia.mime_type) || 'FILE'"></span>
 
                                 <span class="mx-1 text-gray-300">
                                     •

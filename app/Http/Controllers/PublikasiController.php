@@ -120,17 +120,60 @@ class PublikasiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Publikasi $publikasi)
     {
-        //
+        $publikasi->load(['kategori', 'cover_asset.media', 'doc_asset.media', 'status']);
+
+
+        $kategoris = Kategori::where('jenis', 'publikasi')->get();
+        $statuses = Status::all();
+
+        return view('cms.publikasi.edit', compact(
+            'publikasi',
+            'kategoris',
+            'statuses',
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Publikasi $publikasi)
     {
-        //
+
+        $validated = $request->validate([
+            'status_id' => 'required|integer|max:10',
+            'kategori_id' => 'required|integer',
+            'cover_id' => 'required|integer',
+            'doc_id' => 'required|integer',
+            'judul' => 'required|string|max:100',
+            'edisi' => 'string|max:100',
+            'volume' => 'string|max:100',
+            'deskripsi' => 'required|string',
+        ]);
+
+
+        try {
+            $publikasi->update([
+                'status_id' => $validated['status_id'],
+                'kategori_id' => $validated['kategori_id'],
+                'cover_id' => $validated['cover_id'],
+                'doc_id' => $validated['doc_id'],
+                'judul' => $validated['judul'],
+                'edisi' => $validated['edisi'],
+                'volume' => $validated['volume'],
+                'deskripsi' => $validated['deskripsi'],
+            ]);
+
+            return redirect()
+                ->route('cms.publikasi.index')
+                ->with('success', 'Data berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui data!');
+        }
     }
 
     /**

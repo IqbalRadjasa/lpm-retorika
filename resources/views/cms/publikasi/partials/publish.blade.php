@@ -31,7 +31,7 @@
     {{-- Body --}}
     {{-- ================================================= --}}
     @php
-        $initialStatus = old('status_id', $mode === 'edit' && isset($artikel) ? $artikel->status_id : 2);
+        $initialStatus = old('status_id', $mode === 'edit' && isset($publikasi) ? $publikasi->status_id : 2);
     @endphp
     <div x-data="{
         status: {{ $initialStatus }}

@@ -47,7 +47,7 @@
 
         <div>
             <x-form.input-label for="judul" :value="__('Judul')" />
-            <x-form.text-input id="judul" type="text" name="judul" :value="old('judul')"
+            <x-form.text-input id="judul" type="text" name="judul" :value="old('judul', $mode === 'edit' ? $publikasi->judul : '')"
                 placeholder="Contoh: DIKSI VOL.1 2026" required autofocus />
             <x-form.input-error :messages="$errors->get('judul')" />
         </div>
@@ -60,10 +60,12 @@
         <div>
             <x-form.input-label for="kategori_id" :value="__('Kategori')" />
             <x-form.select-input name="kategori_id" id="kategori_id">
-                <option value="">Select Major</option>
+                <option value="" @selected(old('kategori_id', $publikasi->kategori_id ?? null) == '') disabled>
+                    Pilih Kategori
+                </option>
 
                 @foreach ($kategoris as $k)
-                    <option value="{{ $k->id }}">
+                    <option value="{{ $k->id }}" @selected(old('kategori_id', $publikasi->kategori_id ?? null) == $k->id)>
                         {{ $k->nama }}
                     </option>
                 @endforeach
@@ -84,7 +86,7 @@
         <div class="grid gap-2 grid-cols-2">
             <div>
                 <x-form.input-label for="edisi" :value="__('Edisi')" />
-                <x-form.text-input id="edisi" type="text" name="edisi" :value="old('edisi')"
+                <x-form.text-input id="edisi" type="text" name="edisi" :value="old('edisi', $mode === 'edit' ? $publikasi->edisi : '')"
                     placeholder="Contoh: Edisi 1" required />
                 <x-form.input-error :messages="$errors->get('edisi')" />
                 <p class="mt-2 text-xs text-gray-400">
@@ -96,7 +98,7 @@
 
             <div>
                 <x-form.input-label for="volume" :value="__('Volume')" />
-                <x-form.text-input id="volume" type="text" name="volume" :value="old('volume')"
+                <x-form.text-input id="volume" type="text" name="volume" :value="old('volume', $mode === 'edit' ? $publikasi->volume : '')"
                     placeholder="Contoh: Volume 1" required />
                 <x-form.input-error :messages="$errors->get('volume')" />
                 <p class="mt-2 text-xs text-gray-400">
@@ -127,7 +129,7 @@
 
             <x-form.textarea rows="5" maxlength="500" id="deskripsi" name="deskripsi" :value="old('deskripsi')"
                 placeholder="Tulis deskripsi singkat mengenai publikasi ini..." required>
-                {{ old('deskripsi') }}
+                {{ old('deskripsi', $mode === 'edit' ? $publikasi->deskripsi : '') }}
             </x-form.textarea>
 
             <p class="mt-2 text-xs text-gray-400">

@@ -2,8 +2,9 @@
 {{-- Form --}}
 {{-- ================================================= --}}
 
-<form action="{{ route('cms.publikasi.store') }}" method="POST">
-    {{-- <form action="{{ $mode == 'create' ? route('cms.artikel.store') : route('cms.artikel.update', $artikel->id) }}" method="POST"> --}}
+{{-- <form action="{{ route('cms.publikasi.store') }}" method="POST"> --}}
+<form action="{{ $mode == 'create' ? route('cms.publikasi.store') : route('cms.publikasi.update', $publikasi->id) }}"
+    method="POST">
     @csrf
     @if ($mode == 'edit')
         @method('PUT')

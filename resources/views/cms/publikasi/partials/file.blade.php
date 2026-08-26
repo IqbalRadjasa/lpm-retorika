@@ -1,8 +1,21 @@
 {{-- ================================================= --}}
 {{-- File Publikasi --}}
 {{-- ================================================= --}}
+@php
+    $media = $mode === 'edit' && isset($publikasi) ? $publikasi->doc_asset?->getFirstMedia('library') : null;
 
-<div x-data='mediaSelector("document")' class="overflow-hidden rounded-2xl bg-white shadow-sm">
+    $initialMedia = $media
+        ? [
+            'id' => $media->id,
+            'name' => $media->name,
+            'url' => $media->original_url,
+            'mime_type' => $media->mime_type,
+            'size' => $media->human_readable_size,
+        ]
+        : null;
+@endphp
+<div x-data='mediaSelector("document", @json($initialMedia))'
+    class="overflow-hidden rounded-2xl bg-white shadow-sm">
 
     {{-- ================================================= --}}
     {{-- Header --}}
@@ -121,7 +134,8 @@
 
                             <p class="mt-1 text-sm text-gray-500">
 
-                                <span x-text="selectedMedia.extension || 'FILE'"></span>
+                                <span
+                                    x-text="selectedMedia.extension || formatMimeType(selectedMedia.mime_type) || 'FILE'"></span>
 
                                 <span class="mx-1 text-gray-300">
                                     •
