@@ -1,6 +1,21 @@
 <x-cms-layout>
+    @php
+        $media = isset($mading) ? $mading->media_asset?->getFirstMedia('library') : null;
 
-    <div class="py-6">
+        $initialMedia = $media
+            ? [
+                'id' => $media->id,
+                'name' => $media->name,
+                'url' => $media->original_url,
+                'mime_type' => $media->mime_type,
+                'size' => $media->human_readable_size,
+            ]
+            : null;
+
+        // dd($initialMedia);
+
+    @endphp
+    <div class="py-6" x-data='mediaSelector("gambar", @json($initialMedia))'>
 
         {{-- ================================================= --}}
         {{-- Page Header --}}
@@ -34,12 +49,9 @@
         {{-- Form --}}
         {{-- ================================================= --}}
 
-        <form action="#" method="POST" enctype="multipart/form-data">
-
+        <form action="{{ route('cms.mading.update', $mading->id) }}" method="POST">
             @csrf
-
             @method('PUT')
-
 
             <div class="grid gap-8 lg:grid-cols-12">
 
@@ -88,150 +100,153 @@
 
 
                         {{-- Body --}}
-                        <div x-data="{
-                            image: 'https://picsum.photos/700/950?random=35',
+                        <div class="p-6">
 
-                            previewImage(event) {
-                                const file = event.target.files[0];
+                            {{-- ================================================= --}}
+                            {{-- No Media Selected --}}
+                            {{-- ================================================= --}}
 
-                                if (!file) return;
+                            <template x-if="!selectedMedia">
 
-                                this.image = URL.createObjectURL(file);
-                            },
+                                <div
+                                    class="rounded-2xl border-2 border-dashed border-gray-300
+                                        bg-gray-50 p-8 text-center">
 
-                            removeImage() {
-                                this.image = null;
+                                    <div
+                                        class="mx-auto flex h-16 w-16 items-center
+                                        justify-center rounded-2xl bg-white shadow-sm">
 
-                                this.$refs.input.value = '';
-                            }
-                        }" class="p-6">
-
-
-                            {{-- File Input --}}
-                            <input x-ref="input" type="file" name="poster" accept="image/jpeg,image/png,image/webp"
-                                class="hidden" @change="previewImage">
-
-
-                            {{-- Upload / Preview Area --}}
-                            <div @click="$refs.input.click()"
-                                class="group cursor-pointer rounded-2xl border-2 border-dashed border-gray-300 bg-gray-50 p-5 transition hover:border-red-400 hover:bg-red-50/30">
-
-
-                                {{-- Existing / New Image --}}
-                                <template x-if="image">
-
-                                    <div>
-
-                                        <div class="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-lg">
-
-                                            <img :src="image" alt="Poster Mading"
-                                                class="max-h-[650px] w-full object-contain">
-
-                                        </div>
-
-
-                                        <div class="mt-5 text-center">
-
-                                            <p class="font-medium text-gray-900">
-
-                                                Klik untuk mengganti poster
-
-                                            </p>
-
-                                            <p class="mt-1 text-sm text-gray-500">
-
-                                                JPG, PNG, atau WEBP · Maks. 5 MB
-
-                                            </p>
-
-                                        </div>
+                                        <i class="ri-file-pdf-2-line text-3xl text-red-500">
+                                        </i>
 
                                     </div>
 
-                                </template>
+                                    <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                                        Upload File Publikasi
+                                    </h3>
 
-
-                                {{-- Empty State --}}
-                                <template x-if="!image">
-
-                                    <div class="py-16 text-center">
-
-                                        <div
-                                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100">
-
-                                            <i class="ri-upload-cloud-2-line text-3xl text-gray-400"></i>
-
-                                        </div>
-
-                                        <h3 class="mt-5 font-semibold text-gray-900">
-
-                                            Upload Poster
-
-                                        </h3>
-
-                                        <p class="mt-2 text-sm text-gray-500">
-
-                                            Klik untuk memilih gambar poster.
-
-                                        </p>
-
-                                        <p class="mt-3 text-xs text-gray-400">
-
-                                            JPG, PNG, WEBP · Maks. 5 MB
-
-                                        </p>
-
-                                    </div>
-
-                                </template>
-
-                            </div>
-
-
-                            {{-- Actions --}}
-                            <div x-show="image" x-cloak class="mt-5 flex flex-wrap gap-3">
-
-                                <button type="button" @click="$refs.input.click()"
-                                    class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
-
-                                    <i class="ri-refresh-line"></i>
-
-                                    Ganti Poster
-
-                                </button>
-
-
-                                <button type="button" @click="removeImage"
-                                    class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-100">
-
-                                    <i class="ri-delete-bin-line"></i>
-
-                                    Hapus
-
-                                </button>
-
-                            </div>
-
-
-                            {{-- Information --}}
-                            <div class="mt-5 rounded-xl bg-blue-50 p-4">
-
-                                <div class="flex items-start gap-3">
-
-                                    <i class="ri-information-line mt-0.5 text-blue-500"></i>
-
-                                    <p class="text-sm leading-6 text-blue-700">
-
-                                        Gunakan poster dengan resolusi yang
-                                        baik agar tetap terlihat jelas pada
-                                        perangkat desktop maupun mobile.
-
+                                    <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
+                                        Drag & drop file PDF ke sini
+                                        atau klik untuk memilih.
                                     </p>
+
+                                    <button type="button" @click="openMediaLibrary"
+                                        class="mt-6 inline-flex items-center gap-2
+                                rounded-xl bg-red-600 px-5 py-3
+                                font-medium text-white
+                                transition hover:bg-red-700">
+
+                                        <i class="ri-image-add-line"></i>
+
+                                        Pilih dari Media
+
+                                    </button>
 
                                 </div>
 
-                            </div>
+                            </template>
 
+
+                            {{-- ================================================= --}}
+                            {{-- Selected Media --}}
+                            {{-- ================================================= --}}
+                            <template x-if="selectedMedia">
+
+                                <div>
+
+                                    {{-- Preview --}}
+                                    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-gray-100">
+
+                                        <img :src="selectedMedia.url" :alt="selectedMedia.name"
+                                            class="max-h-80 w-full object-contain">
+
+                                    </div>
+
+
+                                    {{-- Media Information --}}
+                                    <div class="mt-4">
+
+                                        <div
+                                            class="flex flex-col gap-4
+                                            sm:flex-row sm:items-start
+                                            sm:justify-between">
+
+                                            <div class="min-w-0">
+
+                                                <p class="truncate font-semibold text-gray-900"
+                                                    x-text="selectedMedia.name">
+                                                </p>
+
+                                                <p class="mt-1 text-sm text-gray-500">
+
+                                                    <span
+                                                        x-text="selectedMedia.extension || formatMimeType(selectedMedia.mime_type) || 'FILE'"></span>
+
+                                                    <span class="mx-1 text-gray-300">
+                                                        •
+                                                    </span>
+
+                                                    <span x-text="selectedMedia.size"></span>
+
+                                                </p>
+
+                                            </div>
+
+                                            <span
+                                                class="inline-flex shrink-0 items-center gap-2
+                                            rounded-full bg-green-50 px-3 py-1.5
+                                            text-xs font-medium text-green-700">
+
+                                                <i class="ri-checkbox-circle-line"></i>
+
+                                                Dipilih
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {{-- Actions --}}
+                                    <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+
+                                        <button type="button" @click="openMediaLibrary"
+                                            class="inline-flex items-center justify-center
+                                            gap-2 rounded-xl border border-gray-300
+                                            bg-white px-4 py-2.5 text-sm font-medium
+                                            text-gray-700 transition hover:bg-gray-50">
+
+                                            <i class="ri-image-edit-line"></i>
+
+                                            Ganti Gambar
+
+                                        </button>
+
+                                        <button type="button" @click="removeMedia"
+                                            class="inline-flex items-center justify-center
+                                            gap-2 rounded-xl border border-red-200
+                                            bg-red-50 px-4 py-2.5 text-sm font-medium
+                                            text-red-600 transition hover:bg-red-100">
+
+                                            <i class="ri-delete-bin-line"></i>
+
+                                            Hapus
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </template>
+
+
+                            {{-- ================================================= --}}
+                            {{-- Hidden Input --}}
+                            {{-- ================================================= --}}
+
+                            <input type="hidden" name="media_id" :value="selectedMedia ? selectedMedia.id : ''">
                         </div>
 
                     </div>
@@ -279,18 +294,11 @@
                             {{-- Title --}}
                             <div>
 
-                                <label for="title" class="mb-2 block text-sm font-medium text-gray-700">
 
-                                    Judul Mading
-
-                                </label>
-
-                                <input id="title" type="text" name="title"
-                                    value="Open Recruitment LPM Retorika 2026"
-                                    placeholder="Contoh: Open Recruitment LPM Retorika 2026"
-                                    class="w-full rounded-xl border-gray-300
-                                           focus:border-red-500
-                                           focus:ring-red-500">
+                                <x-form.input-label for="judul" :value="__('Judul Mading')" />
+                                <x-form.text-input id="judul" type="text" name="judul" :value="old('judul', isset($mading) ? $mading->judul : '')"
+                                    placeholder="Contoh: Open Recruitment LPM Retorika 2026" required autofocus />
+                                <x-form.input-error :messages="$errors->get('judul')" />
 
                                 <p class="mt-2 text-xs text-gray-400">
 
@@ -311,10 +319,10 @@
 
                                 </label>
 
-                                <textarea id="description" name="description" rows="5" placeholder="Tulis deskripsi singkat mengenai poster..."
-                                    class="w-full rounded-xl border-gray-300
-                                           focus:border-red-500
-                                           focus:ring-red-500">Bergabunglah bersama keluarga besar LPM Retorika dan kembangkan kemampuanmu di dunia jurnalistik, desain, fotografi, videografi, dan media digital.</textarea>
+                                <x-form.textarea rows="5" maxlength="500" id="deskripsi" name="deskripsi"
+                                    :value="old('deskripsi')" placeholder="Tulis deskripsi singkat mengenai poster..." required>
+                                    {{ old('deskripsi', isset($mading) ? $mading->deskripsi : '') }}
+                                </x-form.textarea>
 
                                 <p class="mt-2 text-xs text-gray-400">
 
@@ -324,34 +332,8 @@
                                 </p>
 
                             </div>
-
-
-                            {{-- Publication Date --}}
-                            <div>
-
-                                <label for="published_at" class="mb-2 block text-sm font-medium text-gray-700">
-
-                                    Tanggal Publikasi
-
-                                </label>
-
-                                <input id="published_at" type="date" name="published_at" value="2026-08-03"
-                                    class="w-full rounded-xl border-gray-300
-                                           focus:border-red-500
-                                           focus:ring-red-500">
-
-                                <p class="mt-2 text-xs text-gray-400">
-
-                                    Tanggal ketika Mading mulai ditampilkan.
-
-                                </p>
-
-                            </div>
-
                         </div>
-
                     </div>
-
                 </div>
 
 
@@ -399,72 +381,33 @@
 
 
                         {{-- Body --}}
-                        <div x-data="{ status: 'active' }" class="space-y-4 p-6">
+                        @php
+                            $initialStatus = old('status_mading_id', isset($mading) ? $mading->status_mading_id : 2);
+                        @endphp
+                        <div x-data="{ status: {{ $initialStatus }} }" class="space-y-4 p-6">
 
+                            @foreach ($statusMadings as $sm)
+                                <label
+                                    class="flex cursor-pointer items-start gap-4 rounded-xl border border-gray-200 p-4 transition hover:border-red-300 hover:bg-red-50/50"
+                                    :class="status === {{ $sm->id }} ?
+                                        'border-red-500 bg-red-50' :
+                                        ''">
 
-                            {{-- Active --}}
-                            <label
-                                class="flex cursor-pointer items-start gap-4 rounded-xl border border-gray-200 p-4 transition hover:border-red-300 hover:bg-red-50/50"
-                                :class="status === 'active'
-                                    ?
-                                    'border-red-500 bg-red-50' :
-                                    ''">
+                                    <input type="radio" name="status_mading_id" value="{{ $sm->id }}"
+                                        x-model="status" class="mt-1 text-red-600 focus:ring-red-500">
 
-                                <input type="radio" name="status" value="active" x-model="status"
-                                    class="mt-1 text-red-600 focus:ring-red-500">
+                                    <div>
+                                        <p class="font-medium text-gray-900">
+                                            {{ $sm->nama }}
+                                        </p>
 
-                                <div>
-
-                                    <p class="font-medium text-gray-900">
-
-                                        Aktif
-
-                                    </p>
-
-                                    <p class="mt-1 text-sm leading-6 text-gray-500">
-
-                                        Poster ditampilkan pada halaman
-                                        Beranda.
-
-                                    </p>
-
-                                </div>
-
-                            </label>
-
-
-                            {{-- Inactive --}}
-                            <label
-                                class="flex cursor-pointer items-start gap-4 rounded-xl border border-gray-200 p-4 transition hover:border-red-300 hover:bg-red-50/50"
-                                :class="status === 'inactive'
-                                    ?
-                                    'border-red-500 bg-red-50' :
-                                    ''">
-
-                                <input type="radio" name="status" value="inactive" x-model="status"
-                                    class="mt-1 text-red-600 focus:ring-red-500">
-
-                                <div>
-
-                                    <p class="font-medium text-gray-900">
-
-                                        Nonaktif
-
-                                    </p>
-
-                                    <p class="mt-1 text-sm leading-6 text-gray-500">
-
-                                        Poster tidak ditampilkan pada
-                                        halaman Beranda.
-
-                                    </p>
-
-                                </div>
-
-                            </label>
-
+                                        <p class="mt-1 text-sm leading-6 text-gray-500">
+                                            {{ $sm->pesan }}
+                                        </p>
+                                    </div>
+                                </label>
+                            @endforeach
                         </div>
-
                     </div>
 
 
@@ -533,6 +476,7 @@
 
         </form>
 
+        @include('components.cms.media-picker')
     </div>
 
 </x-cms-layout>

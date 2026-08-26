@@ -3,14 +3,11 @@
 use App\Models\MediaAsset;
 
 use App\Http\Controllers\MediaController;
-use App\Http\Controllers\PublicPublicationController;
 use App\Http\Controllers\MadingController;
-use App\Http\Controllers\MajalahController;
-use App\Http\Controllers\TabloidController;
-use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\PublikasiController;
+use App\Http\Controllers\PublicPublicationController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +40,7 @@ Route::get('/podcast/show', function () {
 })->name('podcast.show');
 
 // MADING
-Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');
+// Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');
 
 // TENTANG KAMI
 Route::get('/tentang-kami', function () {
@@ -77,16 +74,19 @@ Route::prefix('cms')->name('cms.')->group(function () {
 
     // PUBLIKASI
     Route::resource('publikasi', PublikasiController::class);
+
+    // MADING
+    Route::resource('mading', MadingController::class);
 });
 
-// MADING
-Route::get('/cms/mading', function () {
-    return view('cms.mading.index');
-})->name('cms.mading.index');
-// Edit
-Route::get('/cms/mading/edit', function () {
-    return view('cms.mading.edit');
-})->name('cms.mading.edit');
+// // MADING
+// Route::get('/cms/mading', function () {
+//     return view('cms.mading.index');
+// })->name('cms.mading.index');
+// // Edit
+// Route::get('/cms/mading/ngedit', function () {
+//     return view('cms.mading.edit');
+// })->name('cms.mading.ngedit');
 
 
 // KATEGORI
