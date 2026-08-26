@@ -13,7 +13,7 @@
                 <i class="ri-arrow-right-s-line"></i>
 
                 <a href="{{ route('berita.index', $slug) }}" class="hover:text-red-600">
-                    Isu Kampus
+                    {{ $artikel->kategori->nama }}
                 </a>
 
                 <i class="ri-arrow-right-s-line"></i>

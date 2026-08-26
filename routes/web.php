@@ -3,7 +3,7 @@
 use App\Models\MediaAsset;
 
 use App\Http\Controllers\MediaController;
-use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\PublicPublicationController;
 use App\Http\Controllers\MadingController;
 use App\Http\Controllers\MajalahController;
 use App\Http\Controllers\TabloidController;
@@ -18,9 +18,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
 // BERITA
-Route::get('/berita/kategori/{slug}', [BeritaController::class, 'index'])->name('berita.index');
-// Show
-Route::get('/berita/kategori/{slug}/{artikel}/show', [BeritaController::class, 'show'])->name('berita.show');
+Route::prefix('berita')->name('berita.')->group(
+    function () {
+        Route::get('kategori/{slug}', [PublicPublicationController::class, 'indexBerita'])->name('index');
+        Route::get('kategori/{slug}/{artikel}/show', [PublicPublicationController::class, 'showBerita'])->name('show');
+    }
+);
+
+// PUBLIKASI
+Route::prefix('publikasi')->name('publikasi.')->group(
+    function () {
+        Route::get('kategori/{slug}', [PublicPublicationController::class, 'indexPublikasi'])->name('index');
+        // Route::get('kategori/{slug}/{artikel}/show', [PublicPublicationController::class, 'show'])->name('show');
+    }
+);
 
 // PODCAST
 Route::get('/podcast', function () {

@@ -19,7 +19,7 @@
 
             {{-- Background Decoration --}}
             <i
-                class="ri-newspaper-line
+                class="
                 absolute
                 -right-8
                 -bottom-16
@@ -27,7 +27,13 @@
                 text-[170px]
                 lg:text-[220px]
                 text-red-500/10
-                pointer-events-none">
+                pointer-events-none
+                @switch($kategori->slug)
+                    @case('majalah') ri-newspaper-line @break
+                    @case('tabloid') ri-file-paper-line @break
+                    @case('buletin') ri-article-line @break
+                    @default ri-article-line
+                @endswitch">
             </i>
 
             <p class="relative z-10 text-sm font-semibold uppercase tracking-widest text-red-700">
@@ -35,7 +41,7 @@
             </p>
 
             <h1 class="relative z-10 text-3xl md:text-4xl lg:text-5xl font-extrabold text-red-600">
-                Majalah
+                {{ $kategori->nama }}
             </h1>
 
         </div>
@@ -53,7 +59,7 @@
                 {{-- ================================================= --}}
                 <div class="lg:col-span-8 space-y-6">
 
-                    @foreach (range(1, 1) as $item)
+                    @foreach ($publikasis as $p)
                         <article
                             class="group overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition hover:shadow-xl">
 
@@ -63,7 +69,7 @@
                                 {{-- Cover --}}
                                 {{-- ========================================= --}}
                                 <div class="overflow-hidden">
-                                    <img src="https://picsum.photos/700/950?random={{ $item }}"
+                                    <img src="{{ $p->cover_asset?->getFirstMedia('library')?->original_url }}"
                                         class="h-full w-full object-cover transition duration-700 group-hover:scale-105">
                                 </div>
 
@@ -74,9 +80,7 @@
 
                                     <span
                                         class="inline-flex w-fit rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                        Majalah
-
+                                        {{ $p->kategori->nama }}
                                     </span>
 
 
@@ -84,29 +88,18 @@
                                     <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
 
                                         <i class="ri-time-line text-red-600"></i>
-
-                                        Sabtu, 27 Juni 2026
-
+                                        {{ $p->created_at->translatedFormat('d F Y') }}
                                     </div>
 
                                     {{-- Title --}}
                                     <h2
                                         class="mt-5 text-3xl font-extrabold uppercase leading-tight transition group-hover:text-red-600">
-
-                                        DIKSI VOL.1 2026
-
+                                        {{ $p->judul }}
                                     </h2>
 
                                     {{-- Description --}}
                                     <p class="mt-6 max-w-2xl text-lg leading-9 text-gray-600 line-clamp-5">
-
-                                        DIKSI VOL.{{ $item }} 2026 hadir sebagai ruang diskusi berbagai isu
-                                        yang dekat dengan kehidupan mahasiswa dan masyarakat.
-
-                                        Mulai dari ledakan populasi ikan sapu-sapu,
-                                        pendidikan, hingga berbagai fenomena sosial lainnya
-                                        yang dikemas dengan gaya jurnalistik kampus.
-
+                                        {{ $p->deskripsi }}
                                     </p>
 
                                     {{-- Spacer --}}
@@ -132,44 +125,9 @@
 
 
                     {{-- Pagination --}}
-                    <div class="flex justify-center pt-6">
-
-                        <nav class="flex gap-2">
-
-                            <button class="w-11 h-11 rounded-xl border border-gray-200 hover:bg-gray-100">
-
-                                <i class="ri-arrow-left-s-line"></i>
-
-                            </button>
-
-                            <button class="w-11 h-11 rounded-xl bg-red-600 text-white">
-
-                                1
-
-                            </button>
-
-                            <button class="w-11 h-11 rounded-xl border border-gray-200 hover:bg-gray-100">
-
-                                2
-
-                            </button>
-
-                            <button class="w-11 h-11 rounded-xl border border-gray-200 hover:bg-gray-100">
-
-                                3
-
-                            </button>
-
-                            <button class="w-11 h-11 rounded-xl border border-gray-200 hover:bg-gray-100">
-
-                                <i class="ri-arrow-right-s-line"></i>
-
-                            </button>
-
-                        </nav>
-
+                    <div class="pt-6">
+                        {{ $publikasis->links('vendor.pagination.default') }}
                     </div>
-
                 </div>
 
                 {{-- ================================================= --}}

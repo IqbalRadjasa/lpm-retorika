@@ -41,7 +41,7 @@
                 </x-nav-dropdown>
 
                 <x-nav-link :href="route('podcast.index')" :active="request()->routeIs('podcast.*')">Podcast</x-nav-link>
-                <x-nav-link :href="route('majalah.index')" :active="request()->routeIs('majalah.*')">Majalah</x-nav-link>
+                <x-nav-link :href="route('publikasi.index', 'majalah')" :active="request()->routeIs('publikasi.*') && request()->route('slug') === 'majalah'">Majalah</x-nav-link>
                 <x-nav-link :href="route('tabloid.index')" :active="request()->routeIs('tabloid.*')">Tabloid</x-nav-link>
                 <x-nav-link :href="route('buletin.index')" :active="request()->routeIs('buletin.*')">Buletin</x-nav-link>
                 <x-nav-link :href="route('mading.index')" :active="request()->routeIs('mading.*')">Mading</x-nav-link>
@@ -178,7 +178,8 @@
                 Podcast
             </a>
 
-            <a href="{{ route('majalah.index') }}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{ route('publikasi.index', 'majalah') }}"
+                class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-book-open-line"></i>
                 Majalah
             </a>
