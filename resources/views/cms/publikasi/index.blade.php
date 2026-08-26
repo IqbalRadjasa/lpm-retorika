@@ -220,11 +220,20 @@
                         </h2>
 
                         <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                            <span>
+                                <i class="ri-bookmark-line mr-1"></i>{{ $p->edisi }}
+                            </span>
+                            ·
+                            <span>
+                                <i class="ri-stack-line"></i>
+                                {{ $p->volume }}
+                            </span>
+                        </div>
 
+                        <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
                             <i class="ri-calendar-line"></i>
 
                             {{ $p->created_at->translatedFormat('d F Y') }}
-
                         </div>
 
 
@@ -235,7 +244,7 @@
 
                         {{-- Actions --}}
                         <div class="mt-5 flex gap-2">
-                            <x-link-button.secondary-link :href="'#'" icon="ri-eye-line" class="flex-1">
+                            <x-link-button.secondary-link :href="route('cms.publikasi.show', $p->id)" icon="ri-eye-line" class="flex-1">
                                 Detail
                             </x-link-button.secondary-link>
 

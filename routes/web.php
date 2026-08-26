@@ -90,9 +90,9 @@ Route::prefix('cms')->name('cms.')->group(function () {
 //     return view('cms.publikasi.form');
 // })->name('cms.publikasi.form');
 //  Show
-Route::get('/cms/publikasi/show', function () {
-    return view('cms.publikasi.show');
-})->name('cms.publikasi.show');
+// Route::get('/cms/publikasi/show', function () {
+//     return view('cms.publikasi.show');
+// })->name('cms.publikasi.show');
 
 // MADING
 Route::get('/cms/mading', function () {

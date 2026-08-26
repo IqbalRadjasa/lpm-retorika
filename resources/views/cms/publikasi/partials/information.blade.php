@@ -81,19 +81,31 @@
         {{-- ========================================= --}}
         {{-- Edisi / Volume --}}
         {{-- ========================================= --}}
+        <div class="grid gap-2 grid-cols-2">
+            <div>
+                <x-form.input-label for="edisi" :value="__('Edisi')" />
+                <x-form.text-input id="edisi" type="text" name="edisi" :value="old('edisi')"
+                    placeholder="Contoh: Edisi 1" required />
+                <x-form.input-error :messages="$errors->get('edisi')" />
+                <p class="mt-2 text-xs text-gray-400">
 
-        <div>
-            <x-form.input-label for="edisi_or_vol" :value="__('Edisi / Volume')" />
-            <x-form.text-input id="edisi_or_vol" type="text" name="edisi_or_vol" :value="old('edisi_or_vol')"
-                placeholder="Contoh: Volume 1" required />
-            <x-form.input-error :messages="$errors->get('edisi_or_vol')" />
-            <p class="mt-2 text-xs text-gray-400">
+                    Masukkan informasi edisi jika tersedia.
 
-                Masukkan informasi edisi atau volume jika tersedia.
+                </p>
+            </div>
 
-            </p>
+            <div>
+                <x-form.input-label for="volume" :value="__('Volume')" />
+                <x-form.text-input id="volume" type="text" name="volume" :value="old('volume')"
+                    placeholder="Contoh: Volume 1" required />
+                <x-form.input-error :messages="$errors->get('volume')" />
+                <p class="mt-2 text-xs text-gray-400">
+
+                    Masukkan informasi volume jika tersedia.
+
+                </p>
+            </div>
         </div>
-
         {{-- ========================================= --}}
         {{-- Ringkasan --}}
         {{-- ========================================= --}}

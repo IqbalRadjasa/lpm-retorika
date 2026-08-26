@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('cover_id')->constrained('media_assets');
             $table->foreignId('doc_id')->constrained('media_assets');
             $table->string('judul');
-            $table->string('edisi_or_vol')->nullable();
+            $table->string('edisi')->nullable();
+            $table->string('volume')->nullable();
             $table->text('ringkasan');
             $table->timestamps();
         });

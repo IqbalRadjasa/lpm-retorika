@@ -59,7 +59,8 @@
 
                         <div class="mx-auto max-w-sm overflow-hidden rounded-xl bg-white shadow-xl">
 
-                            <img src="https://picsum.photos/700/950?random=25" alt="Cover DIKSI Edisi 12"
+                            <img src="{{ $publikasi->cover_asset->getFirstMedia('library')->original_url }}"
+                                alt="{{ $publikasi->cover_asset->alt_text ?? $publikasi->cover_asset->name }}"
                                 class="aspect-[3/4] w-full object-cover">
 
                         </div>
@@ -69,9 +70,7 @@
 
                     {{-- Cover Actions --}}
                     <div class="border-t border-gray-100 p-5">
-
                         <div class="flex flex-col gap-3 sm:flex-row">
-
                             <x-link-button.primary-link :href="route('cms.publikasi.index')" icon="ri-eye-line"
                                 class="flex-1 rounded-xl py-3">
                                 Buka Preview
@@ -82,13 +81,9 @@
                                 class="flex-1 rounded-xl py-3">
                                 Download
                             </x-link-button.secondary-link>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
 
@@ -102,28 +97,19 @@
 
                     {{-- Header --}}
                     <div class="flex items-start justify-between border-b border-gray-100 px-6 py-5">
-
                         <div>
-
                             <span
                                 class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                Majalah
-
+                                {{ $publikasi->kategori->nama }}
                             </span>
 
                             <h2 class="mt-4 text-2xl font-bold text-gray-900">
-
                                 DIKSI
-
                             </h2>
 
                             <p class="mt-1 text-gray-500">
-
                                 Edisi 12 · Volume 6
-
                             </p>
-
                         </div>
 
 

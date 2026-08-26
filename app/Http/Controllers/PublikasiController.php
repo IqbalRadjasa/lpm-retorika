@@ -79,7 +79,8 @@ class PublikasiController extends Controller
             'cover_id' => 'required|integer',
             'doc_id' => 'required|integer',
             'judul' => 'required|string|max:100',
-            'edisi_or_vol' => 'string|max:100',
+            'edisi' => 'string|max:100',
+            'volume' => 'string|max:100',
             'ringkasan' => 'required|string',
         ]);
 
@@ -90,7 +91,8 @@ class PublikasiController extends Controller
                 'cover_id' => $validated['cover_id'],
                 'doc_id' => $validated['doc_id'],
                 'judul' => $validated['judul'],
-                'edisi_or_vol' => $validated['edisi_or_vol'],
+                'edisi' => $validated['edisi'],
+                'volume' => $validated['volume'],
                 'ringkasan' => $validated['ringkasan'],
             ]);
 
@@ -108,9 +110,11 @@ class PublikasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Publikasi $publikasi)
     {
-        //
+        $publikasi->load(['kategori', 'cover_asset.media', 'doc_asset.media', 'status']);
+
+        return view('cms.publikasi.show', compact('publikasi'));
     }
 
     /**

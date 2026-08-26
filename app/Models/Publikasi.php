@@ -14,7 +14,8 @@ class Publikasi extends Model
         'cover_id',
         'doc_id',
         'judul',
-        'edisi_or_vol',
+        'edisi',
+        'volume',
         'ringkasan',
     ];
 
