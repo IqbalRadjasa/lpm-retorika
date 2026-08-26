@@ -16,18 +16,15 @@
 
                 <i class="ri-arrow-right-s-line"></i>
 
-                <a href="{{ route('majalah.index') }}">
-                    Majalah
+                <a href="{{ route('publikasi.index', $slug) }}">
+                    {{ $publikasi->kategori->nama }}
                 </a>
 
                 <i class="ri-arrow-right-s-line"></i>
 
                 <span class="text-gray-800">
-
-                    DIKSI VOL.1 2026
-
+                    {{ $publikasi->judul }}
                 </span>
-
             </nav>
 
             {{-- ================================================= --}}
@@ -37,34 +34,26 @@
             <div class="mt-10 text-center mb-10">
 
                 <span class="inline-flex rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">
-
-                    Majalah
-
+                    {{ $publikasi->kategori->nama }}
                 </span>
 
                 <h1 class="mt-6 text-4xl lg:text-5xl font-bold">
-
-                    Maraknya Kasus Korupsi di Indonesia Tahun ke Tahun
-
+                    {{ $publikasi->judul }}
                 </h1>
 
                 <div class="mt-5 flex justify-center items-center gap-3 text-gray-500">
 
                     <i class="ri-calendar-line"></i>
 
-                    Sabtu, 27 Juni 2026
-
+                    {{ $publikasi->created_at->translatedFormat('d F Y') }}
                 </div>
 
                 <p class="mt-8 max-w-3xl mx-auto leading-8 text-gray-600">
-
-                    Maraknya Kasus Korupsi di Indonesia Tahun ke Tahun
-
+                    {{ $publikasi->deskripsi }}
                 </p>
-
             </div>
 
-            <a href="{{ route('majalah.index') }}"
+            <a href="{{ route('publikasi.index', $slug) }}"
                 class="gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20l">
                 <i class="ri-arrow-left-line"></i>
                 Kembali
@@ -78,7 +67,9 @@
 
                 <div class="rounded-3xl border border-gray-200 bg-gray-100 p-6">
 
-                    <div id="flipbook" class="mx-auto">
+                    <div id="flipbook"
+                        data-pdf-url="{{ parse_url($publikasi->doc_asset->getFirstMedia('library')->original_url, PHP_URL_PATH) }}"
+                        class="mx-auto">
 
                     </div>
 
@@ -92,7 +83,7 @@
 
             <div class="mt-10 flex flex-wrap justify-center gap-4" x-data="{ shareOpen: false }">
 
-                <a href="#"
+                <a href="{{ route('media.download', $publikasi->doc_id) }}"
                     class="inline-flex items-center gap-3 rounded-xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700">
 
                     <i class="ri-download-line"></i>
@@ -100,6 +91,12 @@
                     Download PDF
 
                 </a>
+
+
+                @php
+                    $shareUrl = urlencode(url()->current());
+                    $shareText = urlencode($publikasi->judul);
+                @endphp
 
                 {{-- Mobile --}}
                 <button @click="shareOpen = true"
@@ -110,7 +107,6 @@
                     Bagikan
 
                 </button>
-
 
                 {{-- Desktop --}}
                 <div class="hidden lg:block">
@@ -131,22 +127,33 @@
 
                         <x-slot name="content">
 
-                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                                <i class="ri-link"></i>
-                                Salin Link
+                            <x-dropdown-link href="#" x-data="{ copied: false }"
+                                @click.prevent="
+                                    navigator.clipboard.writeText(window.location.href);
+                                    copied = true;
+                                    setTimeout(() => copied = false, 2000);
+                                "
+                                class="flex items-center gap-3 py-3">
+                                <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
+                                <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>
                             </x-dropdown-link>
 
-                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                            <x-dropdown-link
+                                href="https://api.whatsapp.com/send?text={{ $shareText }}%20{{ $shareUrl }}"
+                                class="flex items-center gap-3 py-3">
                                 <i class="ri-whatsapp-line text-green-600"></i>
                                 WhatsApp
                             </x-dropdown-link>
 
-                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                            <x-dropdown-link
+                                href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
+                                class="flex items-center gap-3 py-3">
                                 <i class="ri-twitter-x-line"></i>
                                 Twitter / X
                             </x-dropdown-link>
 
-                            <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                            <x-dropdown-link href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                                class="flex items-center gap-3 py-3">
                                 <i class="ri-facebook-circle-line text-blue-600"></i>
                                 Facebook
                             </x-dropdown-link>
@@ -182,16 +189,20 @@
 
                         <div class="mt-6 space-y-2">
 
-                            <a href="#"
-                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+                            <a href="#" x-data="{ copied: false }"
+                                @click.prevent="
+                                    navigator.clipboard.writeText(window.location.href);
+                                    copied = true;
+                                    setTimeout(() => copied = false, 2000);
+                                "
+                                class="flex items-center gap-4 p-4">
 
-                                <i class="ri-link text-xl text-gray-500"></i>
+                                <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
 
-                                <span>Salin Link</span>
-
+                                <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>
                             </a>
 
-                            <a href="#"
+                            <a href="https://api.whatsapp.com/send?text={{ $shareText }}%20{{ $shareUrl }}"
                                 class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
 
                                 <i class="ri-whatsapp-line text-xl text-green-600"></i>
@@ -200,7 +211,7 @@
 
                             </a>
 
-                            <a href="#"
+                            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
                                 class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
 
                                 <i class="ri-twitter-x-line text-xl"></i>
@@ -209,7 +220,7 @@
 
                             </a>
 
-                            <a href="#"
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
                                 class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
 
                                 <i class="ri-facebook-circle-line text-xl text-blue-600"></i>

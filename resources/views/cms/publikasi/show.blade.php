@@ -305,13 +305,6 @@
                     </p>
 
                 </div>
-
-                <span class="text-sm text-gray-400">
-
-                    24 halaman
-
-                </span>
-
             </div>
 
 

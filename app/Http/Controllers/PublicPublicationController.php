@@ -64,4 +64,18 @@ class PublicPublicationController extends Controller
             'kategori'
         ));
     }
+
+    public function showPublikasi($slug, Publikasi $publikasi)
+    {
+        if ($publikasi->kategori->slug !== $slug) {
+            abort(404);
+        }
+
+        $publikasi->load(['kategori', 'cover_asset.media', 'doc_asset.media', 'status']);
+
+        return view('public.publikasi.show', compact(
+            'publikasi',
+            'slug'
+        ));
+    }
 }

@@ -29,7 +29,7 @@ Route::prefix('berita')->name('berita.')->group(
 Route::prefix('publikasi')->name('publikasi.')->group(
     function () {
         Route::get('kategori/{slug}', [PublicPublicationController::class, 'indexPublikasi'])->name('index');
-        // Route::get('kategori/{slug}/{artikel}/show', [PublicPublicationController::class, 'show'])->name('show');
+        Route::get('kategori/{slug}/{publikasi}/show', [PublicPublicationController::class, 'showPublikasi'])->name('show');
     }
 );
 

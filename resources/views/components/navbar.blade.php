@@ -42,8 +42,8 @@
 
                 <x-nav-link :href="route('podcast.index')" :active="request()->routeIs('podcast.*')">Podcast</x-nav-link>
                 <x-nav-link :href="route('publikasi.index', 'majalah')" :active="request()->routeIs('publikasi.*') && request()->route('slug') === 'majalah'">Majalah</x-nav-link>
-                <x-nav-link :href="route('tabloid.index')" :active="request()->routeIs('tabloid.*')">Tabloid</x-nav-link>
-                <x-nav-link :href="route('buletin.index')" :active="request()->routeIs('buletin.*')">Buletin</x-nav-link>
+                <x-nav-link :href="route('publikasi.index', 'tabloid')" :active="request()->routeIs('publikasi.*') && request()->route('slug') === 'tabloid'">Tabloid</x-nav-link>
+                <x-nav-link :href="route('publikasi.index', 'buletin')" :active="request()->routeIs('publikasi.*') && request()->route('slug') === 'buletin'">Buletin</x-nav-link>
                 <x-nav-link :href="route('mading.index')" :active="request()->routeIs('mading.*')">Mading</x-nav-link>
                 <x-nav-link :href="route('tentang-kami')" :active="request()->routeIs('tentang-kami')">Tentang Kami</x-nav-link>
 
@@ -184,12 +184,14 @@
                 Majalah
             </a>
 
-            <a href="{{ route('tabloid.index') }}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{ route('publikasi.index', 'tabloid') }}"
+                class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-file-paper-2-line"></i>
                 Tabloid
             </a>
 
-            <a href="{{ route('buletin.index') }}" class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
+            <a href="{{ route('publikasi.index', 'buletin') }}"
+                class="flex items-center gap-3 px-5 py-4 hover:bg-gray-50">
                 <i class="ri-article-line"></i>
                 Buletin
             </a>

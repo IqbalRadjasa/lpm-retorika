@@ -59,7 +59,7 @@
                 {{-- ================================================= --}}
                 <div class="lg:col-span-8 space-y-6">
 
-                    @foreach ($publikasis as $p)
+                    @forelse ($publikasis as $p)
                         <article
                             class="group overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition hover:shadow-xl">
 
@@ -107,7 +107,7 @@
 
                                     {{-- CTA --}}
 
-                                    <a href="{{ route('majalah.show') }}"
+                                    <a href="{{ route('publikasi.show', ['slug' => $p->kategori->slug, 'publikasi' => $p->id]) }}"
                                         class="group/button w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
 
                                         <span>Baca Selengkapnya</span>
@@ -121,7 +121,37 @@
                             </div>
 
                         </article>
-                    @endforeach
+                    @empty
+                        {{-- ========================================= --}}
+                        {{-- Empty State --}}
+                        {{-- ========================================= --}}
+                        <div
+                            class="flex flex-col items-center justify-center rounded-3xl border border-dashed border-gray-300 bg-gray-50/50 px-6 py-16 text-center lg:py-24">
+                            {{-- Icon Container --}}
+                            <div
+                                class="flex h-20 w-20 items-center justify-center rounded-2xl bg-red-50 text-red-600 shadow-sm ring-8 ring-red-50/50">
+                                <i class="ri-newspaper-line text-4xl"></i>
+                            </div>
+
+                            {{-- Text Content --}}
+                            <h3 class="mt-6 text-xl font-bold text-gray-900 sm:text-2xl">
+                                Belum Ada Publikasi
+                            </h3>
+                            <p class="mt-2 max-w-md text-base text-gray-500">
+                                Saat ini belum ada artikel atau media yang dipublikasikan pada kategori ini. Silakan
+                                kembali lagi nanti.
+                            </p>
+
+                            {{-- Optional CTA --}}
+                            @if (request()->has('search') || request()->has('kategori'))
+                                <a href="{{ request()->url() }}"
+                                    class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800">
+                                    <i class="ri-refresh-line"></i>
+                                    <span>Reset Filter</span>
+                                </a>
+                            @endif
+                        </div>
+                    @endforelse
 
 
                     {{-- Pagination --}}
