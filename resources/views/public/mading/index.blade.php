@@ -59,254 +59,222 @@
             {{-- Bulletin Board --}}
             {{-- ================================================= --}}
 
-            <div
-                class="mt-12 rounded-[36px] border border-red-100 bg-gradient-to-r from-red-50 to-white p-6 lg:p-10 shadow-xl">
+            @if (isset($mading))
+                {{-- ========================= --}}
+                {{-- Tampilan Ada Data Mading --}}
+                {{-- ========================= --}}
+                <div
+                    class="mt-12 rounded-[36px] border border-red-100 bg-gradient-to-r from-red-50 to-white p-6 shadow-xl lg:p-10">
 
-                {{-- Board --}}
-                <div class="relative mx-auto max-w-4xl">
+                    {{-- Board --}}
+                    <div class="relative mx-auto max-w-4xl">
 
-                    {{-- Shadow Paper --}}
-                    <div class="absolute inset-0 rotate-2 rounded-2xl bg-[#f4e8c8]/60 shadow-lg">
-                    </div>
-
-                    {{-- Poster --}}
-                    <div
-                        class="relative rotate-1 overflow-hidden rounded-2xl bg-white shadow-2xl transition duration-500 hover:rotate-0 hover:scale-[1.01]">
-
-                        {{-- Pins --}}
-                        <span
-                            class="absolute left-8 top-6 z-20 h-5 w-5 rounded-full bg-red-600 ring-4 ring-red-300 shadow">
-                        </span>
-
-                        <span
-                            class="absolute right-8 top-6 z-20 h-5 w-5 rounded-full bg-red-600 ring-4 ring-red-300 shadow">
-                        </span>
-
-                        {{-- Badge --}}
-                        <div class="absolute left-6 top-14 z-20">
-
-                            <span
-                                class="rounded-full bg-red-600 px-4 py-2 text-xs font-bold uppercase tracking-wide text-white">
-
-                                Mading Bulan Ini
-
-                            </span>
-
+                        {{-- Shadow Paper --}}
+                        <div class="absolute inset-0 rotate-2 rounded-2xl bg-[#f4e8c8]/60 shadow-lg">
                         </div>
 
-                        {{-- Poster Image --}}
-                        <img src="https://picsum.photos/900/1300" class="w-full object-cover">
+                        {{-- Poster --}}
+                        <div
+                            class="relative rotate-1 overflow-hidden rounded-2xl bg-white shadow-2xl transition duration-500 hover:rotate-0 hover:scale-[1.01]">
 
-                    </div>
-
-                </div>
-
-                {{-- Information --}}
-                <div class="mx-auto mt-8 max-w-3xl rounded-3xl bg-white p-5 sm:p-6 lg:p-8 shadow-xl">
-
-                    <div class="flex flex-col gap-8">
-
-                        {{-- ========================= --}}
-                        {{-- Content --}}
-                        {{-- ========================= --}}
-                        <div>
-
+                            {{-- Pins --}}
                             <span
-                                class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-
-                                Mading
-
+                                class="absolute left-8 top-6 z-20 h-5 w-5 rounded-full bg-red-600 shadow ring-4 ring-red-300">
                             </span>
 
-                            <h2 class="mt-4 text-2xl sm:text-3xl font-bold leading-tight">
+                            <span
+                                class="absolute right-8 top-6 z-20 h-5 w-5 rounded-full bg-red-600 shadow ring-4 ring-red-300">
+                            </span>
 
-                                Open Recruitment
-                                LPM Retorika 2026
-
-                            </h2>
-
-                            {{-- Meta --}}
-                            <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
-
-                                <span class="flex items-center gap-2">
-
-                                    <i class="ri-calendar-line"></i>
-
-                                    3 Agustus 2026
-
+                            {{-- Badge --}}
+                            <div class="absolute left-6 top-14 z-20">
+                                <span
+                                    class="rounded-full bg-red-600 px-4 py-2 text-xs font-bold uppercase tracking-wide text-white">
+                                    Mading Bulan Ini
                                 </span>
-
-                                <span class="flex items-center gap-2">
-
-                                    <i class="ri-user-3-line"></i>
-
-                                    LPM Retorika
-
-                                </span>
-
                             </div>
 
-                            {{-- <p class="mt-5 text-sm sm:text-base leading-7 text-gray-600">
-
-                                Bergabunglah bersama keluarga besar LPM Retorika.
-                                Kami membuka kesempatan bagi mahasiswa yang memiliki
-                                minat pada dunia jurnalistik, desain grafis,
-                                fotografi, videografi, dan media digital.
-
-                            </p> --}}
+                            {{-- Poster Image --}}
+                            <img src="{{ $mading->media_asset->getFirstMedia('library')->original_url }}"
+                                class="w-full object-cover">
 
                         </div>
 
-                        {{-- ========================= --}}
-                        {{-- CTA --}}
-                        {{-- ========================= --}}
-                        <div class="flex flex-col sm:flex-row gap-3 sm:justify-end" x-data="{ shareOpen: false }">
+                    </div>
 
-                            <a href="#"
-                                class="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-xl bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700">
+                    {{-- Information --}}
+                    <div class="mx-auto mt-8 max-w-3xl rounded-3xl bg-white p-5 shadow-xl sm:p-6 lg:p-8">
 
-                                <i class="ri-download-line"></i>
+                        <div class="flex flex-col gap-8">
 
-                                Download
+                            {{-- Content --}}
+                            <div>
+                                <span
+                                    class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                                    Mading
+                                </span>
 
-                            </a>
+                                <h2 class="mt-4 text-2xl font-bold leading-tight sm:text-3xl">
+                                    {{ $mading->judul }}
+                                </h2>
 
-                            {{-- Mobile --}}
-                            <button @click="shareOpen = true"
-                                class="lg:hidden inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
+                                {{-- Meta --}}
+                                <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
+                                    <span class="flex items-center gap-2">
+                                        <i class="ri-calendar-line"></i>
+                                        {{ $mading->created_at->translatedFormat('d F Y') }}
+                                    </span>
 
-                                <i class="ri-share-line"></i>
+                                    <span class="flex items-center gap-2">
+                                        <i class="ri-user-3-line"></i>
+                                        Admin Retorika
+                                    </span>
+                                </div>
+                            </div>
 
-                                Bagikan
+                            {{-- CTA --}}
+                            <div class="flex flex-col gap-3 sm:flex-row sm:justify-end" x-data="{ shareOpen: false }">
 
-                            </button>
+                                <a href="{{ route('media.download', $mading->media_id) }}"
+                                    class="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700 sm:w-auto">
+                                    <i class="ri-download-line"></i>
+                                    Download
+                                </a>
 
+                                @php
+                                    $shareUrl = urlencode(url()->current());
+                                    $shareText = urlencode($mading->judul);
+                                @endphp
 
-                            {{-- Desktop --}}
-                            <div class="hidden lg:block">
-                                <x-dropdown align="right" width="64">
+                                {{-- Mobile Share Button --}}
+                                <button @click="shareOpen = true"
+                                    class="inline-flex items-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100 lg:hidden">
+                                    <i class="ri-share-line"></i>
+                                    Bagikan
+                                </button>
 
-                                    <x-slot name="trigger">
+                                {{-- Desktop Share Dropdown --}}
+                                <div class="hidden lg:block">
+                                    <x-dropdown align="right" width="64">
+                                        <x-slot name="trigger">
+                                            <button
+                                                class="inline-flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100 sm:w-auto">
+                                                <i class="ri-share-line"></i>
+                                                Bagikan
+                                            </button>
+                                        </x-slot>
 
-                                        <button
-                                            class="inline-flex w-full sm:w-autoitems-center justify-center gap-3 rounded-xl border border-gray-300 px-6 py-3 hover:bg-gray-100">
+                                        <x-slot name="content">
+                                            <x-dropdown-link href="#" x-data="{ copied: false }"
+                                                @click.prevent="
+                                        navigator.clipboard.writeText(window.location.href);
+                                        copied = true;
+                                        setTimeout(() => copied = false, 2000);
+                                    "
+                                                class="flex items-center gap-3 py-3">
+                                                <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
+                                                <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>
+                                            </x-dropdown-link>
 
-                                            <i class="ri-share-line"></i>
+                                            <x-dropdown-link
+                                                href="https://api.whatsapp.com/send?text={{ $shareText }}%20{{ $shareUrl }}"
+                                                class="flex items-center gap-3 py-3">
+                                                <i class="ri-whatsapp-line text-green-600"></i>
+                                                WhatsApp
+                                            </x-dropdown-link>
 
-                                            Bagikan
+                                            <x-dropdown-link
+                                                href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
+                                                class="flex items-center gap-3 py-3">
+                                                <i class="ri-twitter-x-line"></i>
+                                                Twitter / X
+                                            </x-dropdown-link>
 
+                                            <x-dropdown-link
+                                                href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                                                class="flex items-center gap-3 py-3">
+                                                <i class="ri-facebook-circle-line text-blue-600"></i>
+                                                Facebook
+                                            </x-dropdown-link>
+                                        </x-slot>
+                                    </x-dropdown>
+                                </div>
+
+                                {{-- Mobile Share Sheet --}}
+                                <div x-show="shareOpen" x-cloak class="fixed inset-0 z-[999]" style="display:none">
+                                    <div @click="shareOpen = false" class="absolute inset-0 bg-black/50"></div>
+                                    <div x-show="shareOpen" x-transition:enter="transition ease-out duration-300"
+                                        x-transition:enter-start="translate-y-full"
+                                        x-transition:enter-end="translate-y-0"
+                                        x-transition:leave="transition ease-in duration-200"
+                                        x-transition:leave-start="translate-y-0"
+                                        x-transition:leave-end="translate-y-full"
+                                        class="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
+                                        <div class="mx-auto mb-6 h-1.5 w-14 rounded-full bg-gray-300"></div>
+                                        <h3 class="text-center text-lg font-bold">Bagikan</h3>
+
+                                        <div class="mt-6 space-y-2">
+                                            <a href="#" x-data="{ copied: false }"
+                                                @click.prevent="
+                                        navigator.clipboard.writeText(window.location.href);
+                                        copied = true;
+                                        setTimeout(() => copied = false, 2000);
+                                    "
+                                                class="flex items-center gap-4 p-4">
+                                                <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
+                                                <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>
+                                            </a>
+                                            <a href="https://api.whatsapp.com/send?text={{ $shareText }}%20{{ $shareUrl }}"
+                                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+                                                <i class="ri-whatsapp-line text-xl text-green-600"></i>
+                                                <span>WhatsApp</span>
+                                            </a>
+                                            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
+                                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+                                                <i class="ri-twitter-x-line text-xl"></i>
+                                                <span>Twitter / X</span>
+                                            </a>
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
+                                                <i class="ri-facebook-circle-line text-xl text-blue-600"></i>
+                                                <span>Facebook</span>
+                                            </a>
+                                        </div>
+
+                                        <button @click="shareOpen=false"
+                                            class="mt-6 w-full rounded-xl bg-gray-100 py-4 font-semibold transition hover:bg-gray-200">
+                                            Batal
                                         </button>
-
-                                    </x-slot>
-
-                                    <x-slot name="content">
-
-                                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                                            <i class="ri-link"></i>
-                                            Salin Link
-                                        </x-dropdown-link>
-
-                                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                                            <i class="ri-whatsapp-line text-green-600"></i>
-                                            WhatsApp
-                                        </x-dropdown-link>
-
-                                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                                            <i class="ri-twitter-x-line"></i>
-                                            Twitter / X
-                                        </x-dropdown-link>
-
-                                        <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                                            <i class="ri-facebook-circle-line text-blue-600"></i>
-                                            Facebook
-                                        </x-dropdown-link>
-
-                                    </x-slot>
-
-                                </x-dropdown>
-                            </div>
-
-
-                            {{-- Mobile Share Sheet --}}
-                            <div x-show="shareOpen" x-cloak class="fixed inset-0 z-[999]" style="display:none">
-
-                                {{-- Overlay --}}
-                                <div @click="shareOpen = false" class="absolute inset-0 bg-black/50">
-                                </div>
-
-                                {{-- Bottom Sheet --}}
-                                <div x-show="shareOpen" x-transition:enter="transition ease-out duration-300"
-                                    x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
-                                    x-transition:leave="transition ease-in duration-200"
-                                    x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
-                                    class="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
-
-                                    {{-- Handle --}}
-                                    <div class="mx-auto mb-6 h-1.5 w-14 rounded-full bg-gray-300"></div>
-
-                                    <h3 class="text-center text-lg font-bold">
-
-                                        Bagikan
-
-                                    </h3>
-
-                                    <div class="mt-6 space-y-2">
-
-                                        <a href="#"
-                                            class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
-
-                                            <i class="ri-link text-xl text-gray-500"></i>
-
-                                            <span>Salin Link</span>
-
-                                        </a>
-
-                                        <a href="#"
-                                            class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
-
-                                            <i class="ri-whatsapp-line text-xl text-green-600"></i>
-
-                                            <span>WhatsApp</span>
-
-                                        </a>
-
-                                        <a href="#"
-                                            class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
-
-                                            <i class="ri-twitter-x-line text-xl"></i>
-
-                                            <span>Twitter / X</span>
-
-                                        </a>
-
-                                        <a href="#"
-                                            class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
-
-                                            <i class="ri-facebook-circle-line text-xl text-blue-600"></i>
-
-                                            <span>Facebook</span>
-
-                                        </a>
-
                                     </div>
-
-                                    <button @click="shareOpen=false"
-                                        class="mt-6 w-full rounded-xl bg-gray-100 py-4 font-semibold transition hover:bg-gray-200">
-
-                                        Batal
-
-                                    </button>
-
                                 </div>
-
                             </div>
+
                         </div>
 
                     </div>
 
                 </div>
+            @else
+                {{-- ========================= --}}
+                {{-- Empty State (Belum Ada Data) --}}
+                {{-- ========================= --}}
+                <div
+                    class="mt-12 rounded-[36px] border border-gray-100 bg-gradient-to-r from-gray-50 to-white p-8 text-center shadow-xl lg:p-14">
+                    <div class="relative mx-auto max-w-xl">
+                        {{-- Decorative Paper Background --}}
+                        <div
+                            class="mx-auto flex h-32 w-32 items-center justify-center rounded-3xl bg-red-50 text-red-500 shadow-inner">
+                            <i class="ri-artboard-line text-6xl"></i>
+                        </div>
 
-            </div>
+                        <h3 class="mt-6 text-2xl font-bold text-gray-800">Belum Ada Mading Ditampilkan</h3>
+                        <p class="mt-2 text-sm text-gray-500">
+                            Saat ini belum ada mading yang diterbitkan untuk bulan ini. Silakan periksa kembali di lain
+                            waktu.
+                        </p>
+                    </div>
+                </div>
+            @endif
 
         </div>
 

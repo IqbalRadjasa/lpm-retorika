@@ -30,6 +30,13 @@ Route::prefix('publikasi')->name('publikasi.')->group(
     }
 );
 
+// MADING
+Route::prefix('mading')->name('mading.')->group(
+    function () {
+        Route::get('/', [PublicPublicationController::class, 'indexMading'])->name('index');
+    }
+);
+
 // PODCAST
 Route::get('/podcast', function () {
     return view('public.podcast.index');

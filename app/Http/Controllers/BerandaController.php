@@ -59,6 +59,8 @@ class BerandaController extends Controller
         });
 
         // dd($beritaPerKategori);
+
+        // dd($beritaPerKategori);
         return view('public.beranda', compact(
             'beritaUtama',
             'beritaLainnya',

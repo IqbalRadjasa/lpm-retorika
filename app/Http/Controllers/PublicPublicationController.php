@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use App\Models\Kategori;
+use App\Models\Mading;
 use App\Models\Publikasi;
 
 use Illuminate\Http\Request;
@@ -77,5 +78,14 @@ class PublicPublicationController extends Controller
             'publikasi',
             'slug'
         ));
+    }
+
+    public function indexMading()
+    {
+        $mading = Mading::with(['status_mading', 'media_asset.media'])
+            ->where('status_mading_id', 1) // Aktif
+            ->first();
+
+        return view('public.mading.index', compact('mading'));
     }
 }
