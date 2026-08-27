@@ -46,85 +46,62 @@
 
             {{-- Total --}}
             <div class="rounded-2xl bg-white p-5 shadow-sm">
-
                 <div class="flex items-center justify-between">
-
                     <div>
-
                         <p class="text-sm text-gray-500">
                             Total Podcast
                         </p>
 
                         <p class="mt-2 text-2xl font-bold text-gray-900">
-                            48
+                            {{ $totalPodcast }}
                         </p>
 
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600">
-
                         <i class="ri-video-line text-xl"></i>
-
                     </div>
-
                 </div>
-
             </div>
 
 
             {{-- Published --}}
             <div class="rounded-2xl bg-white p-5 shadow-sm">
-
                 <div class="flex items-center justify-between">
-
                     <div>
-
                         <p class="text-sm text-gray-500">
-                            Terbit
+                            Published
                         </p>
 
                         <p class="mt-2 text-2xl font-bold text-gray-900">
-                            42
+                            {{ $totalPublished }}
                         </p>
-
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
-
                         <i class="ri-checkbox-circle-line text-xl"></i>
-
                     </div>
-
                 </div>
-
             </div>
 
 
             {{-- Draft --}}
             <div class="rounded-2xl bg-white p-5 shadow-sm">
-
                 <div class="flex items-center justify-between">
-
                     <div>
-
                         <p class="text-sm text-gray-500">
                             Draft
                         </p>
 
                         <p class="mt-2 text-2xl font-bold text-gray-900">
-                            6
+                            {{ $totalDrafted }}
                         </p>
-
                     </div>
 
                     <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-
                         <i class="ri-draft-line text-xl"></i>
-
                     </div>
-
                 </div>
-
             </div>
         </div>
 
@@ -132,1123 +109,186 @@
         {{-- ================================================= --}}
         {{-- Podcast List --}}
         {{-- ================================================= --}}
-
-        <div
-            class="overflow-hidden rounded-2xl
-               border border-gray-200
-               bg-white shadow-sm">
-
-
-            {{-- Table Header --}}
-            <div class="border-b border-gray-100
-                   px-6 py-5">
-
-                <div class="flex flex-col gap-4
-                   lg:flex-row lg:items-center lg:justify-between">
-
-
-                    {{-- Search --}}
-                    <div class="relative w-full lg:max-w-md">
-
-                        <i
-                            class="ri-search-line
-                           pointer-events-none
-                           absolute left-4 top-1/2
-                           -translate-y-1/2
-                           text-gray-400">
-                        </i>
-
-                        <input type="text" placeholder="Cari podcast..."
-                            class="w-full rounded-xl
-                           border-gray-300
-                           py-3 pl-11 pr-4
-                           text-sm
-                           focus:border-red-500
-                           focus:ring-red-500">
-
-                    </div>
-
-
-                    {{-- Filters --}}
-                    <div class="flex flex-col gap-3 sm:flex-row">
-
-
-                        {{-- Status --}}
-                        <select
-                            class="rounded-xl border-gray-300
-                           px-4 py-3 text-sm
-                           text-gray-700
-                           focus:border-red-500
-                           focus:ring-red-500">
-
-                            <option value="">
-                                Semua Status
-                            </option>
-
-                            <option value="published">
-                                Terbit
-                            </option>
-
-                            <option value="draft">
-                                Draft
-                            </option>
-
-                        </select>
-
-
-                        {{-- Sort --}}
-                        <select
-                            class="rounded-xl border-gray-300
-                           px-4 py-3 text-sm
-                           text-gray-700
-                           focus:border-red-500
-                           focus:ring-red-500">
-
-                            <option>
-                                Terbaru
-                            </option>
-
-                            <option>
-                                Terlama
-                            </option>
-
-                            <option>
-                                Judul A-Z
-                            </option>
-
-                            <option>
-                                Judul Z-A
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            {{-- ================================================= --}}
-            {{-- Desktop Table --}}
-            {{-- ================================================= --}}
-
-            <div class="hidden overflow-x-auto md:block">
-
-                <table class="w-full text-left">
-
-
-                    {{-- Head --}}
-                    <thead class="border-b border-gray-100
-                           bg-gray-50">
-
-                        <tr>
-
-                            <th
-                                class="px-6 py-4 text-xs
-                                   font-semibold uppercase
-                                   tracking-wide text-gray-500">
-
-                                Podcast
-
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs
-                                   font-semibold uppercase
-                                   tracking-wide text-gray-500">
-
-                                Host
-
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs
-                                   font-semibold uppercase
-                                   tracking-wide text-gray-500">
-
-                                Status
-
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-xs
-                                   font-semibold uppercase
-                                   tracking-wide text-gray-500">
-
-                                Terbit
-
-                            </th>
-
-                            <th
-                                class="px-6 py-4 text-right
-                                   text-xs font-semibold
-                                   uppercase tracking-wide
-                                   text-gray-500">
-
-                                Aksi
-
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    {{-- Body --}}
-                    <tbody class="divide-y divide-gray-100">
-
-
-                        {{-- ================================================= --}}
-                        {{-- Podcast 1 --}}
-                        {{-- ================================================= --}}
-
-                        <tr class="transition hover:bg-gray-50">
-
-
-                            {{-- Podcast --}}
-                            <td class="px-6 py-5">
-
-                                <div class="flex items-center
-                                       gap-4">
-
-                                    <div
-                                        class="h-16 w-24
-                                           shrink-0
-                                           overflow-hidden
-                                           rounded-xl
-                                           bg-gray-100">
-
-                                        <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=400&q=80"
-                                            alt="Podcast Retorika #01"
-                                            class="h-full w-full
-                                               object-cover">
-
-                                    </div>
-
-
-                                    <div class="min-w-0">
-
-                                        <p
-                                            class="truncate
-                                               font-semibold
-                                               text-gray-900">
-
-                                            Retorika Podcast #01
-
-                                        </p>
-
-                                        <p
-                                            class="mt-1 text-sm
-                                               text-gray-500">
-
-                                            Membahas Kehidupan
-                                            Mahasiswa Hari Ini
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-
-                            {{-- Host --}}
-                            <td class="whitespace-nowrap
-                                   px-6 py-5">
-
-                                <p
-                                    class="text-sm
-                                       font-medium
-                                       text-gray-700">
-
-                                    Andi Pratama
-
-                                </p>
-
-                            </td>
-
+        <div class="rounded-2xl bg-white p-6 shadow-sm">
+            <form action="{{ url()->current() }}" method="GET" class="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto]">
+
+                <x-form.text-input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari podcast..." />
+
+                <x-form.select-input name="status_id">
+                    <option value="">
+                        Semua Status
+                    </option>
+                    @foreach ($statuses as $s)
+                        <option value="{{ $s->id }}" {{ request('status_id') == $s->id ? 'selected' : '' }}>
+                            {{ ucfirst($s->slug) }}
+                        </option>
+                    @endforeach
+                </x-form.select-input>
+
+
+                <x-form.select-input name="sort">
+                    <option value="">
+                        Semua Status
+                    </option>
+                    <option value="" {{ request('sort') == '' ? 'selected' : '' }}>
+                        Terbaru
+                    </option>
+                    <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>
+                        Terlama
+                    </option>
+                    <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>
+                        Nama A-Z
+                    </option>
+                </x-form.select-input>
+
+                <x-button.primary-button>
+
+                    Filter
+
+                </x-button.primary-button>
+            </form>
+        </div>
+
+        @if ($podcasts->isNotEmpty())
+            <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                @foreach ($podcasts as $p)
+                    <article
+                        class="group overflow-hidden rounded-2xl bg-white shadow-sm
+                        ring-1 ring-gray-100 transition
+                        hover:-translate-y-1 hover:shadow-lg">
+
+                        {{-- Cover --}}
+                        <div class="relative aspect-video overflow-hidden bg-gray-100">
+
+                            <img src="{{ $p->thumbnail_asset->getFirstMedia('library')->original_url }}"
+                                alt="{{ $p->thumbnail_asset->alt_text ?? $p->thumbnail_asset->name }}"
+                                class="h-full w-full object-cover
+                                transition duration-500
+                                group-hover:scale-105">
 
                             {{-- Status --}}
-                            <td class="px-6 py-5">
+                            <div class="absolute right-4 top-4">
+                                <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
+                                    :class="{
+                                        'bg-yellow-100 text-yellow-700': {{ $p->status->id }} == 1,
+                                        'bg-green-100 text-green-700': {{ $p->status->id }} == 2
+                                    }">
 
-                                <span
-                                    class="inline-flex items-center
-                                       gap-1.5 rounded-full
-                                       bg-green-50 px-3 py-1
-                                       text-xs font-medium
-                                       text-green-700">
-
-                                    <span
-                                        class="h-1.5 w-1.5
-                                           rounded-full
-                                           bg-green-500">
-                                    </span>
-
-                                    Terbit
+                                    {{ $p->status->slug }}
 
                                 </span>
+                            </div>
+                        </div>
 
-                            </td>
+
+                        {{-- Content --}}
+                        <div class="p-5">
+
+                            <h2
+                                class="text-lg font-semibold text-gray-900
+                                transition group-hover:text-red-600">
+
+                                {{ $p->judul }}
+                            </h2>
+
+                            <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                                <span>
+                                    <i class="ri-user-voice-line"></i>
+                                    {{ $p->host }}
+                                </span>
+                            </div>
+
+                            <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                                <span>
+                                    <i class="ri-calendar-line"></i>
+
+                                    {{ $p->created_at->translatedFormat('d F Y') }}
+                                </span>
+                            </div>
 
 
-                            {{-- Date --}}
-                            <td class="whitespace-nowrap
-                                   px-6 py-5">
-
-                                <p class="text-sm
-                                       text-gray-600">
-
-                                    12 Agustus 2026
-
-                                </p>
-
-                            </td>
+                            <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
+                                {{ $p->deskripsi }}
+                            </p>
 
 
                             {{-- Actions --}}
-                            <td class="px-6 py-5">
-
-                                <div class="flex justify-end
-                                       gap-2">
-
-                                    <a href="#" title="Lihat"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-gray-500
-                                           transition
-                                           hover:bg-gray-100
-                                           hover:text-gray-800">
-
-                                        <i class="ri-eye-line"></i>
-
-                                    </a>
-
-
-                                    <a href="#" title="Edit"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-gray-500
-                                           transition
-                                           hover:bg-gray-100
-                                           hover:text-gray-800">
-
-                                        <i class="ri-edit-line"></i>
-
-                                    </a>
-
-
-                                    <button type="button" title="Hapus"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-red-500
-                                           transition
-                                           hover:bg-red-50
-                                           hover:text-red-600">
-
-                                        <i class="ri-delete-bin-line"></i>
-
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-
-                        {{-- ================================================= --}}
-                        {{-- Podcast 2 --}}
-                        {{-- ================================================= --}}
-
-                        <tr class="transition hover:bg-gray-50">
-
-                            <td class="px-6 py-5">
-
-                                <div class="flex items-center
-                                       gap-4">
-
-                                    <div
-                                        class="h-16 w-24
-                                           shrink-0
-                                           overflow-hidden
-                                           rounded-xl
-                                           bg-gray-100">
-
-                                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80"
-                                            alt="Podcast Retorika #02"
-                                            class="h-full w-full
-                                               object-cover">
-
-                                    </div>
-
-
-                                    <div class="min-w-0">
-
-                                        <p
-                                            class="truncate
-                                               font-semibold
-                                               text-gray-900">
-
-                                            Retorika Podcast #02
-
-                                        </p>
-
-                                        <p
-                                            class="mt-1 text-sm
-                                               text-gray-500">
-
-                                            Organisasi Mahasiswa
-                                            dan Perannya di Kampus
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-
-                            <td class="whitespace-nowrap
-                                   px-6 py-5">
-
-                                <p
-                                    class="text-sm
-                                       font-medium
-                                       text-gray-700">
-
-                                    Siti Rahma
-
-                                </p>
-
-                            </td>
-
-
-                            <td class="px-6 py-5">
-
-                                <span
-                                    class="inline-flex items-center
-                                       gap-1.5 rounded-full
-                                       bg-yellow-50 px-3 py-1
-                                       text-xs font-medium
-                                       text-yellow-700">
-
-                                    <span
-                                        class="h-1.5 w-1.5
-                                           rounded-full
-                                           bg-yellow-500">
-                                    </span>
-
-                                    Draft
-
-                                </span>
-
-                            </td>
-
-
-                            <td class="whitespace-nowrap
-                                   px-6 py-5">
-
-                                <span class="text-sm text-gray-400">
-
-                                    —
-
-                                </span>
-
-                            </td>
-
-
-                            <td class="px-6 py-5">
-
-                                <div class="flex justify-end
-                                       gap-2">
-
-                                    <a href="#" title="Lihat"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-gray-500
-                                           transition
-                                           hover:bg-gray-100
-                                           hover:text-gray-800">
-
-                                        <i class="ri-eye-line"></i>
-
-                                    </a>
-
-                                    <a href="#" title="Edit"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-gray-500
-                                           transition
-                                           hover:bg-gray-100
-                                           hover:text-gray-800">
-
-                                        <i class="ri-edit-line"></i>
-
-                                    </a>
-
-                                    <button type="button" title="Hapus"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-red-500
-                                           transition
-                                           hover:bg-red-50
-                                           hover:text-red-600">
-
-                                        <i class="ri-delete-bin-line"></i>
-
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                        {{-- ================================================= --}}
-                        {{-- Podcast 2 --}}
-                        {{-- ================================================= --}}
-
-                        <tr class="transition hover:bg-gray-50">
-
-                            <td class="px-6 py-5">
-
-                                <div class="flex items-center
-                                       gap-4">
-
-                                    <div
-                                        class="h-16 w-24
-                                           shrink-0
-                                           overflow-hidden
-                                           rounded-xl
-                                           bg-gray-100">
-
-                                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80"
-                                            alt="Podcast Retorika #02"
-                                            class="h-full w-full
-                                               object-cover">
-
-                                    </div>
-
-
-                                    <div class="min-w-0">
-
-                                        <p
-                                            class="truncate
-                                               font-semibold
-                                               text-gray-900">
-
-                                            Retorika Podcast #02
-
-                                        </p>
-
-                                        <p
-                                            class="mt-1 text-sm
-                                               text-gray-500">
-
-                                            Organisasi Mahasiswa
-                                            dan Perannya di Kampus
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </td>
-
-
-                            <td class="whitespace-nowrap
-                                   px-6 py-5">
-
-                                <p
-                                    class="text-sm
-                                       font-medium
-                                       text-gray-700">
-
-                                    Siti Rahma
-
-                                </p>
-
-                            </td>
-
-
-                            <td class="px-6 py-5">
-
-                                <span
-                                    class="inline-flex items-center
-                                       gap-1.5 rounded-full
-                                       bg-yellow-50 px-3 py-1
-                                       text-xs font-medium
-                                       text-yellow-700">
-
-                                    <span
-                                        class="h-1.5 w-1.5
-                                           rounded-full
-                                           bg-yellow-500">
-                                    </span>
-
-                                    Draft
-
-                                </span>
-
-                            </td>
-
-
-                            <td class="whitespace-nowrap
-                                   px-6 py-5">
-
-                                <span class="text-sm text-gray-400">
-
-                                    —
-
-                                </span>
-
-                            </td>
-
-
-                            <td class="px-6 py-5">
-
-                                <div class="flex justify-end
-                                       gap-2">
-
-                                    <a href="#" title="Lihat"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-gray-500
-                                           transition
-                                           hover:bg-gray-100
-                                           hover:text-gray-800">
-
-                                        <i class="ri-eye-line"></i>
-
-                                    </a>
-
-                                    <a href="#" title="Edit"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-gray-500
-                                           transition
-                                           hover:bg-gray-100
-                                           hover:text-gray-800">
-
-                                        <i class="ri-edit-line"></i>
-
-                                    </a>
-
-                                    <button type="button" title="Hapus"
-                                        class="flex h-9 w-9
-                                           items-center
-                                           justify-center
-                                           rounded-lg
-                                           text-red-500
-                                           transition
-                                           hover:bg-red-50
-                                           hover:text-red-600">
-
-                                        <i class="ri-delete-bin-line"></i>
-
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-                    </tbody>
-
-                </table>
+                            <div class="mt-5 flex flex-col gap-2">
+                                <x-link-button.secondary-link :href="route('cms.podcast.show', $p->id)" icon="ri-eye-line" class="flex-1">
+                                    Detail
+                                </x-link-button.secondary-link>
+
+                                <x-link-button.secondary-link :href="route('cms.podcast.edit', $p->id)" icon="ri-pencil-line" class="flex-1">
+                                    Edit
+                                </x-link-button.secondary-link>
+
+                                <form action="{{ route('cms.podcast.destroy', $p->id) }}" method="POST" class="flex"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus podcast ini?')">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <x-button.danger-button icon="ri-delete-bin-line" class="flex-1">
+                                        Hapus
+                                    </x-button.danger-button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        @else
+            {{-- ================================================= --}}
+            {{-- Empty State --}}
+            {{-- ================================================= --}}
+            <div class="w-full rounded-2xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-100">
+
+                @if (request()->hasAny(['search', 'status_id', 'sort']))
+                    {{-- 1. Tampilan Ketika Hasil Filter/Pencarian Kosong --}}
+                    <div
+                        class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-500">
+                        <i class="ri-search-line text-3xl"></i>
+                    </div>
+
+                    <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                        Data tidak ditemukan
+                    </h3>
+
+                    <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                        Tidak ada podcast yang cocok dengan kriteria pencarian atau filter kamu. Coba kata kunci lain.
+                    </p>
+
+                    <div class="mt-6">
+                        <a href="{{ request()->url() }}"
+                            class="inline-flex items-center gap-2 rounded-xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
+                            <i class="ri-refresh-line"></i> Reset Filter
+                        </a>
+                    </div>
+                @else
+                    <div
+                        class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
+                        <i class="ri-book-open-line text-3xl"></i>
+                    </div>
+
+                    <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                        Belum ada podcast
+                    </h3>
+
+                    <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                        Belum ada podcast yang ditambahkan.
+                    </p>
+                @endif
 
             </div>
+        @endif
 
+        {{-- ================================================= --}}
+        {{-- Pagination --}}
+        {{-- ================================================= --}}
 
-            {{-- ================================================= --}}
-            {{-- Mobile Cards --}}
-            {{-- ================================================= --}}
-
-            <div class="divide-y divide-gray-100 md:hidden">
-
-
-                {{-- Mobile Podcast 1 --}}
-                <div class="p-5">
-
-                    <div class="flex gap-4">
-
-                        <div
-                            class="h-20 w-28 shrink-0
-                               overflow-hidden rounded-xl
-                               bg-gray-100">
-
-                            <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=400&q=80"
-                                alt="Podcast Retorika #01" class="h-full w-full object-cover">
-
-                        </div>
-
-
-                        <div class="min-w-0 flex-1">
-
-                            <div class="flex items-start
-                                   justify-between gap-3">
-
-                                <h3
-                                    class="font-semibold
-                                       leading-5 text-gray-900">
-
-                                    Retorika Podcast #01
-
-                                </h3>
-
-                                <span
-                                    class="shrink-0 rounded-full
-                                       bg-green-50 px-2.5 py-1
-                                       text-xs font-medium
-                                       text-green-700">
-
-                                    Terbit
-
-                                </span>
-
-                            </div>
-
-
-                            <p class="mt-1 line-clamp-2
-                                   text-sm text-gray-500">
-
-                                Membahas Kehidupan
-                                Mahasiswa Hari Ini
-
-                            </p>
-
-
-                            <p class="mt-2 text-xs
-                                   text-gray-400">
-
-                                Andi Pratama ·
-                                12 Agustus 2026
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- Actions --}}
-                    <div
-                        class="mt-4 flex gap-2
-                           border-t border-gray-100
-                           pt-4">
-
-                        <a href="#"
-                            class="flex-1 inline-flex
-                               items-center justify-center
-                               gap-2 rounded-lg
-                               border border-gray-200
-                               px-3 py-2
-                               text-sm font-medium
-                               text-gray-600
-                               hover:bg-gray-50">
-
-                            <i class="ri-eye-line"></i>
-
-                            Lihat
-
-                        </a>
-
-
-                        <a href="#"
-                            class="flex-1 inline-flex
-                               items-center justify-center
-                               gap-2 rounded-lg
-                               border border-gray-200
-                               px-3 py-2
-                               text-sm font-medium
-                               text-gray-600
-                               hover:bg-gray-50">
-
-                            <i class="ri-edit-line"></i>
-
-                            Edit
-
-                        </a>
-
-
-                        <button type="button"
-                            class="flex h-9 w-9
-                               shrink-0 items-center
-                               justify-center
-                               rounded-lg
-                               border border-red-200
-                               text-red-600
-                               hover:bg-red-50">
-
-                            <i class="ri-delete-bin-line"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                {{-- Mobile Podcast 2 --}}
-                <div class="p-5">
-
-                    <div class="flex gap-4">
-
-                        <div
-                            class="h-20 w-28 shrink-0
-                               overflow-hidden rounded-xl
-                               bg-gray-100">
-
-                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80"
-                                alt="Podcast Retorika #02" class="h-full w-full object-cover">
-
-                        </div>
-
-
-                        <div class="min-w-0 flex-1">
-
-                            <div class="flex items-start
-                                   justify-between gap-3">
-
-                                <h3
-                                    class="font-semibold
-                                       leading-5 text-gray-900">
-
-                                    Retorika Podcast #02
-
-                                </h3>
-
-                                <span
-                                    class="shrink-0 rounded-full
-                                       bg-yellow-50 px-2.5 py-1
-                                       text-xs font-medium
-                                       text-yellow-700">
-
-                                    Draft
-
-                                </span>
-
-                            </div>
-
-
-                            <p class="mt-1 line-clamp-2
-                                   text-sm text-gray-500">
-
-                                Organisasi Mahasiswa
-                                dan Perannya di Kampus
-
-                            </p>
-
-
-                            <p class="mt-2 text-xs
-                                   text-gray-400">
-
-                                Siti Rahma ·
-                                Belum diterbitkan
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="mt-4 flex gap-2
-                           border-t border-gray-100
-                           pt-4">
-
-                        <a href="#"
-                            class="flex-1 inline-flex
-                               items-center justify-center
-                               gap-2 rounded-lg
-                               border border-gray-200
-                               px-3 py-2
-                               text-sm font-medium
-                               text-gray-600
-                               hover:bg-gray-50">
-
-                            <i class="ri-eye-line"></i>
-
-                            Lihat
-
-                        </a>
-
-
-                        <a href="#"
-                            class="flex-1 inline-flex
-                               items-center justify-center
-                               gap-2 rounded-lg
-                               border border-gray-200
-                               px-3 py-2
-                               text-sm font-medium
-                               text-gray-600
-                               hover:bg-gray-50">
-
-                            <i class="ri-edit-line"></i>
-
-                            Edit
-
-                        </a>
-
-
-                        <button type="button"
-                            class="flex h-9 w-9
-                               shrink-0 items-center
-                               justify-center
-                               rounded-lg
-                               border border-red-200
-                               text-red-600
-                               hover:bg-red-50">
-
-                            <i class="ri-delete-bin-line"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-                {{-- Mobile Podcast 2 --}}
-                <div class="p-5">
-
-                    <div class="flex gap-4">
-
-                        <div
-                            class="h-20 w-28 shrink-0
-                               overflow-hidden rounded-xl
-                               bg-gray-100">
-
-                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80"
-                                alt="Podcast Retorika #02" class="h-full w-full object-cover">
-
-                        </div>
-
-
-                        <div class="min-w-0 flex-1">
-
-                            <div class="flex items-start
-                                   justify-between gap-3">
-
-                                <h3
-                                    class="font-semibold
-                                       leading-5 text-gray-900">
-
-                                    Retorika Podcast #02
-
-                                </h3>
-
-                                <span
-                                    class="shrink-0 rounded-full
-                                       bg-yellow-50 px-2.5 py-1
-                                       text-xs font-medium
-                                       text-yellow-700">
-
-                                    Draft
-
-                                </span>
-
-                            </div>
-
-
-                            <p class="mt-1 line-clamp-2
-                                   text-sm text-gray-500">
-
-                                Organisasi Mahasiswa
-                                dan Perannya di Kampus
-
-                            </p>
-
-
-                            <p class="mt-2 text-xs
-                                   text-gray-400">
-
-                                Siti Rahma ·
-                                Belum diterbitkan
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="mt-4 flex gap-2
-                           border-t border-gray-100
-                           pt-4">
-
-                        <a href="#"
-                            class="flex-1 inline-flex
-                               items-center justify-center
-                               gap-2 rounded-lg
-                               border border-gray-200
-                               px-3 py-2
-                               text-sm font-medium
-                               text-gray-600
-                               hover:bg-gray-50">
-
-                            <i class="ri-eye-line"></i>
-
-                            Lihat
-
-                        </a>
-
-
-                        <a href="#"
-                            class="flex-1 inline-flex
-                               items-center justify-center
-                               gap-2 rounded-lg
-                               border border-gray-200
-                               px-3 py-2
-                               text-sm font-medium
-                               text-gray-600
-                               hover:bg-gray-50">
-
-                            <i class="ri-edit-line"></i>
-
-                            Edit
-
-                        </a>
-
-
-                        <button type="button"
-                            class="flex h-9 w-9
-                               shrink-0 items-center
-                               justify-center
-                               rounded-lg
-                               border border-red-200
-                               text-red-600
-                               hover:bg-red-50">
-
-                            <i class="ri-delete-bin-line"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-            {{-- ================================================= --}}
-            {{-- Pagination --}}
-            {{-- ================================================= --}}
-
-            <div
-                class="flex flex-col gap-3
-                   border-t border-gray-100
-                   px-6 py-5
-                   sm:flex-row sm:items-center
-                   sm:justify-between">
-
-                <p class="text-sm text-gray-500">
-
-                    Menampilkan
-                    <span class="font-medium text-gray-700">
-                        1–3
-                    </span>
-                    dari
-                    <span class="font-medium text-gray-700">
-                        18
-                    </span>
-                    podcast.
-
-                </p>
-
-
-                <div class="flex items-center gap-2">
-
-                    <button type="button" disabled
-                        class="flex h-9 w-9
-                           items-center justify-center
-                           rounded-lg border
-                           border-gray-200
-                           text-gray-300">
-
-                        <i class="ri-arrow-left-s-line"></i>
-
-                    </button>
-
-
-                    <button type="button"
-                        class="flex h-9 w-9
-                           items-center justify-center
-                           rounded-lg
-                           bg-red-600
-                           text-sm font-medium
-                           text-white">
-
-                        1
-
-                    </button>
-
-
-                    <button type="button"
-                        class="flex h-9 w-9
-                           items-center justify-center
-                           rounded-lg
-                           border border-gray-200
-                           text-sm font-medium
-                           text-gray-600
-                           hover:bg-gray-50">
-
-                        2
-
-                    </button>
-
-
-                    <button type="button"
-                        class="flex h-9 w-9
-                           items-center justify-center
-                           rounded-lg
-                           border border-gray-200
-                           text-sm font-medium
-                           text-gray-600
-                           hover:bg-gray-50">
-
-                        3
-
-                    </button>
-
-
-                    <button type="button"
-                        class="flex h-9 w-9
-                           items-center justify-center
-                           rounded-lg
-                           border border-gray-200
-                           text-gray-600
-                           hover:bg-gray-50">
-
-                        <i class="ri-arrow-right-s-line"></i>
-
-                    </button>
-
-                </div>
-
-            </div>
-
+        <div class="rounded-2xl bg-white p-5 shadow-sm">
+            {{ $podcasts->links('vendor.pagination.default') }}
         </div>
-
+    </div>
     </div>
 </x-cms-layout>

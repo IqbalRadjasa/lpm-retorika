@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Podcast;
 use App\Models\Status;
+use App\Models\Podcast;
+use App\Models\Kategori;
+
 use Illuminate\Http\Request;
 
 class PodcastController extends Controller
@@ -11,9 +13,46 @@ class PodcastController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('cms.podcast.index');
+        $statuses = Status::all();
+
+        $query = Podcast::query();
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('status_id')) {
+            $query->where('status_id', $request->status_id);
+        }
+
+        if ($request->sort === 'oldest') {
+            $query->oldest();
+        } elseif ($request->sort === 'name') {
+            $query->orderBy('name', 'asc');
+        } else {
+            $query->latest();
+        }
+
+        $totalPodcast = (clone $query)->count();
+        $totalDrafted = (clone $query)->where('status_id', 1)->count();
+        $totalPublished = (clone $query)->where('status_id', 2)->count();
+
+        $podcasts = $query->with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('cms.podcast.index', compact(
+            'statuses',
+            'podcasts',
+            'totalPodcast',
+            'totalDrafted',
+            'totalPublished'
+        ));
     }
 
     /**

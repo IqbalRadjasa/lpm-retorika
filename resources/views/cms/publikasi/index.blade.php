@@ -265,7 +265,6 @@
                         </div>
                     </div>
                 </article>
-
                 @empty
                     {{-- ================================================= --}}
                     {{-- Empty State --}}
@@ -275,7 +274,7 @@
 
                         <div
                             class="mx-auto flex h-16 w-16 items-center justify-center
-                            rounded-2xl bg-gray-100">
+                        rounded-2xl bg-gray-100">
 
                             <i class="ri-book-open-line text-3xl text-gray-400"></i>
 
@@ -291,9 +290,7 @@
                         </p>
                     </div>
                 @endforelse
-
             </div>
-
 
             {{-- ================================================= --}}
             {{-- Pagination --}}
