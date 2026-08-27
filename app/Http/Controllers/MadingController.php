@@ -24,7 +24,8 @@ class MadingController extends Controller
      */
     public function create()
     {
-        //
+        $statusMadings = StatusMading::get();
+        return view('cms.mading.create', compact('statusMadings'));
     }
 
     /**
@@ -32,7 +33,33 @@ class MadingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validated = $request->validate([
+            'status_mading_id' => 'required|integer',
+            'media_id' => 'required|integer',
+            'judul' => 'required|string|max:100',
+            'deskripsi' => 'required|string',
+        ]);
+
+        try {
+            // dd('success');
+            Mading::create([
+                'status_mading_id' => $validated['status_mading_id'],
+                'media_id' => $validated['media_id'],
+                'judul' => $validated['judul'],
+                'deskripsi' => $validated['deskripsi']
+            ]);
+
+            return redirect()
+                ->route('cms.mading.index')
+                ->with('success', 'Data berhasil ditambah!');
+        } catch (\Exception $e) {
+            // dd($e);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal menambahkan data!');
+        }
     }
 
     /**

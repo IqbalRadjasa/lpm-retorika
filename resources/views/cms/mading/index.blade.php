@@ -45,10 +45,16 @@
             </div>
 
 
-            {{-- Edit Button --}}
-            <x-link-button.primary-link :href="route('cms.mading.edit', $mading->id)" icon="ri-edit-line">
-                Edit Mading
-            </x-link-button.primary-link>
+            {{-- CTA Button --}}
+            @if (isset($mading))
+                <x-link-button.primary-link :href="route('cms.mading.edit', $mading?->id)" icon="ri-edit-line">
+                    Edit Mading
+                </x-link-button.primary-link>
+            @else
+                <x-link-button.primary-link :href="route('cms.mading.create')" icon="ri-add-line">
+                    Tambah Mading
+                </x-link-button.primary-link>
+            @endif
 
         </div>
 
@@ -89,15 +95,14 @@
 
 
                         {{-- Status --}}
-                        <span
-                            class="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1.5 text-xs font-semibold text-green-700">
-
-                            <span class="h-2 w-2 rounded-full bg-green-500"></span>
-
-                            Aktif
-
-                        </span>
-
+                        @if (isset($mading))
+                            <span
+                                class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold {{ $mading->status_mading_id == 1 ? 'bg-green-100 text-green-700' : ($mading->status_mading_id == 2 ? 'bg-amber-100 text-amber-700' : '') }}">
+                                <span
+                                    class="h-2 w-2 rounded-full {{ $mading->status_mading_id == 1 ? 'bg-green-500' : ($mading->status_mading_id == 2 ? 'bg-amber-500' : '') }}"></span>
+                                {{ $mading->status_mading->nama }}
+                            </span>
+                        @endif
                     </div>
 
                     {{-- Poster --}}
@@ -141,10 +146,18 @@
                                 Lihat di Website
                             </x-link-button.secondary-link>
 
-                            <x-link-button.primary-link :href="route('cms.mading.edit', $mading->id)" icon="ri-edit-line"
-                                class="flex-1 rounded-xl py-3">
-                                Edit Mading
-                            </x-link-button.primary-link>
+
+                            @if (isset($mading))
+                                <x-link-button.primary-link :href="route('cms.mading.edit', $mading?->id)" icon="ri-edit-line"
+                                    class="flex-1 rounded-xl">
+                                    Edit Mading
+                                </x-link-button.primary-link>
+                            @else
+                                <x-link-button.primary-link :href="route('cms.mading.create')" icon="ri-add-line"
+                                    class="flex-1 rounded-xl">
+                                    Tambah Mading
+                                </x-link-button.primary-link>
+                            @endif
                         </div>
 
                     </div>
@@ -256,40 +269,44 @@
                 {{-- ================================================= --}}
                 {{-- Status Information --}}
                 {{-- ================================================= --}}
-                @if ($mading?->status_mading_id == 1)
-                    {{-- Status Aktif --}}
-                    <div class="rounded-2xl border border-green-100 bg-green-50 p-6">
-                        <div class="flex items-start gap-4">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
-                                <i class="ri-checkbox-circle-line text-lg text-green-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-green-900">
-                                    Mading sedang aktif
-                                </h3>
-                                <p class="mt-1 text-sm leading-6 text-green-700">
-                                    Poster ini sedang ditampilkan.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    {{-- Status Tidak Aktif --}}
-                    <div class="rounded-2xl border border-amber-100 bg-amber-50 p-6">
-                        <div class="flex items-start gap-4">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                                <i class="ri-error-warning-line text-lg text-amber-600"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-amber-900">
-                                    Mading tidak aktif
-                                </h3>
-                                <p class="mt-1 text-sm leading-6 text-amber-700">
-                                    Poster ini sedang disembunyikan dan tidak ditampilkan di website publik.
-                                </p>
+                @if (isset($mading))
+                    @if ($mading->status_mading_id == 1)
+                        {{-- Status Aktif --}}
+                        <div class="rounded-2xl border border-green-100 bg-green-50 p-6">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
+                                    <i class="ri-checkbox-circle-line text-lg text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-green-900">
+                                        Mading sedang aktif
+                                    </h3>
+                                    <p class="mt-1 text-sm leading-6 text-green-700">
+                                        Poster ini sedang ditampilkan.
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        {{-- Status Tidak Aktif --}}
+                        <div class="rounded-2xl border border-amber-100 bg-amber-50 p-6">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
+                                    <i class="ri-error-warning-line text-lg text-amber-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-amber-900">
+                                        Mading tidak aktif
+                                    </h3>
+                                    <p class="mt-1 text-sm leading-6 text-amber-700">
+                                        Poster ini sedang disembunyikan dan tidak ditampilkan di website publik.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endif
 
             </div>
