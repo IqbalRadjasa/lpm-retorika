@@ -6,6 +6,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MadingController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\PublicPublicationController;
 
@@ -84,17 +85,10 @@ Route::prefix('cms')->name('cms.')->group(function () {
 
     // MADING
     Route::resource('mading', MadingController::class);
+
+    // PODCAST
+    Route::resource('podcast', PodcastController::class);
 });
-
-// // MADING
-// Route::get('/cms/mading', function () {
-//     return view('cms.mading.index');
-// })->name('cms.mading.index');
-// // Edit
-// Route::get('/cms/mading/ngedit', function () {
-//     return view('cms.mading.edit');
-// })->name('cms.mading.ngedit');
-
 
 // KATEGORI
 Route::get('/cms/kategori', function () {
@@ -114,13 +108,13 @@ Route::get('/cms/kategori/show', function () {
 })->name('cms.kategori.show');
 
 // PODCAST
-Route::get('/cms/podcast', function () {
-    return view('cms.podcast.index');
-})->name('cms.podcast.index');
+// Route::get('/cms/podcast', function () {
+//     return view('cms.podcast.index');
+// })->name('cms.podcast.index');
 // Create
-Route::get('/cms/podcast/create', function () {
-    return view('cms.podcast.create');
-})->name('cms.podcast.create');
+// Route::get('/cms/podcast/create', function () {
+//     return view('cms.podcast.create');
+// })->name('cms.podcast.create');
 // Show
 Route::get('/cms/podcast/show', function () {
     return view('cms.podcast.show');

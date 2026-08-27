@@ -1,57 +1,57 @@
 {{-- ================================================= --}}
-{{-- Podcast Video --}}
+{{-- File Video --}}
 {{-- ================================================= --}}
+@php
+    $media = $mode === 'edit' && isset($podcast) ? $podcast->video_asset?->getFirstMedia('library') : null;
 
-<div x-data="{
-    selectedVideo: null,
-    videoPickerOpen: false
-}"
-    class="overflow-hidden rounded-2xl
-           border border-gray-200
-           bg-white shadow-sm">
+    $initialMedia = $media
+        ? [
+            'id' => $media->id,
+            'name' => $media->name,
+            'url' => $media->original_url,
+            'mime_type' => $media->mime_type,
+            'size' => $media->human_readable_size,
+        ]
+        : null;
+@endphp
+<div x-data='mediaSelector("video", @json($initialMedia))' class="overflow-hidden rounded-2xl bg-white shadow-sm">
 
-
+    {{-- ================================================= --}}
     {{-- Header --}}
-    <div class="flex items-start justify-between
-               border-b border-gray-100
-               px-6 py-5">
+    {{-- ================================================= --}}
+
+    <div class="flex items-start justify-between border-b border-gray-100 px-6 py-5">
 
         <div>
 
-            <h2 class="text-lg font-semibold
-                       text-gray-900">
+            <h2 class="text-lg font-semibold text-gray-900">
 
-                Video Podcast
+                File Video
 
             </h2>
 
-            <p class="mt-1 text-sm
-                       text-gray-500">
+            <p class="mt-1 text-sm text-gray-500">
 
-                Pilih video yang akan digunakan
-                untuk episode podcast ini.
+                Upload video yang akan ditonton oleh pengunjung.
 
             </p>
 
         </div>
 
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
 
-        <div
-            class="flex h-11 w-11 shrink-0
-                   items-center justify-center
-                   rounded-xl bg-purple-50
-                   text-purple-600">
-
-            <i class="ri-video-line text-xl"></i>
+            <i class="ri-file-pdf-2-line text-xl"></i>
 
         </div>
 
     </div>
 
 
+    {{-- ================================================= --}}
     {{-- Body --}}
-    <div class="p-6">
+    {{-- ================================================= --}}
 
+    <div class="p-6">
 
         {{-- ================================================= --}}
         {{-- No Media Selected --}}
@@ -67,21 +67,18 @@
                     class="mx-auto flex h-16 w-16 items-center
                            justify-center rounded-2xl bg-white shadow-sm">
 
-                    <i class="ri-image-add-line text-3xl text-gray-400"></i>
+                    <i class="ri-video-line text-3xl text-red-500">
+                    </i>
 
                 </div>
 
                 <h3 class="mt-5 text-lg font-semibold text-gray-900">
-
-                    Belum ada thumbnail
-
+                    Upload File Video
                 </h3>
 
                 <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
-
-                    Pilih gambar dari Media Library untuk digunakan
-                    sebagai thumbnail.
-
+                    Drag & drop file video ke sini
+                    atau klik untuk memilih.
                 </p>
 
                 <button type="button" @click="openMediaLibrary"
@@ -104,16 +101,19 @@
         {{-- ================================================= --}}
         {{-- Selected Media --}}
         {{-- ================================================= --}}
-
         <template x-if="selectedMedia">
 
             <div>
 
                 {{-- Preview --}}
-                <div class="overflow-hidden rounded-2xl border border-gray-200
-                           bg-gray-100">
+                <div class="text-center">
 
-                    <img :src="selectedMedia.url" :alt="selectedMedia.name" class="max-h-80 w-full object-contain">
+                    <i class="ri-video-line text-[50px] text-red-600">
+                    </i>
+
+                    <p class="text-sm font-semibold text-red-600">
+                        Video
+                    </p>
 
                 </div>
 
@@ -133,7 +133,8 @@
 
                             <p class="mt-1 text-sm text-gray-500">
 
-                                <span x-text="selectedMedia.type"></span>
+                                <span
+                                    x-text="selectedMedia.extension || formatMimeType(selectedMedia.mime_type) || 'FILE'"></span>
 
                                 <span class="mx-1 text-gray-300">
                                     •
@@ -166,13 +167,13 @@
 
                     <button type="button" @click="openMediaLibrary"
                         class="inline-flex items-center justify-center
-                               gap-2 rounded-xl border border-gray-300
-                               bg-white px-4 py-2.5 text-sm font-medium
-                               text-gray-700 transition hover:bg-gray-50">
+                                gap-2 rounded-xl border border-gray-300
+                                bg-white px-4 py-2.5 text-sm font-medium
+                                text-gray-700 transition hover:bg-gray-50">
 
                         <i class="ri-image-edit-line"></i>
 
-                        Ganti Gambar
+                        Ganti Dokumen
 
                     </button>
 
@@ -199,6 +200,10 @@
         {{-- Hidden Input --}}
         {{-- ================================================= --}}
 
-        <input type="hidden" name="thumbnail_id" :value="selectedMedia ? selectedMedia.id : ''">
+        <input type="hidden" name="video_id" :value="selectedMedia ? selectedMedia.id : ''">
     </div>
+
+
+    {{-- Media Picker --}}
+    @include('components.cms.media-picker')
 </div>

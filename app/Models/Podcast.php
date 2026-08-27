@@ -17,4 +17,19 @@ class Podcast extends Model
         'host',
         'deskripsi',
     ];
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function thumbnail_asset()
+    {
+        return $this->belongsTo(MediaAsset::class, 'thumbnail_id');
+    }
+
+    public function video_asset()
+    {
+        return $this->belongsTo(MediaAsset::class, 'video_id');
+    }
 }

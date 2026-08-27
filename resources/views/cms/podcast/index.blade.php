@@ -413,7 +413,7 @@
                                 <div class="flex justify-end
                                        gap-2">
 
-                                    <a href="{{ route('cms.podcast.show') }}" title="Lihat"
+                                    <a href="#" title="Lihat"
                                         class="flex h-9 w-9
                                            items-center
                                            justify-center

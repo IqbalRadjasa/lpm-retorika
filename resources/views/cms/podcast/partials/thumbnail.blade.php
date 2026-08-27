@@ -1,4 +1,18 @@
-<div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+@php
+    $media = $mode === 'edit' && isset($podcast) ? $podcast->thumbnail_asset?->getFirstMedia('library') : null;
+
+    $initialMedia = $media
+        ? [
+            'id' => $media->id,
+            'name' => $media->name,
+            'url' => $media->original_url,
+            'mime_type' => $media->mime_type,
+            'size' => $media->human_readable_size,
+        ]
+        : null;
+@endphp
+<div x-data='mediaSelector("gambar", @json($initialMedia))'
+    class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
 
     {{-- ================================================= --}}
     {{-- Header --}}
@@ -10,13 +24,13 @@
 
             <h2 class="text-lg font-semibold text-gray-900">
 
-                Thumbnail
+                Thumbnail Artikel
 
             </h2>
 
             <p class="mt-1 text-sm text-gray-500">
 
-                Pilih gambar utama yang akan mewakili konten.
+                Pilih gambar utama yang akan mewakili artikel.
 
             </p>
 
@@ -38,7 +52,6 @@
     {{-- ================================================= --}}
 
     <div class="p-6">
-
 
         {{-- ================================================= --}}
         {{-- No Media Selected --}}
@@ -67,7 +80,7 @@
                 <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
 
                     Pilih gambar dari Media Library untuk digunakan
-                    sebagai thumbnail.
+                    sebagai thumbnail artikel.
 
                 </p>
 
@@ -91,7 +104,6 @@
         {{-- ================================================= --}}
         {{-- Selected Media --}}
         {{-- ================================================= --}}
-
         <template x-if="selectedMedia">
 
             <div>
@@ -120,7 +132,8 @@
 
                             <p class="mt-1 text-sm text-gray-500">
 
-                                <span x-text="selectedMedia.type"></span>
+                                <span
+                                    x-text="selectedMedia.extension || formatMimeType(selectedMedia.mime_type) || 'FILE'"></span>
 
                                 <span class="mx-1 text-gray-300">
                                     •
@@ -202,7 +215,7 @@
 
             <p class="text-sm leading-6 text-gray-500">
 
-                Gunakan gambar yang relevan dengan isi konten.
+                Gunakan gambar yang relevan dengan isi artikel.
                 Disarankan menggunakan gambar dengan rasio
                 <strong class="font-medium text-gray-700">
                     16:9
@@ -215,6 +228,6 @@
 
     </div>
 
+    {{-- Media Picker --}}
+    @include('components.cms.media-picker')
 </div>
-
-
