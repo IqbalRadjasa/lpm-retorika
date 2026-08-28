@@ -305,7 +305,7 @@
                                 <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>
                                     Terlama
                                 </option>
-                                <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>
+                                <option value="judul" {{ request('sort') == 'judul' ? 'selected' : '' }}>
                                     Nama A-Z
                                 </option>
                             </x-form.select-input>

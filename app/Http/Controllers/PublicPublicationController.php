@@ -101,8 +101,8 @@ class PublicPublicationController extends Controller
         $query = Podcast::query();
         if ($request->sort === 'oldest') {
             $query->oldest();
-        } elseif ($request->sort === 'name') {
-            $query->orderBy('name', 'asc');
+        } elseif ($request->sort === 'judul') {
+            $query->orderBy('judul', 'asc');
         } else {
             $query->latest();
         }
