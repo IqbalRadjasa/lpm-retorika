@@ -97,9 +97,9 @@
                         {{-- Status --}}
                         @if (isset($mading))
                             <span
-                                class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold {{ $mading->status_mading_id == 1 ? 'bg-green-100 text-green-700' : ($mading->status_mading_id == 2 ? 'bg-amber-100 text-amber-700' : '') }}">
+                                class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold {{ $mading->status_mading_id == 1 ? 'bg-green-100 text-green-700' : ($mading->status_mading_id == 2 ? 'bg-yellow-100 text-yellow-700' : '') }}">
                                 <span
-                                    class="h-2 w-2 rounded-full {{ $mading->status_mading_id == 1 ? 'bg-green-500' : ($mading->status_mading_id == 2 ? 'bg-amber-500' : '') }}"></span>
+                                    class="h-2 w-2 rounded-full {{ $mading->status_mading_id == 1 ? 'bg-green-500' : ($mading->status_mading_id == 2 ? 'bg-yellow-500' : '') }}"></span>
                                 {{ $mading->status_mading->nama }}
                             </span>
                         @endif
@@ -290,17 +290,17 @@
                         </div>
                     @else
                         {{-- Status Tidak Aktif --}}
-                        <div class="rounded-2xl border border-amber-100 bg-amber-50 p-6">
+                        <div class="rounded-2xl border border-yellow-100 bg-yellow-50 p-6">
                             <div class="flex items-start gap-4">
                                 <div
-                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                                    <i class="ri-error-warning-line text-lg text-amber-600"></i>
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-100">
+                                    <i class="ri-error-warning-line text-lg text-yellow-600"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-semibold text-amber-900">
+                                    <h3 class="font-semibold text-yellow-900">
                                         Mading tidak aktif
                                     </h3>
-                                    <p class="mt-1 text-sm leading-6 text-amber-700">
+                                    <p class="mt-1 text-sm leading-6 text-yellow-700">
                                         Poster ini sedang disembunyikan dan tidak ditampilkan di website publik.
                                     </p>
                                 </div>

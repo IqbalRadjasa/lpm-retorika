@@ -158,10 +158,26 @@
                         ring-1 ring-gray-100 transition
                         hover:-translate-y-1 hover:shadow-lg">
 
+                        @php
+                            $thumbnail_media = $p->thumbnail_asset->getFirstMedia('library');
+                            $video_media = $p->video_asset->getFirstMedia('library');
+                            $durationSeconds = $video_media?->getCustomProperty('duration');
+
+                            // Konversi detik ke format 00:00 (menit:detik)
+                            // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
+                            $formattedDuration = '--:--';
+                            if ($durationSeconds) {
+                                $formattedDuration =
+                                    $durationSeconds >= 3600
+                                        ? gmdate('H:i:s', $durationSeconds)
+                                        : gmdate('i:s', $durationSeconds);
+                            }
+                        @endphp
+
                         {{-- Cover --}}
                         <div class="relative aspect-video overflow-hidden bg-gray-100">
 
-                            <img src="{{ $p->thumbnail_asset->getFirstMedia('library')->original_url }}"
+                            <img src="{{ $thumbnail_media->original_url }}"
                                 alt="{{ $p->thumbnail_asset->alt_text ?? $p->thumbnail_asset->name }}"
                                 class="h-full w-full object-cover
                                 transition duration-500
@@ -204,6 +220,14 @@
                                     <i class="ri-calendar-line"></i>
 
                                     {{ $p->created_at->translatedFormat('d F Y') }}
+                                </span>
+                            </div>
+
+                            <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                                <span>
+                                    <i class="ri-timer-line"></i>
+
+                                    {{ $formattedDuration }}
                                 </span>
                             </div>
 

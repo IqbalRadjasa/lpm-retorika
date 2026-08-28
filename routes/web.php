@@ -116,9 +116,9 @@ Route::get('/cms/kategori/show', function () {
 //     return view('cms.podcast.create');
 // })->name('cms.podcast.create');
 // Show
-Route::get('/cms/podcast/show', function () {
-    return view('cms.podcast.show');
-})->name('cms.podcast.show');
+// Route::get('/cms/podcast/show', function () {
+//     return view('cms.podcast.show');
+// })->name('cms.podcast.show');
 
 Route::get('/media/{media}/download', function (MediaAsset $media) {
     $spatieMedia = $media->getFirstMedia('library');

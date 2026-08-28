@@ -4,6 +4,19 @@
 
 <x-cms-layout>
 
+    @php
+        $thumbnail_media = $podcast->thumbnail_asset->getFirstMedia('library');
+        $video_media = $podcast->video_asset->getFirstMedia('library');
+        $durationSeconds = $video_media?->getCustomProperty('duration');
+
+        // Konversi detik ke format 00:00 (menit:detik)
+        // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
+        $formattedDuration = '--:--';
+        if ($durationSeconds) {
+            $formattedDuration =
+                $durationSeconds >= 3600 ? gmdate('H:i:s', $durationSeconds) : gmdate('i:s', $durationSeconds);
+        }
+    @endphp
     <div class="space-y-8 py-6">
 
 
@@ -34,11 +47,11 @@
                         Kembali
                     </x-link-button.secondary-link>
 
-                    <x-link-button.secondary-link :href="'#'" icon="ri-external-link-line">
+                    <x-link-button.secondary-link :href="route('beranda')" icon="ri-external-link-line">
                         Lihat di Website
                     </x-link-button.secondary-link>
 
-                    <x-link-button.secondary-link :href="'#'" icon="ri-edit-line">
+                    <x-link-button.secondary-link :href="route('cms.podcast.edit', $podcast->id)" icon="ri-edit-line">
                         Edit
                     </x-link-button.secondary-link>
 
@@ -56,36 +69,30 @@
         {{-- Main Grid --}}
         {{-- ================================================= --}}
 
-        <div class="grid gap-8
-                   xl:grid-cols-12">
+        <div class="grid gap-8 xl:grid-cols-12">
 
 
             {{-- ================================================= --}}
             {{-- LEFT : Video + Information --}}
             {{-- ================================================= --}}
 
-            <div class="space-y-8
-                       xl:col-span-8">
+            <div class="space-y-8 xl:col-span-8">
 
 
                 {{-- ================================================= --}}
                 {{-- Video Player --}}
                 {{-- ================================================= --}}
 
-                <div class="overflow-hidden rounded-2xl
-                           bg-black shadow-sm">
+                <div class="overflow-hidden rounded-2xl bg-black shadow-sm">
 
 
                     {{-- Video --}}
-                    <div class="aspect-video
-                               bg-gray-950">
+                    <div class="aspect-video bg-gray-950">
 
-                        <video controls
-                            poster="https://images.unsplash.com/photo-1589903308904-1010c2294adc?auto=format&fit=crop&w=1600&q=85"
-                            class="h-full w-full
-                                   object-contain">
+                        <video controls poster="{{ $thumbnail_media->original_url }}"
+                            class="h-full w-full object-contain">
 
-                            <source src="#" type="video/mp4">
+                            <source src="{{ $video_media->original_url }}" type="video/mp4">
 
                             Browser Anda tidak mendukung
                             pemutaran video.
@@ -96,48 +103,31 @@
 
 
                     {{-- Video Footer --}}
-                    <div
-                        class="border-t
-                               border-white/10
-                               bg-gray-950 px-5 py-4">
-
+                    <div class="border-t border-white/10 bg-gray-950 px-5 py-4">
                         <div
                             class="flex flex-col gap-2
-                                   sm:flex-row
-                                   sm:items-center
-                                   sm:justify-between">
+                                    sm:flex-row
+                                    sm:items-center
+                                    sm:justify-between">
 
-                            <div class="flex min-w-0
-                                       items-center gap-3">
+                            <div class="flex min-w-0 items-center gap-3">
 
                                 <i
                                     class="ri-video-line
-                                           shrink-0 text-lg
-                                           text-gray-400">
+                                            shrink-0 text-lg
+                                            text-gray-400">
                                 </i>
 
                                 <p
                                     class="truncate
-                                           text-sm
-                                           text-gray-300">
+                                            text-sm
+                                            text-gray-300">
 
-                                    podcast-retorika-episode-01.mp4
-
+                                    {{ $video_media->file_name }}
                                 </p>
-
                             </div>
-
-                            <span class="shrink-0
-                                       text-xs text-gray-500">
-
-                                42:18
-
-                            </span>
-
                         </div>
-
                     </div>
-
                 </div>
 
 
@@ -147,82 +137,73 @@
 
                 <div
                     class="overflow-hidden rounded-2xl
-                           border border-gray-200
-                           bg-white shadow-sm">
+                            border border-gray-200
+                            bg-white shadow-sm">
 
 
                     {{-- Header --}}
                     <div
                         class="border-b
-                               border-gray-100
-                               px-6 py-5">
+                                border-gray-100
+                                px-6 py-5">
 
                         <div
                             class="flex flex-col gap-4
-                                   sm:flex-row
-                                   sm:items-start
-                                   sm:justify-between">
+                                    sm:flex-row
+                                    sm:items-start
+                                    sm:justify-between">
 
 
                             <div class="min-w-0">
 
                                 <div
                                     class="mb-3 flex flex-wrap
-                                           items-center gap-2">
+                                            items-center gap-2">
 
 
                                     {{-- Status --}}
                                     <span
-                                        class="inline-flex
-                                               items-center gap-1.5
-                                               rounded-full
-                                               bg-green-50 px-3 py-1
-                                               text-xs font-medium
-                                               text-green-700">
+                                        class="inline-flex capitalize items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold"
+                                        :class="{
+                                            'bg-yellow-100 text-yellow-700': {{ $podcast->status_id }} == 1,
+                                            'bg-green-100 text-green-700': {{ $podcast->status_id }} == 2
+                                        }">
 
-                                        <span
-                                            class="h-1.5 w-1.5
-                                                   rounded-full
-                                                   bg-green-500">
-                                        </span>
+                                        <span class="h-2 w-2 rounded-full"
+                                            :class="{
+                                                'bg-yellow-500': {{ $podcast->status_id }} == 1,
+                                                'bg-green-500': {{ $podcast->status_id }} == 2,
+                                            }"></span>
 
-                                        Published
-
+                                        {{ $podcast->status->slug }}
                                     </span>
 
 
                                     {{-- Episode --}}
                                     <span
                                         class="rounded-full
-                                               bg-gray-100 px-3 py-1
-                                               text-xs font-medium
-                                               text-gray-600">
-
-                                        Episode 01
-
+                                                bg-gray-100 px-3 py-1
+                                                text-xs font-medium
+                                                text-gray-600">
+                                        {{ $podcast->episode }}
                                     </span>
-
                                 </div>
 
 
-                                <h2
-                                    class="text-2xl font-bold
-                                           leading-tight
-                                           text-gray-900">
-
-                                    Ngobrol Kampus:
-                                    Kehidupan Mahasiswa
-                                    di Era Digital
-
+                                <h2 class="text-2xl font-bold leading-tight text-gray-900">
+                                    {{ $podcast->judul }}
                                 </h2>
 
 
                                 <p class="mt-3 text-sm
-                                           text-gray-500">
-
-                                    Dipublikasikan pada
-                                    15 Agustus 2026
-
+                                        text-gray-500">
+                                    Dibuat pada tanggal
+                                    {{ $podcast->created_at->translatedFormat('d F Y') }}
+                                </p>
+                                <p class="mt-3 text-sm
+                                        text-gray-500">
+                                    Diperbarui pada tanggal
+                                    {{ $podcast->updated_at->translatedFormat('d F Y') }}
                                 </p>
 
                             </div>
@@ -237,51 +218,37 @@
 
 
                         {{-- Host --}}
-                        <div
-                            class="flex items-start gap-4
-                                   rounded-xl
-                                   bg-gray-50 p-4">
+                        <div class="flex items-start gap-4 rounded-xl bg-gray-50 p-4">
 
                             <div
                                 class="flex h-11 w-11
-                                       shrink-0
-                                       items-center
-                                       justify-center
-                                       rounded-full
-                                       bg-red-100
-                                       text-red-600">
+                                        shrink-0
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-red-100
+                                        text-red-600">
 
-                                <i class="ri-mic-line
-                                           text-xl">
+                                <i class="ri-user-voice-line text-xl">
                                 </i>
 
                             </div>
 
 
                             <div>
-
                                 <p
                                     class="text-xs
-                                           font-medium
-                                           uppercase
-                                           tracking-wide
-                                           text-gray-400">
-
+                                            font-medium
+                                            uppercase
+                                            tracking-wide
+                                            text-gray-400">
                                     Host
-
                                 </p>
 
-                                <p
-                                    class="mt-1
-                                           font-semibold
-                                           text-gray-900">
-
-                                    Muhammad Rizky
-
+                                <p class="mt-1 font-semibold text-gray-900">
+                                    {{ $podcast->host }}
                                 </p>
-
                             </div>
-
                         </div>
 
 
@@ -290,8 +257,8 @@
 
                             <h3
                                 class="text-sm
-                                       font-semibold
-                                       text-gray-900">
+                                        font-semibold
+                                        text-gray-900">
 
                                 Deskripsi
 
@@ -299,38 +266,13 @@
 
                             <p
                                 class="mt-3 text-sm
-                                       leading-7
-                                       text-gray-600">
-
-                                Pada episode pertama Podcast
-                                Retorika, kami membahas kehidupan
-                                mahasiswa di era digital, mulai dari
-                                penggunaan teknologi dalam kegiatan
-                                perkuliahan hingga bagaimana mahasiswa
-                                dapat memanfaatkan media digital
-                                secara positif.
-
+                                        leading-7
+                                        text-gray-600">
+                                {{ $podcast->deskripsi }}
                             </p>
-
-                            <p
-                                class="mt-3 text-sm
-                                       leading-7
-                                       text-gray-600">
-
-                                Pembahasan juga mencakup tantangan
-                                yang dihadapi mahasiswa dalam menjaga
-                                produktivitas dan membangun
-                                keseimbangan antara kehidupan
-                                akademik dan aktivitas digital.
-
-                            </p>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
 
 
@@ -338,8 +280,7 @@
             {{-- RIGHT : Sidebar --}}
             {{-- ================================================= --}}
 
-            <div class="space-y-8
-                       xl:col-span-4">
+            <div class="space-y-8 xl:col-span-4">
 
 
                 {{-- ================================================= --}}
@@ -373,42 +314,34 @@
 
                     </div>
 
-
                     <div class="p-6">
-
                         <div class="overflow-hidden
-                                   rounded-xl bg-gray-100">
+                                    rounded-xl bg-gray-100">
 
-                            <img src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?auto=format&fit=crop&w=1000&q=85"
-                                alt="Podcast thumbnail"
-                                class="aspect-video
-                                       w-full object-cover">
-
+                            <img src="{{ $thumbnail_media->original_url }}"
+                                alt="{{ $podcast->thumbnail_asset->alt_text }}"
+                                class="aspect-video w-full object-cover">
                         </div>
-
 
                         <div class="mt-4">
 
                             <p
                                 class="truncate text-sm
-                                       font-medium
-                                       text-gray-800">
-
-                                podcast-episode-01.jpg
-
+                                        font-medium
+                                        text-gray-800">
+                                {{ $thumbnail_media->file_name }}
                             </p>
 
-                            <p class="mt-1 text-xs
-                                       text-gray-400">
-
-                                JPG · 856 KB
-
-                            </p>
-
+                            <div class="mt-1 flex">
+                                <p class="text-xs text-gray-400">
+                                    {{ strtoupper($thumbnail_media->extension) }}&nbsp;
+                                </p>
+                                <p class="text-xs text-gray-400">
+                                    ·&nbsp;{{ $thumbnail_media->human_readable_size }}
+                                </p>
+                            </div>
                         </div>
-
                     </div>
-
                 </div>
 
 
@@ -452,31 +385,15 @@
                             class="flex items-start
                                    justify-between gap-4
                                    px-6 py-4">
-
-                            <div>
-
-                                <p class="text-xs
-                                           text-gray-400">
-
+                            <div class="min-w-0 flex-1">
+                                <p class="text-xs text-gray-400">
                                     File
-
                                 </p>
 
-                                <p
-                                    class="mt-1 text-sm
-                                           font-medium
-                                           text-gray-800">
-
-                                    podcast-episode-01.mp4
-
+                                <p class="mt-1 text-sm font-medium text-gray-800 break-all">
+                                    {{ $video_media->file_name }}
                                 </p>
-
                             </div>
-
-                            <i class="ri-video-line
-                                       text-lg text-gray-400">
-                            </i>
-
                         </div>
 
 
@@ -487,7 +404,7 @@
                                    px-6 py-4">
 
                             <span class="text-sm
-                                       text-gray-500">
+                                        text-gray-500">
 
                                 Format
 
@@ -495,11 +412,9 @@
 
                             <span
                                 class="text-sm
-                                       font-medium
-                                       text-gray-800">
-
-                                MP4
-
+                                        font-medium
+                                        text-gray-800">
+                                {{ strtoupper($video_media->extension) }}
                             </span>
 
                         </div>
@@ -508,11 +423,11 @@
                         {{-- Size --}}
                         <div
                             class="flex items-center
-                                   justify-between
-                                   px-6 py-4">
+                                    justify-between
+                                    px-6 py-4">
 
                             <span class="text-sm
-                                       text-gray-500">
+                                        text-gray-500">
 
                                 Ukuran
 
@@ -520,11 +435,10 @@
 
                             <span
                                 class="text-sm
-                                       font-medium
-                                       text-gray-800">
+                                        font-medium
+                                        text-gray-800">
 
-                                248 MB
-
+                                {{ $video_media->human_readable_size }}
                             </span>
 
                         </div>
@@ -533,11 +447,11 @@
                         {{-- Duration --}}
                         <div
                             class="flex items-center
-                                   justify-between
-                                   px-6 py-4">
+                                    justify-between
+                                    px-6 py-4">
 
                             <span class="text-sm
-                                       text-gray-500">
+                                        text-gray-500">
 
                                 Durasi
 
@@ -545,10 +459,10 @@
 
                             <span
                                 class="text-sm
-                                       font-medium
-                                       text-gray-800">
+                                        font-medium
+                                        text-gray-800">
 
-                                42:18
+                                {{ $formattedDuration }}
 
                             </span>
 

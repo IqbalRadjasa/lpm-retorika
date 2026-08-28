@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use ArthurPatriot\Tus\Facades\Tus;
 use Illuminate\Support\Facades\DB;
 use ArthurPatriot\Tus\Helpers\TusFile;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class MediaController extends Controller
 {
@@ -110,9 +111,24 @@ class MediaController extends Controller
             'alt_text' => $validated['alt_text'] ?? null,
         ]);
 
-        $mediaAsset
-            ->addMediaFromRequest('files')
+        $media = $mediaAsset->addMediaFromRequest('file')
             ->toMediaCollection('library');
+
+        if (str_starts_with($media->mime_type, 'video/')) {
+            try {
+                $durationInSeconds = FFMpeg::fromDisk($media->disk)
+                    ->open($media->getPathRelativeToRoot())
+                    ->getDurationInSeconds();
+
+                $media->setCustomProperty('duration', (int) $durationInSeconds);
+                $media->save();
+            } catch (\Throwable $e) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', 'Media gagal diupload!');
+            }
+        }
 
         return redirect()
             ->route('cms.media.create')
@@ -183,13 +199,28 @@ class MediaController extends Controller
          * Add the completed TUS file
          * to Spatie Media Library.
          */
-            $mediaAsset
+            $media = $mediaAsset
                 ->addMediaFromDisk(
                     $tusFile->path,
                     config('tus.storage_disk')
                 )
                 ->toMediaCollection('library');
 
+            if (str_starts_with($media->mime_type, 'video/')) {
+                try {
+                    $durationInSeconds = FFMpeg::fromDisk($media->disk)
+                        ->open($media->getPathRelativeToRoot())
+                        ->getDurationInSeconds();
+
+                    $media->setCustomProperty('duration', (int) $durationInSeconds);
+                    $media->save();
+                } catch (\Throwable $e) {
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with('error', 'Media gagal diupload!');
+                }
+            }
             /*
          * At this point the file has been
          * successfully copied into the

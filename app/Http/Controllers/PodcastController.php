@@ -107,9 +107,11 @@ class PodcastController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Podcast $podcast)
     {
-        //
+        $podcast->load(['status', 'thumbnail_asset.media', 'video_asset.media']);
+
+        return view('cms.podcast.show', compact('podcast'));
     }
 
     /**
