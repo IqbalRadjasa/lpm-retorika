@@ -146,158 +146,180 @@
         {{-- Publication Grid --}}
         {{-- ================================================= --}}
 
-        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            @forelse ($publikasis as $p)
-                <article
-                    class="group overflow-hidden rounded-2xl bg-white shadow-sm
+        @if ($publikasis->isNotEmpty())
+            <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                @foreach ($publikasis as $p)
+                    <article
+                        class="group overflow-hidden rounded-2xl bg-white shadow-sm
                         ring-1 ring-gray-100 transition
                         hover:-translate-y-1 hover:shadow-lg">
 
-                    {{-- Cover --}}
-                    <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+                        {{-- Cover --}}
+                        <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
 
-                        <img src="{{ $p->cover_asset->getFirstMedia('library')->original_url }}"
-                            alt="{{ $p->cover_asset->alt_text ?? $p->cover_asset->name }}"
-                            class="h-full w-full object-cover
+                            <img src="{{ $p->cover_asset->getFirstMedia('library')->original_url }}"
+                                alt="{{ $p->cover_asset->alt_text ?? $p->cover_asset->name }}"
+                                class="h-full w-full object-cover
                                 transition duration-500
                                 group-hover:scale-105">
 
 
-                        {{-- Category --}}
-                        <div class="absolute left-4 top-4">
+                            {{-- Category --}}
+                            <div class="absolute left-4 top-4">
 
-                            <span
-                                class="inline-flex items-center gap-1.5
+                                <span
+                                    class="inline-flex items-center gap-1.5
                                     rounded-full bg-red-100
                                     px-3 py-1.5
                                     text-xs font-semibold text-red-600
                                     shadow-sm">
 
-                                @switch($p->kategori->slug)
-                                    @case('majalah')
-                                        <i class="ri-book-open-line"></i>
-                                    @break
+                                    @switch($p->kategori->slug)
+                                        @case('majalah')
+                                            <i class="ri-book-open-line"></i>
+                                        @break
 
-                                    @case('tabloid')
-                                        <i class="ri-newspaper-line"></i>
-                                    @break
+                                        @case('tabloid')
+                                            <i class="ri-newspaper-line"></i>
+                                        @break
 
-                                    @case('buletin')
-                                        <i class="ri-file-list-3-line"></i>
-                                    @break
+                                        @case('buletin')
+                                            <i class="ri-file-list-3-line"></i>
+                                        @break
 
-                                    @default
-                                @endswitch
+                                        @default
+                                    @endswitch
 
-                                {{ $p->kategori->nama }}
-                            </span>
+                                    {{ $p->kategori->nama }}
+                                </span>
+                            </div>
+
+
+                            {{-- Status --}}
+                            <div class="absolute right-4 top-4">
+                                <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
+                                    :class="{
+                                        'bg-yellow-100 text-yellow-700': {{ $p->status->id }} == 1,
+                                        'bg-green-100 text-green-700': {{ $p->status->id }} == 2
+                                    }">
+
+                                    {{ $p->status->slug }}
+
+                                </span>
+                            </div>
                         </div>
 
 
-                        {{-- Status --}}
-                        <div class="absolute right-4 top-4">
-                            <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
-                                :class="{
-                                    'bg-yellow-100 text-yellow-700': {{ $p->status->id }} == 1,
-                                    'bg-green-100 text-green-700': {{ $p->status->id }} == 2
-                                }">
+                        {{-- Content --}}
+                        <div class="p-5">
 
-                                {{ $p->status->slug }}
-
-                            </span>
-                        </div>
-                    </div>
-
-
-                    {{-- Content --}}
-                    <div class="p-5">
-
-                        <h2
-                            class="text-lg font-semibold text-gray-900
+                            <h2
+                                class="text-lg font-semibold text-gray-900
                                 transition group-hover:text-red-600">
 
-                            {{ $p->judul }}
-                        </h2>
+                                {{ $p->judul }}
+                            </h2>
 
-                        <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
-                            <span>
-                                <i class="ri-bookmark-line mr-1"></i>{{ $p->edisi }}
-                            </span>
-                            ·
-                            <span>
-                                <i class="ri-stack-line"></i>
-                                {{ $p->volume }}
-                            </span>
+                            <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                                <span>
+                                    <i class="ri-bookmark-line mr-1"></i>{{ $p->edisi }}
+                                </span>
+                                ·
+                                <span>
+                                    <i class="ri-stack-line"></i>
+                                    {{ $p->volume }}
+                                </span>
+                            </div>
+
+                            <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
+                                <i class="ri-calendar-line"></i>
+
+                                {{ $p->created_at->translatedFormat('d F Y') }}
+                            </div>
+
+
+                            <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
+                                {{ $p->deskripsi }}
+                            </p>
+
+
+                            {{-- Actions --}}
+                            <div class="mt-5 flex flex-col gap-2">
+                                <x-link-button.secondary-link :href="route('cms.publikasi.show', $p->id)" icon="ri-eye-line" class="flex-1">
+                                    Detail
+                                </x-link-button.secondary-link>
+
+                                <x-link-button.secondary-link :href="route('cms.publikasi.edit', $p->id)" icon="ri-pencil-line" class="flex-1">
+                                    Edit
+                                </x-link-button.secondary-link>
+
+                                <form action="{{ route('cms.publikasi.destroy', $p->id) }}" method="POST"
+                                    class="flex"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus publikasi ini?')">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <x-button.danger-button icon="ri-delete-bin-line" class="flex-1">
+                                        Hapus
+                                    </x-button.danger-button>
+
+                                </form>
+                            </div>
                         </div>
-
-                        <div class="mt-3 flex items-center gap-2 text-sm text-gray-500">
-                            <i class="ri-calendar-line"></i>
-
-                            {{ $p->created_at->translatedFormat('d F Y') }}
-                        </div>
-
-
-                        <p class="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
-                            {{ $p->deskripsi }}
-                        </p>
-
-
-                        {{-- Actions --}}
-                        <div class="mt-5 flex flex-col gap-2">
-                            <x-link-button.secondary-link :href="route('cms.publikasi.show', $p->id)" icon="ri-eye-line" class="flex-1">
-                                Detail
-                            </x-link-button.secondary-link>
-
-                            <x-link-button.secondary-link :href="route('cms.publikasi.edit', $p->id)" icon="ri-pencil-line" class="flex-1">
-                                Edit
-                            </x-link-button.secondary-link>
-
-                            <form action="{{ route('cms.publikasi.destroy', $p->id) }}" method="POST" class="flex"
-                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus publikasi ini?')">
-                                @csrf
-                                @method('DELETE')
-
-                                <x-button.danger-button icon="ri-delete-bin-line" class="flex-1">
-                                    Hapus
-                                </x-button.danger-button>
-
-                            </form>
-                        </div>
-                    </div>
-                </article>
-                @empty
-                    {{-- ================================================= --}}
-                    {{-- Empty State --}}
-                    {{-- ================================================= --}}
-
-                    <div class="rounded-2xl bg-white p-12 text-center shadow-sm">
-
-                        <div
-                            class="mx-auto flex h-16 w-16 items-center justify-center
-                        rounded-2xl bg-gray-100">
-
-                            <i class="ri-book-open-line text-3xl text-gray-400"></i>
-
-                        </div>
-
-                        <h3 class="mt-5 text-lg font-semibold text-gray-900">
-                            Belum ada publikasi
-                        </h3>
-
-                        <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
-                            Belum ada majalah, tabloid, atau buletin
-                            yang ditambahkan.
-                        </p>
-                    </div>
-                @endforelse
+                    </article>
+                @endforeach
             </div>
-
+        @else
             {{-- ================================================= --}}
-            {{-- Pagination --}}
+            {{-- Empty State --}}
             {{-- ================================================= --}}
+            <div class="w-full rounded-2xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-100">
 
-            <div class="rounded-2xl bg-white p-5 shadow-sm">
-                {{ $publikasis->links('vendor.pagination.default') }}
+                @if (request()->hasAny(['search', 'kategori_id', 'status_id']))
+                    {{-- 1. Tampilan Ketika Hasil Filter/Pencarian Kosong --}}
+                    <div
+                        class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-500">
+                        <i class="ri-search-line text-3xl"></i>
+                    </div>
+
+                    <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                        Data tidak ditemukan
+                    </h3>
+
+                    <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                        Tidak ada publikasi yang cocok dengan kriteria pencarian atau filter kamu. Coba kata kunci lain.
+                    </p>
+
+                    <div class="mt-6">
+                        <a href="{{ request()->url() }}"
+                            class="inline-flex items-center gap-2 rounded-xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
+                            <i class="ri-refresh-line"></i> Reset Filter
+                        </a>
+                    </div>
+                @else
+                    <div
+                        class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
+                        <i class="ri-book-open-line text-3xl"></i>
+                    </div>
+
+                    <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                        Belum ada publikasi
+                    </h3>
+
+                    <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                        Belum ada publikasi yang ditambahkan.
+                    </p>
+                @endif
+
             </div>
+        @endif
+
+        {{-- ================================================= --}}
+        {{-- Pagination --}}
+        {{-- ================================================= --}}
+
+        <div class="rounded-2xl bg-white p-5 shadow-sm">
+            {{ $publikasis->links('vendor.pagination.default') }}
         </div>
-    </x-cms-layout>
+    </div>
+</x-cms-layout>

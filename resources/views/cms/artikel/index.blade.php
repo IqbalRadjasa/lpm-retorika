@@ -150,109 +150,111 @@
         {{-- ================================================= --}}
 
         <div class="space-y-5">
+            @if ($artikels->isNotEmpty())
+                @foreach ($artikels as $art)
+                    <article
+                        class="group rounded-3xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl">
 
-            @foreach ($artikels as $art)
-                <article
-                    class="group rounded-3xl border border-gray-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl">
+                        <div class="flex flex-col lg:flex-row">
 
-                    <div class="flex flex-col lg:flex-row">
+                            {{-- Thumbnail --}}
+                            <div class="lg:w-72 shrink-0">
 
-                        {{-- Thumbnail --}}
-                        <div class="lg:w-72 shrink-0">
+                                <img src="{{ $art->media_asset->getFirstMedia('library')->original_url }}"
+                                    class="h-64 lg:h-full w-full rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none object-cover">
 
-                            <img src="{{ $art->media_asset->getFirstMedia('library')->original_url }}"
-                                class="h-64 lg:h-full w-full rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none object-cover">
+                            </div>
 
-                        </div>
+                            {{-- Content --}}
+                            <div class="flex flex-1 flex-col p-6">
 
-                        {{-- Content --}}
-                        <div class="flex flex-1 flex-col p-6">
+                                <div class="flex flex-wrap items-start justify-between gap-4">
 
-                            <div class="flex flex-wrap items-start justify-between gap-4">
+                                    <div>
 
-                                <div>
+                                        <span
+                                            class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                                            {{ $art->kategori->nama }}
+                                        </span>
 
-                                    <span
-                                        class="inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
-                                        {{ $art->kategori->nama }}
+                                        <h2 class="mt-4 text-2xl font-bold transition group-hover:text-red-600">
+                                            {{ $art->judul }}
+                                        </h2>
+
+                                    </div>
+
+                                    {{-- Status --}}
+                                    <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
+                                        :class="{
+                                            'bg-yellow-100 text-yellow-700': {{ $art->status->id }} == 1,
+                                            'bg-green-100 text-green-700': {{ $art->status->id }} == 2
+                                        }">
+
+                                        {{ $art->status->slug }}
+
                                     </span>
 
-                                    <h2 class="mt-4 text-2xl font-bold transition group-hover:text-red-600">
-                                        {{ $art->judul }}
-                                    </h2>
-
                                 </div>
 
-                                {{-- Status --}}
-                                <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
-                                    :class="{
-                                        'bg-yellow-100 text-yellow-700': {{ $art->status->id }} == 1,
-                                        'bg-green-100 text-green-700': {{ $art->status->id }} == 2
-                                    }">
+                                <p class="mt-5 max-w-3xl leading-8 text-gray-500">
+                                    {{ $art->ringkasan }}
+                                </p>
 
-                                    {{ $art->status->slug }}
+                                {{-- Meta --}}
+                                <div class="mt-6 flex flex-wrap items-center gap-5 text-sm text-gray-500">
+                                    <span class="flex items-center gap-2">
+                                        <i class="ri-user-line"></i>
+                                        {{ $art->penulis }}
+                                    </span>
 
-                                </span>
+                                    <span class="flex items-center gap-2">
 
-                            </div>
+                                        <i class="ri-calendar-line"></i>
 
-                            <p class="mt-5 max-w-3xl leading-8 text-gray-500">
-                                {{ $art->ringkasan }}
-                            </p>
+                                        {{ $art->created_at->translatedFormat('d F Y') }}
 
-                            {{-- Meta --}}
-                            <div class="mt-6 flex flex-wrap items-center gap-5 text-sm text-gray-500">
-                                <span class="flex items-center gap-2">
-                                    <i class="ri-user-line"></i>
-                                    {{ $art->penulis }}
-                                </span>
+                                    </span>
+                                </div>
 
-                                <span class="flex items-center gap-2">
+                                {{-- Footer --}}
+                                <div
+                                    class="mt-8 flex flex-col gap-4 border-t border-gray-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
 
-                                    <i class="ri-calendar-line"></i>
-
-                                    {{ $art->created_at->translatedFormat('d F Y') }}
-
-                                </span>
-                            </div>
-
-                            {{-- Footer --}}
-                            <div
-                                class="mt-8 flex flex-col gap-4 border-t border-gray-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
-
-                                <div class="text-sm text-gray-400">
                                     <div class="text-sm text-gray-400">
-                                        Updated {{ $art->updated_at?->diffForHumans() ?? 'Never' }}
+                                        <div class="text-sm text-gray-400">
+                                            Updated {{ $art->updated_at?->diffForHumans() ?? 'Never' }}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="flex flex-wrap gap-3">
+                                    <div class="flex flex-wrap gap-3">
 
-                                    <a href="{{ route('cms.artikel.show', $art->id) }}"
-                                        class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-100">
+                                        <a href="{{ route('cms.artikel.show', $art->id) }}"
+                                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-100">
 
-                                        <i class="ri-eye-line"></i>
+                                            <i class="ri-eye-line"></i>
 
-                                    </a>
+                                        </a>
 
-                                    <a href="{{route('cms.artikel.edit', $art->id)}}"
-                                        class="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 text-blue-600 transition hover:bg-blue-50">
+                                        <a href="{{ route('cms.artikel.edit', $art->id) }}"
+                                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 text-blue-600 transition hover:bg-blue-50">
 
-                                        <i class="ri-pencil-line"></i>
-                                    </a>
+                                            <i class="ri-pencil-line"></i>
+                                        </a>
 
 
-                                    <form action="{{ route('cms.artikel.destroy', $art->id) }}" method="POST"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button
-                                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-200 text-red-600 transition hover:bg-red-50">
+                                        <form action="{{ route('cms.artikel.destroy', $art->id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus artikel ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button
+                                                class="flex h-11 w-11 items-center justify-center rounded-xl border border-red-200 text-red-600 transition hover:bg-red-50">
 
-                                            <i class="ri-delete-bin-line"></i>
+                                                <i class="ri-delete-bin-line"></i>
 
-                                        </button>
-                                    </form>
+                                            </button>
+                                        </form>
+
+                                    </div>
 
                                 </div>
 
@@ -260,11 +262,52 @@
 
                         </div>
 
-                    </div>
+                    </article>
+                @endforeach
+            @else
+                {{-- ================================================= --}}
+                {{-- Empty State --}}
+                {{-- ================================================= --}}
+                <div class="w-full rounded-2xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-100">
 
-                </article>
-            @endforeach
+                    @if (request()->hasAny(['search', 'kategori_id', 'status_id']))
+                        {{-- 1. Tampilan Ketika Hasil Filter/Pencarian Kosong --}}
+                        <div
+                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-500">
+                            <i class="ri-search-line text-3xl"></i>
+                        </div>
 
+                        <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                            Data tidak ditemukan
+                        </h3>
+
+                        <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                            Tidak ada artikel yang cocok dengan kriteria pencarian atau filter kamu. Coba kata kunci
+                            lain.
+                        </p>
+
+                        <div class="mt-6">
+                            <a href="{{ request()->url() }}"
+                                class="inline-flex items-center gap-2 rounded-xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
+                                <i class="ri-refresh-line"></i> Reset Filter
+                            </a>
+                        </div>
+                    @else
+                        <div
+                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
+                            <i class="ri-book-open-line text-3xl"></i>
+                        </div>
+
+                        <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                            Belum ada artikel
+                        </h3>
+
+                        <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                            Belum ada artikel yang ditambahkan.
+                        </p>
+                    @endif
+                </div>
+            @endif
         </div>
 
         {{-- ================================================= --}}

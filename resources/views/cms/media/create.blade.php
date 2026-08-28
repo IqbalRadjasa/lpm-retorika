@@ -92,33 +92,19 @@
                         <div class="space-y-6 p-6">
                             {{-- Name --}}
                             <div>
-
-                                <label for="name" class="mb-2 block text-sm font-medium text-gray-700">
-
-                                    Nama Media
-
-                                </label>
-
-                                <input id="name" type="text" name="name" value="{{ old('name') }}" required
-                                    class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500"
-                                    placeholder="Deskripsi gambar" :disabled="uploading">
-
+                                <x-form.input-label for="name" :value="__('Nama Media')" />
+                                <x-form.text-input id="name" type="text" name="name" :value="old('name')"
+                                    placeholder="Nama media" required />
+                                <x-form.input-error :messages="$errors->get('name')" />
                             </div>
 
 
                             {{-- Alt Text --}}
                             <div>
-
-                                <label for="alt_text" class="mb-2 block text-sm font-medium text-gray-700">
-
-                                    Alt Text
-
-                                </label>
-
-                                <input id="alt_text" type="text" name="alt_text" value="{{ old('alt_text') }}"
-                                    class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500"
-                                    placeholder="Deskripsi gambar" :disabled="uploading">
-
+                                <x-form.input-label for="alt_text" :value="__('Alt Text')" />
+                                <x-form.text-input id="alt_text" type="text" name="alt_text" :value="old('alt_text')"
+                                    placeholder="Deskripsi Media" required />
+                                <x-form.input-error :messages="$errors->get('alt_text')" />
                             </div>
 
                             {{-- ================================================= --}}

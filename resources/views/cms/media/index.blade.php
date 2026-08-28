@@ -158,55 +158,47 @@
             {{-- ================================================= --}}
 
             <div class="border-b border-gray-100 p-6">
-                <form action="{{ url()->current() }}" method="GET">
-                    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                        {{-- Search --}}
-                        <div class="relative w-full lg:max-w-md">
-                            <i
-                                class="ri-search-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" placeholder="Cari nama file..." name="search"
-                                value="{{ request('search') }}"
-                                class="w-full rounded-xl border-gray-300 pl-11 focus:border-red-500 focus:ring-red-500">
-                        </div>
+                <form action="{{ url()->current() }}" method="GET"
+                    class="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto]">
 
-                        {{-- Filter & Sort --}}
-                        <div class="flex flex-col gap-3 sm:flex-row">
+                    <x-form.text-input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Cari nama file..." />
 
-                            {{-- Filter Tipe Media --}}
-                            <select name="type" onchange="this.form.submit()"
-                                class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500 sm:w-40">
-                                <option value="" {{ request('type') == '' ? 'selected' : '' }}>
-                                    Semua Media
-                                </option>
-                                <option value="image" {{ request('type') == 'image' ? 'selected' : '' }}>
-                                    Gambar
-                                </option>
-                                <option value="document" {{ request('type') == 'document' ? 'selected' : '' }}>
-                                    Dokumen
-                                </option>
-                                <option value="video" {{ request('type') == 'video' ? 'selected' : '' }}>
-                                    Video
-                                </option>
-                            </select>
+                    <x-form.select-input name="type">
+                        <option value="" {{ request('type') == '' ? 'selected' : '' }}>
+                            Semua Media
+                        </option>
+                        <option value="image" {{ request('type') == 'image' ? 'selected' : '' }}>
+                            Gambar
+                        </option>
+                        <option value="document" {{ request('type') == 'document' ? 'selected' : '' }}>
+                            Dokumen
+                        </option>
+                        <option value="video" {{ request('type') == 'video' ? 'selected' : '' }}>
+                            Video
+                        </option>
+                    </x-form.select-input>
 
-                            {{-- Filter Sort --}}
-                            <select name="sort" onchange="this.form.submit()"
-                                class="w-full rounded-xl border-gray-300 focus:border-red-500 focus:ring-red-500 sm:w-40">
-                                <option value="" {{ request('sort') == '' ? 'selected' : '' }}>
-                                    Terbaru
-                                </option>
-                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>
-                                    Terlama
-                                </option>
-                                <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>
-                                    Nama A-Z
-                                </option>
-                            </select>
+                    <x-form.select-input name="sort">
+                        <option value="">
+                            Semua Status
+                        </option>
+                        <option value="" {{ request('sort') == '' ? 'selected' : '' }}>
+                            Terbaru
+                        </option>
+                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>
+                            Terlama
+                        </option>
+                        <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>
+                            Nama A-Z
+                        </option>
+                    </x-form.select-input>
 
-                        </div>
-                    </div>
+                    <x-button.primary-button>
+                        Filter
+                    </x-button.primary-button>
+
                 </form>
-
             </div>
 
 
@@ -216,165 +208,212 @@
 
             <div class="p-6">
 
-                <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    @foreach ($mediaAssets as $m)
-                        <div
-                            class="group overflow-hidden rounded-2xl border border-gray-200
+                @if ($mediaAssets->isNotEmpty())
+
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                        @foreach ($mediaAssets as $m)
+                            <div
+                                class="group overflow-hidden rounded-2xl border border-gray-200
                             bg-white transition
                             hover:border-red-200
                             hover:shadow-md">
 
-                            @if (str_starts_with($m->getFirstMedia('library')->mime_type, 'image/'))
-                                <div class="relative aspect-square overflow-hidden bg-gray-100">
+                                @if (str_starts_with($m->getFirstMedia('library')->mime_type, 'image/'))
+                                    <div class="relative aspect-square overflow-hidden bg-gray-100">
 
-                                    <img src="{{ $m->getFirstMedia('library')?->original_url }}"
-                                        alt="{{ $m->alt_text }}"
-                                        class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                                        <img src="{{ $m->getFirstMedia('library')?->original_url }}"
+                                            alt="{{ $m->alt_text }}"
+                                            class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
 
-                                    <div
-                                        class="absolute inset-0 flex items-center justify-center gap-2
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center gap-2
                                             bg-black/40 opacity-0 transition
                                             group-hover:opacity-100">
 
-                                        <a href="{{ route('cms.media.show', $m->id) }}"
-                                            class="inline-flex h-10 w-10 items-center justify-center
+                                            <a href="{{ route('cms.media.show', $m->id) }}"
+                                                class="inline-flex h-10 w-10 items-center justify-center
                                             rounded-full bg-white text-gray-700
                                             shadow-sm transition hover:bg-gray-100">
 
-                                            <i class="ri-eye-line text-lg"></i>
+                                                <i class="ri-eye-line text-lg"></i>
 
-                                        </a>
+                                            </a>
 
-                                        <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
-                                                class="inline-flex h-10 w-10 items-center justify-center
+                                            <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
+                                                    class="inline-flex h-10 w-10 items-center justify-center
                                             rounded-full bg-red-500 text-white
                                             shadow-sm transition hover:bg-red-700">
 
-                                                <i class="ri-delete-bin-line text-lg"></i>
+                                                    <i class="ri-delete-bin-line text-lg"></i>
 
-                                            </button>
-                                        </form>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            @elseif ($m->getFirstMedia('library')->mime_type == 'application/pdf')
-                                <div
-                                    class="relative flex aspect-square items-center justify-center
+                                @elseif ($m->getFirstMedia('library')->mime_type == 'application/pdf')
+                                    <div
+                                        class="relative flex aspect-square items-center justify-center
                                    bg-gray-50">
 
-                                    <div class="text-center">
-                                        <div
-                                            class="mx-auto flex h-16 w-16 items-center justify-center
+                                        <div class="text-center">
+                                            <div
+                                                class="mx-auto flex h-16 w-16 items-center justify-center
                                             rounded-2xl bg-red-50 text-red-600">
 
-                                            <i class="ri-file-pdf-2-line text-3xl"></i>
+                                                <i class="ri-file-pdf-2-line text-3xl"></i>
 
+                                            </div>
+
+                                            <p class="mt-3 text-xs font-semibold uppercase text-red-600">
+                                                PDF
+                                            </p>
                                         </div>
 
-                                        <p class="mt-3 text-xs font-semibold uppercase text-red-600">
-                                            PDF
-                                        </p>
-                                    </div>
-
-                                    <div
-                                        class="absolute inset-0 flex items-center justify-center
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center
                                         bg-black/40 opacity-0 transition
                                         group-hover:opacity-100 gap-2">
 
-                                        <a href="{{ route('cms.media.show', $m->id) }}"
-                                            class="inline-flex h-10 w-10 items-center justify-center
+                                            <a href="{{ route('cms.media.show', $m->id) }}"
+                                                class="inline-flex h-10 w-10 items-center justify-center
                                             rounded-full bg-white text-gray-700">
 
-                                            <i class="ri-eye-line text-lg"></i>
+                                                <i class="ri-eye-line text-lg"></i>
 
-                                        </a>
+                                            </a>
 
-                                        <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
-                                                class="inline-flex h-10 w-10 items-center justify-center
+                                            <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
+                                                    class="inline-flex h-10 w-10 items-center justify-center
                                             rounded-full bg-red-500 text-white
                                             shadow-sm transition hover:bg-red-700">
 
-                                                <i class="ri-delete-bin-line text-lg"></i>
+                                                    <i class="ri-delete-bin-line text-lg"></i>
 
-                                            </button>
-                                        </form>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            @elseif (str_starts_with($m->getFirstMedia('library')->mime_type, 'video/'))
-                                <div
-                                    class="relative flex aspect-square items-center justify-center
+                                @elseif (str_starts_with($m->getFirstMedia('library')->mime_type, 'video/'))
+                                    <div
+                                        class="relative flex aspect-square items-center justify-center
                                    bg-gray-50">
 
-                                    <div class="text-center">
-                                        <div
-                                            class="mx-auto flex h-16 w-16 items-center justify-center
+                                        <div class="text-center">
+                                            <div
+                                                class="mx-auto flex h-16 w-16 items-center justify-center
                                             rounded-2xl bg-red-50 text-red-600">
 
-                                            <i class="ri-video-line text-3xl"></i>
+                                                <i class="ri-video-line text-3xl"></i>
 
+                                            </div>
+
+                                            <p class="mt-3 text-xs font-semibold uppercase text-red-600">
+                                                Video
+                                            </p>
                                         </div>
 
-                                        <p class="mt-3 text-xs font-semibold uppercase text-red-600">
-                                            Video
-                                        </p>
-                                    </div>
-
-                                    <div
-                                        class="absolute inset-0 flex items-center justify-center
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-center
                                         bg-black/40 opacity-0 transition
                                         group-hover:opacity-100 gap-2">
 
-                                        <a href="{{ route('cms.media.show', $m->id) }}"
-                                            class="inline-flex h-10 w-10 items-center justify-center
+                                            <a href="{{ route('cms.media.show', $m->id) }}"
+                                                class="inline-flex h-10 w-10 items-center justify-center
                                             rounded-full bg-white text-gray-700">
 
-                                            <i class="ri-eye-line text-lg"></i>
+                                                <i class="ri-eye-line text-lg"></i>
 
-                                        </a>
+                                            </a>
 
-                                        <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
-                                                class="inline-flex h-10 w-10 items-center justify-center
+                                            <form action="{{ route('cms.media.destroy', $m->id) }}" method="POST"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus media ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" href="{{ route('cms.media.show', $m->id) }}"
+                                                    class="inline-flex h-10 w-10 items-center justify-center
                                             rounded-full bg-red-500 text-white
                                             shadow-sm transition hover:bg-red-700">
 
-                                                <i class="ri-delete-bin-line text-lg"></i>
+                                                    <i class="ri-delete-bin-line text-lg"></i>
 
-                                            </button>
-                                        </form>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
+                                @endif
+
+                                {{-- Information --}}
+                                <div class="p-4">
+                                    <p class="truncate text-sm font-medium text-gray-900">
+                                        {{ $m->name }}
+                                    </p>
+
+                                    <p class="mt-1 text-xs text-gray-400">
+                                        @if ($m)
+                                            {{ strtoupper(pathinfo($m->getFirstMedia('library')->file_name, PATHINFO_EXTENSION)) }}
+                                            ·
+                                            {{ $m->getFirstMedia('library')->human_readable_size }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </p>
                                 </div>
-                            @endif
-
-                            {{-- Information --}}
-                            <div class="p-4">
-                                <p class="truncate text-sm font-medium text-gray-900">
-                                    {{ $m->name }}
-                                </p>
-
-                                <p class="mt-1 text-xs text-gray-400">
-                                    @if ($m)
-                                        {{ strtoupper(pathinfo($m->getFirstMedia('library')->file_name, PATHINFO_EXTENSION)) }}
-                                        ·
-                                        {{ $m->getFirstMedia('library')->human_readable_size }}
-                                    @else
-                                        N/A
-                                    @endif
-                                </p>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @else
+                    {{-- ================================================= --}}
+                    {{-- Empty State --}}
+                    {{-- ================================================= --}}
+                    <div class="w-full rounded-2xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-100">
+
+                        @if (request()->hasAny(['search', 'type', 'sort']))
+                            {{-- 1. Tampilan Ketika Hasil Filter/Pencarian Kosong --}}
+                            <div
+                                class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-500">
+                                <i class="ri-search-line text-3xl"></i>
+                            </div>
+
+                            <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                                Data tidak ditemukan
+                            </h3>
+
+                            <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                                Tidak ada file yang cocok dengan kriteria pencarian atau filter kamu. Coba kata kunci
+                                lain.
+                            </p>
+
+                            <div class="mt-6">
+                                <a href="{{ request()->url() }}"
+                                    class="inline-flex items-center gap-2 rounded-xl bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition">
+                                    <i class="ri-refresh-line"></i> Reset Filter
+                                </a>
+                            </div>
+                        @else
+                            <div
+                                class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
+                                <i class="ri-book-open-line text-3xl"></i>
+                            </div>
+
+                            <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                                Belum ada file
+                            </h3>
+
+                            <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                                Belum ada file yang ditambahkan.
+                            </p>
+                        @endif
+
+                    </div>
+                @endif
 
                 {{ $mediaAssets->links('vendor.pagination.default') }}
 
