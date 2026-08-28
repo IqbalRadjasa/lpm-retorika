@@ -82,6 +82,21 @@
 
                 </div>
 
+                @php
+                    $newest_thumbnail_media = $podcastNewest->thumbnail_asset->getFirstMedia('library');
+                    $newest_video_media = $podcastNewest->video_asset->getFirstMedia('library');
+                    $durationSeconds = $newest_video_media?->getCustomProperty('duration');
+
+                    // Konversi detik ke format 00:00 (menit:detik)
+                    // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
+                    $formattedDuration = '--:--';
+                    if ($durationSeconds) {
+                        $formattedDuration =
+                            $durationSeconds >= 3600
+                                ? gmdate('H:i:s', $durationSeconds)
+                                : gmdate('i:s', $durationSeconds);
+                    }
+                @endphp
 
                 {{-- Featured Card --}}
                 <div class="overflow-hidden rounded-2xl bg-white shadow-sm
@@ -100,8 +115,8 @@
                                    overflow-hidden bg-gray-900
                                    lg:aspect-auto lg:min-h-[420px]">
 
-                            <img src="https://picsum.photos/1200/800?random=101"
-                                alt="Mengenal Pers Mahasiswa di Era Digital"
+                            <img src="{{ $newest_thumbnail_media->original_url }}"
+                                alt="{{ $podcastNewest->thumbnail_asset->alt_text }}"
                                 class="absolute inset-0 h-full w-full
                                        object-cover transition duration-500
                                        group-hover:scale-105">
@@ -155,10 +170,8 @@
                                        rounded-md bg-black/70 px-2.5 py-1
                                        text-xs font-medium text-white">
 
-                                24:18
-
+                                {{ $formattedDuration }}
                             </span>
-
                         </a>
 
 
@@ -186,9 +199,7 @@
                                 </span>
 
                                 <span class="text-gray-400">
-
-                                    20 Juli 2026
-
+                                    {{ $podcastNewest->created_at->translatedFormat('d F Y') }}
                                 </span>
 
                             </div>
@@ -198,10 +209,7 @@
                             <h3
                                 class="mt-4 text-2xl font-bold leading-tight
                                        text-gray-900 sm:text-3xl">
-
-                                Mengenal Pers Mahasiswa
-                                di Era Digital
-
+                                {{ $podcastNewest->judul }}
                             </h3>
 
 
@@ -209,13 +217,7 @@
                             <p
                                 class="mt-5 text-sm leading-7 text-gray-500
                                        sm:text-base">
-
-                                Bagaimana peran pers mahasiswa di tengah
-                                perkembangan media digital? Dalam episode
-                                kali ini, Suara Retorika membahas tantangan,
-                                peluang, dan peran mahasiswa dalam menjaga
-                                keberlanjutan pers kampus.
-
+                                {{ $podcastNewest->deskripsi }}
                             </p>
 
 
@@ -227,17 +229,14 @@
                                 <span class="inline-flex items-center gap-2">
 
                                     <i class="ri-calendar-line"></i>
-
-                                    20 Juli 2026
-
+                                    {{ $podcastNewest->created_at->translatedFormat('d F Y') }}
                                 </span>
 
                                 <span class="inline-flex items-center gap-2">
 
-                                    <i class="ri-time-line"></i>
+                                    <i class="ri-timer-line"></i>
 
-                                    24 menit
-
+                                    {{ $formattedDuration }}
                                 </span>
 
                             </div>
@@ -246,7 +245,7 @@
                             {{-- CTA --}}
                             <div class="mt-8">
 
-                                <a href="{{route('podcast.show')}}"
+                                <a href="{{ route('podcast.show') }}"
                                     class="inline-flex items-center
                                            justify-center gap-2 rounded-xl
                                            bg-red-600 px-5 py-3
@@ -305,18 +304,19 @@
 
 
                     {{-- Sort --}}
-                    <button type="button"
-                        class="inline-flex items-center gap-2 self-start
-                               rounded-xl border border-gray-200
-                               bg-white px-4 py-2.5 text-sm font-medium
-                               text-gray-700 transition
-                               hover:bg-gray-50 sm:self-auto">
-
-                        Terbaru
-
-                        <i class="ri-arrow-down-s-line"></i>
-
-                    </button>
+                    <form action="{{ url()->current() }}" method="GET">
+                        <x-form.select-input name="sort" onchange="this.form.submit()">
+                            <option value="" {{ request('sort') == '' ? 'selected' : '' }}>
+                                Terbaru
+                            </option>
+                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>
+                                Terlama
+                            </option>
+                            <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>
+                                Nama A-Z
+                            </option>
+                        </x-form.select-input>
+                    </form>
 
                 </div>
 
@@ -326,724 +326,132 @@
                 {{-- ================================================= --}}
 
                 <div
-                    class="mt-8 grid gap-6
+                    class="my-8 grid gap-6
                            sm:grid-cols-2
                            lg:grid-cols-3">
 
+                    @foreach ($podcasts as $p)
+                        @php
+                            $thumbnail_media = $p->thumbnail_asset->getFirstMedia('library');
+                            $video_media = $p->video_asset->getFirstMedia('library');
+                            $durationSeconds = $video_media?->getCustomProperty('duration');
 
-                    {{-- ================================================= --}}
-                    {{-- Podcast Card 1 --}}
-                    {{-- ================================================= --}}
+                            // Konversi detik ke format 00:00 (menit:detik)
+                            // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
+                            $formattedDuration = '--:--';
+                            if ($durationSeconds) {
+                                $formattedDuration =
+                                    $durationSeconds >= 3600
+                                        ? gmdate('H:i:s', $durationSeconds)
+                                        : gmdate('i:s', $durationSeconds);
+                            }
+                        @endphp
 
-                    <article
-                        class="group overflow-hidden rounded-2xl bg-white
-                               shadow-sm transition duration-300
-                               hover:-translate-y-1 hover:shadow-lg">
-
-
-                        {{-- Thumbnail --}}
-                        <a href="#"
-                            class="relative block aspect-video
-                                   overflow-hidden bg-gray-900">
-
-                            <img src="https://picsum.photos/800/450?random=102"
-                                alt="Media Kampus dan Tantangan Jurnalisme"
-                                class="h-full w-full object-cover
-                                       transition duration-500
-                                       group-hover:scale-105">
-
-
-                            {{-- Overlay --}}
-                            <div
-                                class="absolute inset-0 bg-black/0
-                                       transition group-hover:bg-black/20">
-                            </div>
+                        <article
+                            class="group overflow-hidden rounded-2xl bg-white
+                                shadow-sm transition duration-300
+                                hover:-translate-y-1 hover:shadow-lg">
 
 
-                            {{-- Play --}}
-                            <span
-                                class="absolute left-1/2 top-1/2
-                                       flex h-12 w-12
-                                       -translate-x-1/2 -translate-y-1/2
-                                       items-center justify-center
-                                       rounded-full bg-white
-                                       text-red-600 opacity-0 shadow-lg
-                                       transition duration-300
-                                       group-hover:opacity-100">
-
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
-
-                            </span>
-
-
-                            {{-- Duration --}}
-                            <span
-                                class="absolute bottom-3 right-3
-                                       rounded-md bg-black/70 px-2 py-1
-                                       text-xs font-medium text-white">
-
-                                18:42
-
-                            </span>
-
-                        </a>
-
-
-                        {{-- Content --}}
-                        <div class="p-5">
-
-                            <div
-                                class="flex items-center gap-2 text-xs
-                                       text-gray-400">
-
-                                <span class="font-medium text-red-600">
-
-                                    Suara Retorika
-
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-
-                                    18 Juli 2026
-
-                                </span>
-
-                            </div>
-
-
-                            <h3
-                                class="mt-3 text-lg font-bold leading-6
-                                       text-gray-900">
-
-                                Media Kampus dan Tantangan
-                                Jurnalisme Mahasiswa
-
-                            </h3>
-
-
-                            <p
-                                class="mt-2 line-clamp-2 text-sm
-                                       leading-6 text-gray-500">
-
-                                Membahas bagaimana mahasiswa dapat
-                                mempertahankan independensi media
-                                kampus di tengah perkembangan digital.
-
-                            </p>
-
-
+                            {{-- Thumbnail --}}
                             <a href="#"
-                                class="mt-5 inline-flex items-center gap-2
-                                       text-sm font-semibold text-red-600
-                                       transition hover:text-red-700">
+                                class="relative block aspect-video
+                                    overflow-hidden bg-gray-900">
 
-                                Tonton Episode
+                                <img src="{{ $thumbnail_media->original_url }}"
+                                    alt="{{ $p->thumbnail_asset->alt_text ?? $p->thumbnail_asset->name }}"
+                                    class="h-full w-full object-cover
+                                        transition duration-500
+                                        group-hover:scale-105">
 
-                                <i
-                                    class="ri-arrow-right-line
-                                           transition group-hover:translate-x-1">
-                                </i>
+
+                                {{-- Overlay --}}
+                                <div
+                                    class="absolute inset-0 bg-black/0
+                                        transition group-hover:bg-black/20">
+                                </div>
+
+
+                                {{-- Play --}}
+                                <span
+                                    class="absolute left-1/2 top-1/2
+                                        flex h-12 w-12
+                                        -translate-x-1/2 -translate-y-1/2
+                                        items-center justify-center
+                                        rounded-full bg-white
+                                        text-red-600 opacity-0 shadow-lg
+                                        transition duration-300
+                                        group-hover:opacity-100">
+
+                                    <i class="ri-play-fill ml-0.5 text-xl"></i>
+
+                                </span>
+
+
+                                {{-- Duration --}}
+                                <span
+                                    class="absolute bottom-3 right-3
+                                        rounded-md bg-black/70 px-2 py-1
+                                        text-xs font-medium text-white">
+
+                                    {{ $formattedDuration }}
+                                </span>
 
                             </a>
 
-                        </div>
 
-                    </article>
+                            {{-- Content --}}
+                            <div class="p-5">
 
+                                <div
+                                    class="flex items-center gap-2 text-xs
+                                        text-gray-400">
 
-                    {{-- ================================================= --}}
-                    {{-- Podcast Card 2 --}}
-                    {{-- ================================================= --}}
+                                    <span class="font-medium text-red-600">
+                                        Suara Retorika
+                                    </span>
 
-                    <article
-                        class="group overflow-hidden rounded-2xl bg-white
-                               shadow-sm transition duration-300
-                               hover:-translate-y-1 hover:shadow-lg">
+                                    <span>•</span>
 
-
-                        {{-- Thumbnail --}}
-                        <a href="#"
-                            class="relative block aspect-video
-                                   overflow-hidden bg-gray-900">
-
-                            <img src="https://picsum.photos/800/450?random=103"
-                                alt="Organisasi Mahasiswa di Era Digital"
-                                class="h-full w-full object-cover
-                                       transition duration-500
-                                       group-hover:scale-105">
+                                    <span>
+                                        {{ $p->created_at->translatedFormat('d F Y') }}
+                                    </span>
+                                </div>
 
 
-                            {{-- Overlay --}}
-                            <div
-                                class="absolute inset-0 bg-black/0
-                                       transition group-hover:bg-black/20">
-                            </div>
+                                <h3
+                                    class="mt-3 text-lg font-bold leading-6
+                                        text-gray-900">
+                                    {{ $p->judul }}
+                                </h3>
 
 
-                            {{-- Play --}}
-                            <span
-                                class="absolute left-1/2 top-1/2
-                                       flex h-12 w-12
-                                       -translate-x-1/2 -translate-y-1/2
-                                       items-center justify-center
-                                       rounded-full bg-white
-                                       text-red-600 opacity-0 shadow-lg
-                                       transition duration-300
-                                       group-hover:opacity-100">
+                                <p
+                                    class="mt-2 line-clamp-2 text-sm
+                                        leading-6 text-gray-500">
 
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
-
-                            </span>
+                                    {{ $p->deskripsi }}
+                                </p>
 
 
-                            {{-- Duration --}}
-                            <span
-                                class="absolute bottom-3 right-3
-                                       rounded-md bg-black/70 px-2 py-1
-                                       text-xs font-medium text-white">
+                                <a href="#"
+                                    class="mt-5 inline-flex items-center gap-2
+                                        text-sm font-semibold text-red-600
+                                        transition hover:text-red-700">
 
-                                22:15
+                                    Tonton Episode
 
-                            </span>
+                                    <i
+                                        class="ri-arrow-right-line
+                                            transition group-hover:translate-x-1">
+                                    </i>
 
-                        </a>
-
-
-                        {{-- Content --}}
-                        <div class="p-5">
-
-                            <div
-                                class="flex items-center gap-2 text-xs
-                                       text-gray-400">
-
-                                <span class="font-medium text-red-600">
-
-                                    Suara Retorika
-
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-
-                                    15 Juli 2026
-
-                                </span>
+                                </a>
 
                             </div>
 
-
-                            <h3
-                                class="mt-3 text-lg font-bold leading-6
-                                       text-gray-900">
-
-                                Organisasi Mahasiswa
-                                di Era Digital
-
-                            </h3>
-
-
-                            <p
-                                class="mt-2 line-clamp-2 text-sm
-                                       leading-6 text-gray-500">
-
-                                Membahas perubahan pola organisasi
-                                mahasiswa dan bagaimana teknologi
-                                memengaruhi aktivitas kemahasiswaan.
-
-                            </p>
-
-
-                            <a href="#"
-                                class="mt-5 inline-flex items-center gap-2
-                                       text-sm font-semibold text-red-600
-                                       transition hover:text-red-700">
-
-                                Tonton Episode
-
-                                <i
-                                    class="ri-arrow-right-line
-                                           transition group-hover:translate-x-1">
-                                </i>
-
-                            </a>
-
-                        </div>
-
-                    </article>
-
-
-                    {{-- ================================================= --}}
-                    {{-- Podcast Card 3 --}}
-                    {{-- ================================================= --}}
-
-                    <article
-                        class="group overflow-hidden rounded-2xl bg-white
-                               shadow-sm transition duration-300
-                               hover:-translate-y-1 hover:shadow-lg">
-
-
-                        {{-- Thumbnail --}}
-                        <a href="#"
-                            class="relative block aspect-video
-                                   overflow-hidden bg-gray-900">
-
-                            <img src="https://picsum.photos/800/450?random=104" alt="Menjadi Mahasiswa yang Kritis"
-                                class="h-full w-full object-cover
-                                       transition duration-500
-                                       group-hover:scale-105">
-
-
-                            {{-- Overlay --}}
-                            <div
-                                class="absolute inset-0 bg-black/0
-                                       transition group-hover:bg-black/20">
-                            </div>
-
-
-                            {{-- Play --}}
-                            <span
-                                class="absolute left-1/2 top-1/2
-                                       flex h-12 w-12
-                                       -translate-x-1/2 -translate-y-1/2
-                                       items-center justify-center
-                                       rounded-full bg-white
-                                       text-red-600 opacity-0 shadow-lg
-                                       transition duration-300
-                                       group-hover:opacity-100">
-
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
-
-                            </span>
-
-
-                            {{-- Duration --}}
-                            <span
-                                class="absolute bottom-3 right-3
-                                       rounded-md bg-black/70 px-2 py-1
-                                       text-xs font-medium text-white">
-
-                                26:03
-
-                            </span>
-
-                        </a>
-
-
-                        {{-- Content --}}
-                        <div class="p-5">
-
-                            <div
-                                class="flex items-center gap-2 text-xs
-                                       text-gray-400">
-
-                                <span class="font-medium text-red-600">
-
-                                    Suara Retorika
-
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-
-                                    12 Juli 2026
-
-                                </span>
-
-                            </div>
-
-
-                            <h3
-                                class="mt-3 text-lg font-bold leading-6
-                                       text-gray-900">
-
-                                Menjadi Mahasiswa
-                                yang Kritis dan Berdaya
-
-                            </h3>
-
-
-                            <p
-                                class="mt-2 line-clamp-2 text-sm
-                                       leading-6 text-gray-500">
-
-                                Perbincangan mengenai pentingnya
-                                berpikir kritis dan berani menyampaikan
-                                pendapat sebagai mahasiswa.
-
-                            </p>
-
-
-                            <a href="#"
-                                class="mt-5 inline-flex items-center gap-2
-                                       text-sm font-semibold text-red-600
-                                       transition hover:text-red-700">
-
-                                Tonton Episode
-
-                                <i
-                                    class="ri-arrow-right-line
-                                           transition group-hover:translate-x-1">
-                                </i>
-
-                            </a>
-
-                        </div>
-
-                    </article>
-
-
-                    {{-- ================================================= --}}
-                    {{-- Podcast Card 4 --}}
-                    {{-- ================================================= --}}
-
-                    <article
-                        class="group overflow-hidden rounded-2xl bg-white
-                               shadow-sm transition duration-300
-                               hover:-translate-y-1 hover:shadow-lg">
-
-
-                        <a href="#"
-                            class="relative block aspect-video
-                                   overflow-hidden bg-gray-900">
-
-                            <img src="https://picsum.photos/800/450?random=105"
-                                alt="Pendidikan dan Masa Depan Mahasiswa"
-                                class="h-full w-full object-cover
-                                       transition duration-500
-                                       group-hover:scale-105">
-
-
-                            <div
-                                class="absolute inset-0 bg-black/0
-                                       transition group-hover:bg-black/20">
-                            </div>
-
-
-                            <span
-                                class="absolute left-1/2 top-1/2
-                                       flex h-12 w-12
-                                       -translate-x-1/2 -translate-y-1/2
-                                       items-center justify-center
-                                       rounded-full bg-white
-                                       text-red-600 opacity-0 shadow-lg
-                                       transition duration-300
-                                       group-hover:opacity-100">
-
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
-
-                            </span>
-
-
-                            <span
-                                class="absolute bottom-3 right-3
-                                       rounded-md bg-black/70 px-2 py-1
-                                       text-xs font-medium text-white">
-
-                                20:31
-
-                            </span>
-
-                        </a>
-
-
-                        <div class="p-5">
-
-                            <div
-                                class="flex items-center gap-2 text-xs
-                                       text-gray-400">
-
-                                <span class="font-medium text-red-600">
-
-                                    Suara Retorika
-
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-
-                                    8 Juli 2026
-
-                                </span>
-
-                            </div>
-
-
-                            <h3
-                                class="mt-3 text-lg font-bold leading-6
-                                       text-gray-900">
-
-                                Pendidikan dan Masa Depan
-                                Mahasiswa
-
-                            </h3>
-
-
-                            <p
-                                class="mt-2 line-clamp-2 text-sm
-                                       leading-6 text-gray-500">
-
-                                Membicarakan tantangan pendidikan
-                                tinggi dan kesiapan mahasiswa
-                                menghadapi masa depan.
-
-                            </p>
-
-
-                            <a href="#"
-                                class="mt-5 inline-flex items-center gap-2
-                                       text-sm font-semibold text-red-600
-                                       transition hover:text-red-700">
-
-                                Tonton Episode
-
-                                <i
-                                    class="ri-arrow-right-line
-                                           transition group-hover:translate-x-1">
-                                </i>
-
-                            </a>
-
-                        </div>
-
-                    </article>
-
-
-                    {{-- ================================================= --}}
-                    {{-- Podcast Card 5 --}}
-                    {{-- ================================================= --}}
-
-                    <article
-                        class="group overflow-hidden rounded-2xl bg-white
-                               shadow-sm transition duration-300
-                               hover:-translate-y-1 hover:shadow-lg">
-
-
-                        <a href="#"
-                            class="relative block aspect-video
-                                   overflow-hidden bg-gray-900">
-
-                            <img src="https://picsum.photos/800/450?random=106" alt="Suara Mahasiswa untuk Perubahan"
-                                class="h-full w-full object-cover
-                                       transition duration-500
-                                       group-hover:scale-105">
-
-
-                            <div
-                                class="absolute inset-0 bg-black/0
-                                       transition group-hover:bg-black/20">
-                            </div>
-
-
-                            <span
-                                class="absolute left-1/2 top-1/2
-                                       flex h-12 w-12
-                                       -translate-x-1/2 -translate-y-1/2
-                                       items-center justify-center
-                                       rounded-full bg-white
-                                       text-red-600 opacity-0 shadow-lg
-                                       transition duration-300
-                                       group-hover:opacity-100">
-
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
-
-                            </span>
-
-
-                            <span
-                                class="absolute bottom-3 right-3
-                                       rounded-md bg-black/70 px-2 py-1
-                                       text-xs font-medium text-white">
-
-                                17:56
-
-                            </span>
-
-                        </a>
-
-
-                        <div class="p-5">
-
-                            <div
-                                class="flex items-center gap-2 text-xs
-                                       text-gray-400">
-
-                                <span class="font-medium text-red-600">
-
-                                    Suara Retorika
-
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-
-                                    5 Juli 2026
-
-                                </span>
-
-                            </div>
-
-
-                            <h3
-                                class="mt-3 text-lg font-bold leading-6
-                                       text-gray-900">
-
-                                Suara Mahasiswa
-                                untuk Perubahan
-
-                            </h3>
-
-
-                            <p
-                                class="mt-2 line-clamp-2 text-sm
-                                       leading-6 text-gray-500">
-
-                                Bagaimana mahasiswa dapat menggunakan
-                                ruang publik untuk menyuarakan gagasan
-                                dan menciptakan perubahan.
-
-                            </p>
-
-
-                            <a href="#"
-                                class="mt-5 inline-flex items-center gap-2
-                                       text-sm font-semibold text-red-600
-                                       transition hover:text-red-700">
-
-                                Tonton Episode
-
-                                <i
-                                    class="ri-arrow-right-line
-                                           transition group-hover:translate-x-1">
-                                </i>
-
-                            </a>
-
-                        </div>
-
-                    </article>
-
-
-                    {{-- ================================================= --}}
-                    {{-- Podcast Card 6 --}}
-                    {{-- ================================================= --}}
-
-                    <article
-                        class="group overflow-hidden rounded-2xl bg-white
-                               shadow-sm transition duration-300
-                               hover:-translate-y-1 hover:shadow-lg">
-
-
-                        <a href="#"
-                            class="relative block aspect-video
-                                   overflow-hidden bg-gray-900">
-
-                            <img src="https://picsum.photos/800/450?random=107" alt="Kehidupan Mahasiswa di Kampus"
-                                class="h-full w-full object-cover
-                                       transition duration-500
-                                       group-hover:scale-105">
-
-
-                            <div
-                                class="absolute inset-0 bg-black/0
-                                       transition group-hover:bg-black/20">
-                            </div>
-
-
-                            <span
-                                class="absolute left-1/2 top-1/2
-                                       flex h-12 w-12
-                                       -translate-x-1/2 -translate-y-1/2
-                                       items-center justify-center
-                                       rounded-full bg-white
-                                       text-red-600 opacity-0 shadow-lg
-                                       transition duration-300
-                                       group-hover:opacity-100">
-
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
-
-                            </span>
-
-
-                            <span
-                                class="absolute bottom-3 right-3
-                                       rounded-md bg-black/70 px-2 py-1
-                                       text-xs font-medium text-white">
-
-                                21:44
-
-                            </span>
-
-                        </a>
-
-
-                        <div class="p-5">
-
-                            <div
-                                class="flex items-center gap-2 text-xs
-                                       text-gray-400">
-
-                                <span class="font-medium text-red-600">
-
-                                    Suara Retorika
-
-                                </span>
-
-                                <span>•</span>
-
-                                <span>
-
-                                    1 Juli 2026
-
-                                </span>
-
-                            </div>
-
-
-                            <h3
-                                class="mt-3 text-lg font-bold leading-6
-                                       text-gray-900">
-
-                                Kehidupan Mahasiswa
-                                di Kampus
-
-                            </h3>
-
-
-                            <p
-                                class="mt-2 line-clamp-2 text-sm
-                                       leading-6 text-gray-500">
-
-                                Cerita dan pengalaman mahasiswa
-                                menjalani kehidupan akademik,
-                                organisasi, dan kegiatan kampus.
-
-                            </p>
-
-
-                            <a href="#"
-                                class="mt-5 inline-flex items-center gap-2
-                                       text-sm font-semibold text-red-600
-                                       transition hover:text-red-700">
-
-                                Tonton Episode
-
-                                <i
-                                    class="ri-arrow-right-line
-                                           transition group-hover:translate-x-1">
-                                </i>
-
-                            </a>
-
-                        </div>
-
-                    </article>
-
+                        </article>
+                    @endforeach
                 </div>
 
 
@@ -1051,77 +459,8 @@
                 {{-- Pagination --}}
                 {{-- ================================================= --}}
 
-                <div class="mt-12 flex justify-center">
-
-                    <nav class="flex items-center gap-2" aria-label="Pagination">
-
-
-                        {{-- Previous --}}
-                        <button type="button" disabled
-                            class="flex h-10 w-10 items-center
-                                   justify-center rounded-xl
-                                   border border-gray-200
-                                   bg-white text-gray-300">
-
-                            <i class="ri-arrow-left-s-line"></i>
-
-                        </button>
-
-
-                        {{-- Current --}}
-                        <button type="button"
-                            class="flex h-10 w-10 items-center
-                                   justify-center rounded-xl
-                                   bg-red-600 text-sm font-semibold
-                                   text-white">
-
-                            1
-
-                        </button>
-
-
-                        {{-- Page 2 --}}
-                        <button type="button"
-                            class="flex h-10 w-10 items-center
-                                   justify-center rounded-xl
-                                   border border-gray-200
-                                   bg-white text-sm font-medium
-                                   text-gray-700 transition
-                                   hover:bg-gray-50">
-
-                            2
-
-                        </button>
-
-
-                        {{-- Page 3 --}}
-                        <button type="button"
-                            class="flex h-10 w-10 items-center
-                                   justify-center rounded-xl
-                                   border border-gray-200
-                                   bg-white text-sm font-medium
-                                   text-gray-700 transition
-                                   hover:bg-gray-50">
-
-                            3
-
-                        </button>
-
-
-                        {{-- Next --}}
-                        <button type="button"
-                            class="flex h-10 w-10 items-center
-                                   justify-center rounded-xl
-                                   border border-gray-200
-                                   bg-white text-gray-700
-                                   transition hover:bg-gray-50">
-
-                            <i class="ri-arrow-right-s-line"></i>
-
-                        </button>
-
-                    </nav>
-
+                <div class="rounded-2xl bg-white p-5 shadow-sm">
+                    {{ $podcasts->links('vendor.pagination.default') }}
                 </div>
 
             </section>

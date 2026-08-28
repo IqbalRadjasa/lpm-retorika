@@ -39,9 +39,11 @@ Route::prefix('mading')->name('mading.')->group(
 );
 
 // PODCAST
-Route::get('/podcast', function () {
-    return view('public.podcast.index');
-})->name('podcast.index');
+Route::prefix('podcast')->name('podcast.')->group(
+    function () {
+        Route::get('/', [PublicPublicationController::class, 'indexPodcast'])->name('index');
+    }
+);
 // Show
 Route::get('/podcast/show', function () {
     return view('public.podcast.show');

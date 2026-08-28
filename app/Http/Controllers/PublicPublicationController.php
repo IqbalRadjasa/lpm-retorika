@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Mading;
+use App\Models\Podcast;
 use App\Models\Publikasi;
 
 use Illuminate\Http\Request;
@@ -87,5 +88,30 @@ class PublicPublicationController extends Controller
             ->first();
 
         return view('public.mading.index', compact('mading'));
+    }
+
+    public function indexPodcast(Request $request)
+    {
+        $podcastNewest = Podcast::with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+            ->where('status_id', 2) // Published
+            ->latest()
+            ->first();
+
+
+        $query = Podcast::query();
+        if ($request->sort === 'oldest') {
+            $query->oldest();
+        } elseif ($request->sort === 'name') {
+            $query->orderBy('name', 'asc');
+        } else {
+            $query->latest();
+        }
+        $podcasts = $query->with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+            ->where('status_id', 2) // Published
+            ->latest()
+            ->paginate(6)
+            ->withQueryString();
+
+        return view('public.podcast.index', compact('podcasts', 'podcastNewest'));
     }
 }
