@@ -133,8 +133,18 @@ class PodcastController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Podcast $podcast)
     {
-        //
+        try {
+            $podcast->delete();
+
+            return redirect()
+                ->route('cms.podcast.index')
+                ->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $th) {
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus data!');
+        }
     }
 }

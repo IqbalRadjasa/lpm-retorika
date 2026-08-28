@@ -55,9 +55,16 @@
                         Edit
                     </x-link-button.secondary-link>
 
-                    <x-link-button.primary-link :href="'#'" icon="ri-delete-bin-line">
-                        Hapus
-                    </x-link-button.primary-link>
+                    <form action="{{ route('cms.podcast.destroy', $podcast->id) }}" method="POST"
+                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus podcast ini?')">
+                        @csrf
+                        @method('DELETE')
+
+                        <x-button.danger-button icon="ri-delete-bin-line">
+                            Hapus
+                        </x-button.danger-button>
+
+                    </form>
 
                 </div>
 
