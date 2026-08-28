@@ -121,7 +121,7 @@
 
                 <div class="lg:col-span-4">
 
-                    <x-news-sidebar />
+                    <x-sidebar-news />
 
                 </div>
 

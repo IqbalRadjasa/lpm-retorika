@@ -15,8 +15,18 @@ use Illuminate\View\View;
 
 class PublicPublicationController extends Controller
 {
+    private function sidebarNews()
+    {
+        return Artikel::with('status')
+            ->where('status_id', 2) // Published
+            ->latest()
+            ->take(5)
+            ->get();
+    }
+
     public function indexBerita($slug)
     {
+
         $artikels = Artikel::with(['kategori', 'media_asset.media', 'status'])
             ->where('status_id', 2) // Published
             ->whereHas('kategori', function ($query) use ($slug) {
@@ -30,7 +40,7 @@ class PublicPublicationController extends Controller
 
         return view('public.berita.index', compact(
             'artikels',
-            'kategori'
+            'kategori',
         ));
     }
 
