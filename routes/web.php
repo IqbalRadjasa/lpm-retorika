@@ -56,67 +56,56 @@ Route::get('/tentang-kami', function () {
 })->name('tentang-kami');
 
 
+// Login
+Route::middleware('auth')->prefix('cms')->name('cms.')->group(
+    function () {
+        // CMS
 
-// CMS
-Route::prefix('cms')->name('cms.')->group(function () {
+        // DASHBOARD
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // DASHBOARD
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        // ARTIKEL
+        Route::resource('artikel', ArtikelController::class);
 
-    // ARTIKEL
-    Route::resource('artikel', ArtikelController::class);
+        // MEDIA
+        Route::post('media/finalize', [MediaController::class, 'finalize'])
+            ->name('media.finalize');
 
-    // MEDIA
-    Route::post('media/finalize', [MediaController::class, 'finalize'])
-        ->name('media.finalize');
+        Route::get('media/selector', [MediaController::class, 'selector'])
+            ->name('media.selector');
 
-    Route::get('media/selector', [MediaController::class, 'selector'])
-        ->name('media.selector');
+        Route::resource('media', MediaController::class)
+            ->parameters([
+                'media' => 'asset',
+            ]);
 
-    Route::resource('media', MediaController::class)
-        ->parameters([
-            'media' => 'asset',
-        ]);
+        // PUBLIKASI
+        Route::resource('publikasi', PublikasiController::class);
 
-    // PUBLIKASI
-    Route::resource('publikasi', PublikasiController::class);
+        // MADING
+        Route::resource('mading', MadingController::class);
 
-    // MADING
-    Route::resource('mading', MadingController::class);
-
-    // PODCAST
-    Route::resource('podcast', PodcastController::class);
-});
+        // PODCAST
+        Route::resource('podcast', PodcastController::class);
+    }
+);
 
 // KATEGORI
-Route::get('/cms/kategori', function () {
-    return view('cms.kategori.index');
-})->name('cms.kategori.index');
-// Create
-Route::get('/cms/kategori/create', function () {
-    return view('cms.kategori.create');
-})->name('cms.kategori.create');
-// Edit
-Route::get('/cms/kategori/edit', function () {
-    return view('cms.kategori.edit');
-})->name('cms.kategori.edit');
-// Show
-Route::get('/cms/kategori/show', function () {
-    return view('cms.kategori.show');
-})->name('cms.kategori.show');
-
-// PODCAST
-// Route::get('/cms/podcast', function () {
-//     return view('cms.podcast.index');
-// })->name('cms.podcast.index');
-// Create
-// Route::get('/cms/podcast/create', function () {
-//     return view('cms.podcast.create');
-// })->name('cms.podcast.create');
-// Show
-// Route::get('/cms/podcast/show', function () {
-//     return view('cms.podcast.show');
-// })->name('cms.podcast.show');
+// Route::get('/cms/kategori', function () {
+//     return view('cms.kategori.index');
+// })->name('cms.kategori.index');
+// // Create
+// Route::get('/cms/kategori/create', function () {
+//     return view('cms.kategori.create');
+// })->name('cms.kategori.create');
+// // Edit
+// Route::get('/cms/kategori/edit', function () {
+//     return view('cms.kategori.edit');
+// })->name('cms.kategori.edit');
+// // Show
+// Route::get('/cms/kategori/show', function () {
+//     return view('cms.kategori.show');
+// })->name('cms.kategori.show');
 
 Route::get('/media/{media}/download', function (MediaAsset $media) {
     $spatieMedia = $media->getFirstMedia('library');
