@@ -6,6 +6,7 @@ use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Mading;
 use App\Models\Podcast;
+use App\Models\Publikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -71,7 +72,19 @@ class BerandaController extends Controller
             ]];
         });
 
-        // dd($beritaPerKategori);
+        // PUBLIKASI
+        $kategoris = Kategori::where('jenis', 'publikasi')
+            ->with(['publikasis' => function ($query) {
+                $query->where('status_id', 2) // Published
+                    ->with(['cover_asset.media', 'status'])
+                    ->latest();
+            }])
+            ->get();
+        $publikasi = Publikasi::with(['kategori', 'cover_asset.media', 'status'])
+            ->where('status_id', 2) // Published
+            ->latest()
+            ->first();
+
 
         // dd($beritaPerKategori);
         return view('beranda.index', compact(
@@ -84,6 +97,7 @@ class BerandaController extends Controller
             'remainingBerita',
             'kategoriArtikels',
             'beritaPerKategori',
+            'kategoris'
         ));
     }
 }
