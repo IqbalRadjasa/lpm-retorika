@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Mading;
+use App\Models\Podcast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -14,6 +15,7 @@ class BerandaController extends Controller
 {
     public function index()
     {
+        // MADING
         $mading = Mading::with(['status_mading', 'media_asset.media'])
             ->where('status_mading_id', 1) // Aktif
             ->first();
@@ -30,6 +32,12 @@ class BerandaController extends Controller
             ->limit(2)
             ->skip(1)
             ->get();
+
+        // PODCAST
+        $podcastNewest = Podcast::with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+            ->where('status_id', 2) // Published
+            ->latest()
+            ->first();
 
         // RILISAN TERBARU
         $beritaTerbaru = $publishedArticle
@@ -70,6 +78,7 @@ class BerandaController extends Controller
             'mading',
             'beritaUtama',
             'beritaLainnya',
+            'podcastNewest',
             'beritaTerbaru',
             'secondaryBerita',
             'remainingBerita',

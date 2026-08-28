@@ -167,10 +167,10 @@
                                         <x-slot name="content">
                                             <x-dropdown-link href="#" x-data="{ copied: false }"
                                                 @click.prevent="
-                                        navigator.clipboard.writeText(window.location.href);
-                                        copied = true;
-                                        setTimeout(() => copied = false, 2000);
-                                    "
+                                                    navigator.clipboard.writeText(window.location.href);
+                                                    copied = true;
+                                                    setTimeout(() => copied = false, 2000);
+                                                "
                                                 class="flex items-center gap-3 py-3">
                                                 <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
                                                 <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>

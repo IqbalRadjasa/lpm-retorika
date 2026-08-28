@@ -58,11 +58,11 @@
 
 
                 {{-- CTA --}}
-                <a href="#"
+                <a href="{{ route('podcast.index') }}"
                     class="mt-8 inline-flex w-full items-center justify-center
-                           gap-3 rounded-xl bg-white px-6 py-4
-                           font-semibold text-red-600 transition
-                           hover:shadow-xl md:w-auto">
+                            gap-3 rounded-xl bg-white px-6 py-4
+                            font-semibold text-red-600 transition
+                            hover:shadow-xl md:w-auto">
 
                     Tonton Podcast
 
@@ -73,6 +73,19 @@
             </div>
 
 
+            @php
+                $newest_thumbnail_media = $podcastNewest->thumbnail_asset->getFirstMedia('library');
+                $newest_video_media = $podcastNewest->video_asset->getFirstMedia('library');
+                $durationSeconds = $newest_video_media?->getCustomProperty('duration');
+
+                // Konversi detik ke format 00:00 (menit:detik)
+                // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
+                $formattedDuration = '--:--';
+                if ($durationSeconds) {
+                    $formattedDuration =
+                        $durationSeconds >= 3600 ? gmdate('H:i:s', $durationSeconds) : gmdate('i:s', $durationSeconds);
+                }
+            @endphp
             {{-- ================================================= --}}
             {{-- RIGHT --}}
             {{-- ================================================= --}}
@@ -88,26 +101,27 @@
                            rounded-xl bg-gray-900">
 
                     {{-- Video Thumbnail --}}
-                    <img src="https://picsum.photos/1200/675?random=88" alt="Mengenal Pers Mahasiswa di Era Digital"
+                    <img src="{{ $newest_thumbnail_media->original_url }}"
+                        alt="{{ $podcastNewest->thumbnail_asset->alt_text }}"
                         class="h-full w-full object-cover transition
-                               duration-500 group-hover:scale-105">
+                                duration-500 group-hover:scale-105">
 
 
                     {{-- Overlay --}}
                     <div
                         class="absolute inset-0 bg-black/20 transition
-                               group-hover:bg-black/30">
+                                group-hover:bg-black/30">
                     </div>
 
 
                     {{-- Play Button --}}
-                    <a href="#" aria-label="Tonton podcast"
+                    <a href="{{ route('podcast.show', $podcastNewest->id) }}" aria-label="Tonton podcast"
                         class="absolute left-1/2 top-1/2 flex h-16 w-16
-                               -translate-x-1/2 -translate-y-1/2
-                               items-center justify-center rounded-full
-                               bg-white text-red-600 shadow-xl
-                               transition duration-300
-                               hover:scale-110 md:h-20 md:w-20">
+                                -translate-x-1/2 -translate-y-1/2
+                                items-center justify-center rounded-full
+                                bg-white text-red-600 shadow-xl
+                                transition duration-300
+                                hover:scale-110 md:h-20 md:w-20">
 
                         <i class="ri-play-fill ml-1 text-3xl md:text-4xl"></i>
 
@@ -117,15 +131,13 @@
                     {{-- Video Badge --}}
                     <div
                         class="absolute left-4 top-4 inline-flex items-center
-                               gap-2 rounded-full bg-black/60 px-3 py-1.5
-                               text-xs font-medium text-white backdrop-blur-sm">
+                                gap-2 rounded-full bg-black/60 px-3 py-1.5
+                                text-xs font-medium text-white backdrop-blur-sm">
 
                         <i class="ri-video-line"></i>
 
-                        Video Podcast
-
+                        Podcast
                     </div>
-
                 </div>
 
 
@@ -142,18 +154,12 @@
                         <div class="min-w-0 flex-1">
 
                             <h3 class="text-lg font-bold leading-7 text-gray-900">
-
-                                Mengenal Pers Mahasiswa
-                                di Era Digital
-
+                                {{ $podcastNewest->judul }}
                             </h3>
 
                             <p class="mt-1 text-sm text-gray-500">
-
                                 Suara Retorika
-
                             </p>
-
                         </div>
 
 
@@ -161,6 +167,10 @@
                         {{-- Share Button --}}
                         {{-- ================================================= --}}
 
+                        @php
+                            $shareUrl = urlencode(url()->current());
+                            $shareText = urlencode($podcastNewest->judul);
+                        @endphp
                         {{-- Mobile --}}
                         <button type="button" @click="shareOpen = true"
                             class="flex h-10 w-10 shrink-0 items-center
@@ -193,22 +203,35 @@
 
 
                                 <x-slot name="content">
-                                    <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
-                                        <i class="ri-link-line"></i>
-                                        Salin Link
+                                    <x-dropdown-link href="javascript:void(0)" x-data="{ copied: false }"
+                                        @click.prevent="
+                                            navigator.clipboard.writeText('{{ route('podcast.show', $podcastNewest->id) }}');
+                                            copied = true;
+                                            setTimeout(() => copied = false, 2000);
+                                        "
+                                        class="flex items-center gap-3 py-3 cursor-pointer">
+
+                                        <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
+                                        <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>
                                     </x-dropdown-link>
 
-                                    <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                    <x-dropdown-link
+                                        href="https://api.whatsapp.com/send?text={{ $shareText }}%20{{ $shareUrl }}"
+                                        class="flex items-center gap-3 py-3">
                                         <i class="ri-whatsapp-line text-green-600"></i>
                                         WhatsApp
                                     </x-dropdown-link>
 
-                                    <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                    <x-dropdown-link
+                                        href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
+                                        class="flex items-center gap-3 py-3">
                                         <i class="ri-twitter-x-line"></i>
                                         Twitter / X
                                     </x-dropdown-link>
 
-                                    <x-dropdown-link href="#" class="flex items-center gap-3 py-3">
+                                    <x-dropdown-link
+                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                                        class="flex items-center gap-3 py-3">
                                         <i class="ri-facebook-circle-line text-blue-600"></i>
                                         Facebook
                                     </x-dropdown-link>
@@ -229,9 +252,7 @@
                         <div class="flex items-center gap-1.5">
 
                             <i class="ri-calendar-line"></i>
-
-                            20 Juli 2026
-
+                            {{ $podcastNewest->created_at->translatedFormat('d F Y') }}
                         </div>
 
                         <span class="text-gray-300">
@@ -239,116 +260,60 @@
                         </span>
 
                         <div class="flex items-center gap-1.5">
+                            <i class="ri-timer-line"></i>
 
-                            <i class="ri-time-line"></i>
-
-                            24 menit
-
+                            {{ $formattedDuration }}
                         </div>
-
                     </div>
-
                 </div>
 
 
                 {{-- ================================================= --}}
                 {{-- Mobile Share Sheet --}}
                 {{-- ================================================= --}}
-
-                <div x-show="shareOpen" x-cloak class="fixed inset-0 z-[999]" style="display: none;">
-
-                    {{-- Overlay --}}
-                    <div @click="shareOpen = false" class="absolute inset-0 bg-black/50">
-                    </div>
-
-
-                    {{-- Bottom Sheet --}}
+                <div x-show="shareOpen" x-cloak class="fixed inset-0 z-[999]" style="display:none">
+                    <div @click="shareOpen = false" class="absolute inset-0 bg-black/50"></div>
                     <div x-show="shareOpen" x-transition:enter="transition ease-out duration-300"
                         x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
                         x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-y-0"
                         x-transition:leave-end="translate-y-full"
-                        class="absolute bottom-0 left-0 right-0
-                                rounded-t-3xl bg-white p-6">
-
-
-                        {{-- Handle --}}
-                        <div
-                            class="mx-auto mb-6 h-1.5 w-14 rounded-full
-                                    bg-gray-300">
-                        </div>
-
-
-                        <h3 class="text-center text-lg font-bold">
-
-                            Bagikan Podcast
-
-                        </h3>
-
+                        class="absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
+                        <div class="mx-auto mb-6 h-1.5 w-14 rounded-full bg-gray-300"></div>
+                        <h3 class="text-center text-lg font-bold">Bagikan</h3>
 
                         <div class="mt-6 space-y-2">
-
-                            {{-- Copy Link --}}
-                            <a href="#"
-                                class="flex items-center gap-4 rounded-xl
-                                        p-4 transition hover:bg-gray-100">
-
-                                <i class="ri-link-line text-xl text-gray-500"></i>
-
-                                <span>Salin Link</span>
-
+                            <a href="#" x-data="{ copied: false }"
+                                @click.prevent="
+                                            navigator.clipboard.writeText('{{ route('podcast.show', $podcastNewest->id) }}');
+                                            copied = true;
+                                            setTimeout(() => copied = false, 2000);
+                                        "
+                                class="flex items-center gap-4 p-4">
+                                <i :class="copied ? 'ri-check-line text-green-600' : 'ri-link'"></i>
+                                <span x-text="copied ? 'Link Tersalin!' : 'Salin Link'"></span>
                             </a>
-
-
-                            {{-- WhatsApp --}}
-                            <a href="#"
-                                class="flex items-center gap-4 rounded-xl
-                                        p-4 transition hover:bg-gray-100">
-
+                            <a href="https://api.whatsapp.com/send?text={{ $shareText }}%20{{ $shareUrl }}"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
                                 <i class="ri-whatsapp-line text-xl text-green-600"></i>
-
                                 <span>WhatsApp</span>
-
                             </a>
-
-
-                            {{-- Twitter --}}
-                            <a href="#"
-                                class="flex items-center gap-4 rounded-xl
-                                        p-4 transition hover:bg-gray-100">
-
+                            <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
                                 <i class="ri-twitter-x-line text-xl"></i>
-
                                 <span>Twitter / X</span>
-
                             </a>
-
-
-                            {{-- Facebook --}}
-                            <a href="#"
-                                class="flex items-center gap-4 rounded-xl
-                                        p-4 transition hover:bg-gray-100">
-
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                                class="flex items-center gap-4 rounded-xl p-4 transition hover:bg-gray-100">
                                 <i class="ri-facebook-circle-line text-xl text-blue-600"></i>
-
                                 <span>Facebook</span>
-
                             </a>
-
                         </div>
 
-
-                        {{-- Cancel --}}
-                        <button type="button" @click="shareOpen = false"
-                            class="mt-6 w-full rounded-xl bg-gray-100
-                                    py-4 font-semibold transition
-                                    hover:bg-gray-200">
-
+                        <button @click="shareOpen=false"
+                            class="mt-6 w-full rounded-xl bg-gray-100 py-4 font-semibold transition hover:bg-gray-200">
                             Batal
-
                         </button>
-
                     </div>
-
                 </div>
 
             </div>
