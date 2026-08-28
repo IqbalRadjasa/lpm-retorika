@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use App\Models\Kategori;
+use App\Models\Mading;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -13,6 +14,10 @@ class BerandaController extends Controller
 {
     public function index()
     {
+        $mading = Mading::with(['status_mading', 'media_asset.media'])
+            ->where('status_mading_id', 1) // Aktif
+            ->first();
+
         $publishedArticle = Artikel::with(['kategori', 'media_asset.media', 'status'])
             ->where('status_id', 2);
 
@@ -61,7 +66,8 @@ class BerandaController extends Controller
         // dd($beritaPerKategori);
 
         // dd($beritaPerKategori);
-        return view('public.beranda', compact(
+        return view('beranda.index', compact(
+            'mading',
             'beritaUtama',
             'beritaLainnya',
             'beritaTerbaru',
