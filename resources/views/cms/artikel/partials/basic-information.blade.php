@@ -36,19 +36,10 @@
         {{-- ========================================= --}}
 
         <div>
-
-            <label for="judul" class="mb-2 block text-sm font-medium text-gray-700">
-
-                Judul Artikel
-
-            </label>
-
-            <input id="judul" type="text" name="judul"
-                value="{{ old('judul', $mode === 'edit' ? $artikel->judul : '') }}"
-                placeholder="Contoh: Mahasiswa Berhasil Mengembangkan Website Pers"
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">
+            <x-form.input-label for="judul" :value="__('Judul Artikel')" />
+            <x-form.text-input id="judul" type="text" name="judul" :value="old('judul', $mode === 'edit' ? $artikel->judul : '')"
+                placeholder="Contoh: Mahasiswa Berhasil Mengembangkan Website Pers" required autofocus />
+            <x-form.input-error :messages="$errors->get('judul')" />
 
             <p class="mt-2 text-xs text-gray-400">
 
@@ -67,35 +58,19 @@
 
             {{-- Category --}}
             <div>
-
-                <label for="kategori_id" class="mb-2 block text-sm font-medium text-gray-700">
-
-                    Kategori
-
-                </label>
-
-                <select id="kategori_id" name="kategori_id"
-                    class="w-full rounded-xl border-gray-300
-                           focus:border-red-500
-                           focus:ring-red-500">
-
-                    <option value="">
-                        Pilih kategori
+                <x-form.input-label for="kategori_id" :value="__('Kategori')" />
+                <x-form.select-input name="kategori_id" id="kategori_id">
+                    <option value="" @selected(old('kategori_id', $artikel->kategori_id ?? null) == '') disabled>
+                        Pilih Kategori
                     </option>
+
                     @foreach ($kategoris as $k)
-                        @if ($mode === 'edit')
-                            <option value="{{ $k->id }}" {{ $artikel->kategori_id == $k->id ? 'selected' : '' }}>
-                                {{ $k->nama }}
-                            </option>
-                        @else
-                            <option value="{{ $k->id }}">
-                                {{ $k->nama }}
-                            </option>
-                        @endif
+                        <option value="{{ $k->id }}" @selected(old('kategori_id', $artikel->kategori_id ?? null) == $k->id)>
+                            {{ $k->nama }}
+                        </option>
                     @endforeach
-
-                </select>
-
+                </x-form.select-input>
+                <x-form.input-error :messages="$errors->get('kategori_id')" />
                 <p class="mt-2 text-xs text-gray-400">
 
                     Pilih kategori yang sesuai dengan artikel.
@@ -107,18 +82,10 @@
 
             {{-- Author --}}
             <div>
-
-                <label for="penulis" class="mb-2 block text-sm font-medium text-gray-700">
-
-                    Penulis
-
-                </label>
-
-                <input id="penulis" type="text" name="penulis" value="Admin Retorika" disabled
-                    class="w-full rounded-xl border-gray-300
-                            focus:border-red-500
-                            focus:ring-red-500">
-
+                <x-form.input-label for="penulis" :value="__('Penulis')" />
+                <x-form.text-input id="penulis" type="text" name="penulis" value="Admin Retorika" required
+                    disabled />
+                <x-form.input-error :messages="$errors->get('penulis')" />
                 <p class="mt-2 text-xs text-gray-400">
 
                     Nama yang akan ditampilkan sebagai penulis artikel.
@@ -152,12 +119,10 @@
 
             </div>
 
-            <textarea id="ringkasan" rows="5" name="ringkasan" maxlength="250"
-                placeholder="Tulis ringkasan singkat artikel..."
-                class="w-full rounded-xl border-gray-300
-                       focus:border-red-500
-                       focus:ring-red-500">{{ old('ringkasan', $mode === 'edit' ? $artikel->ringkasan : '') }}</textarea>
-
+            <x-form.textarea rows="5" maxlength="500" id="ringkasan" name="ringkasan" :value="old('ringkasan')"
+                placeholder="Tulis ringkasan mengenai artikel ini..." required>
+                {{ old('ringkasan', $mode === 'edit' ? $artikel->ringkasan : '') }}
+            </x-form.textarea>
             <p class="mt-2 text-xs text-gray-400">
 
                 Ringkasan akan ditampilkan pada halaman daftar berita

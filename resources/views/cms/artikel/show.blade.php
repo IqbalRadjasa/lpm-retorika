@@ -314,7 +314,7 @@
 
                             <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
 
-                                Tanggal Terbit
+                                Tanggal Dibuat
 
                             </p>
 
