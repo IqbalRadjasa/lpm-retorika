@@ -3,6 +3,9 @@
 {{-- ================================================= --}}
 
 <x-cms-layout>
+    @php
+        $mode = 'edit';
+    @endphp
     @if (session('success'))
         <div
             class="mb-6 rounded-xl border border-green-200
@@ -32,12 +35,12 @@
             <div>
                 <h1 class="mt-3 text-3xl font-bold text-gray-900">
 
-                    Tambah Podcast
+                    Edit Podcast
 
                 </h1>
 
                 <p class="mt-2 text-gray-500">
-                    Buat dan kelola video podcast untuk ditampilkan kepada pengunjung.
+                    Edit dan simpan perubahan baru video podcast untuk ditampilkan kepada pengunjung.
                 </p>
             </div>
 
@@ -53,7 +56,9 @@
         {{-- ================================================= --}}
 
         @include('cms.podcast.partials.form', [
-            'mode' => 'create',
+            'mode' => $mode,
+            'podcast' => $podcast,
+            'statuses' => $statuses,
         ]);
     </div>
 

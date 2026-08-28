@@ -117,17 +117,54 @@ class PodcastController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Podcast $podcast)
     {
-        //
+        $podcast->load(['status', 'thumbnail_asset.media', 'video_asset.media']);
+        $statuses = Status::all();
+
+        return view('cms.podcast.edit', compact(
+            'podcast',
+            'statuses'
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Podcast $podcast)
     {
-        //
+        $validated = $request->validate([
+            'status_id' => 'required|integer|max:10',
+            'thumbnail_id' => 'required|integer',
+            'video_id' => 'required|integer',
+            'judul' => 'required|string|max:100',
+            'episode' => 'required|string|max:100',
+            'host' => 'required|string|max:100',
+            'deskripsi' => 'required|string',
+        ]);
+
+        try {
+            // dd('success');
+            $podcast->update([
+                'status_id' => $validated['status_id'],
+                'thumbnail_id' => $validated['thumbnail_id'],
+                'video_id' => $validated['video_id'],
+                'judul' => $validated['judul'],
+                'episode' => $validated['episode'],
+                'host' => $validated['host'],
+                'deskripsi' => $validated['deskripsi'],
+            ]);
+
+            return redirect()
+                ->route('cms.podcast.index')
+                ->with('success', 'Data berhasil diperbarui!');
+        } catch (\Exception $e) {
+            // dd($e);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui data!');
+        }
     }
 
     /**
