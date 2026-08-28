@@ -114,4 +114,21 @@ class PublicPublicationController extends Controller
 
         return view('public.podcast.index', compact('podcasts', 'podcastNewest'));
     }
+
+
+    public function showPodcast(Podcast $podcast)
+    {
+        $podcast->load(['status', 'thumbnail_asset.media', 'video_asset.media']);
+        $podcastOthers = Podcast::with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+            ->where('status_id', 2) // Published
+            ->where('id', '!=', $podcast->id) // Skip podcast yang sedang ditampilkan sekarang
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('public.podcast.show', compact(
+            'podcast',
+            'podcastOthers'
+        ));
+    }
 }

@@ -42,12 +42,13 @@ Route::prefix('mading')->name('mading.')->group(
 Route::prefix('podcast')->name('podcast.')->group(
     function () {
         Route::get('/', [PublicPublicationController::class, 'indexPodcast'])->name('index');
+        Route::get('/{podcast}/show', [PublicPublicationController::class, 'showPodcast'])->name('show');
     }
 );
 // Show
-Route::get('/podcast/show', function () {
-    return view('public.podcast.show');
-})->name('podcast.show');
+// Route::get('/podcast/show', function () {
+//     return view('public.podcast.show');
+// })->name('podcast.show');
 
 // MADING
 // Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');

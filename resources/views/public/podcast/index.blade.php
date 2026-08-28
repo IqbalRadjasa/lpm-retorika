@@ -110,7 +110,7 @@
                         {{-- Video --}}
                         {{-- ================================================= --}}
 
-                        <a href="#"
+                        <a href="{{ route('podcast.show', $podcastNewest->id) }}"
                             class="group relative block aspect-video
                                    overflow-hidden bg-gray-900
                                    lg:aspect-auto lg:min-h-[420px]">
@@ -245,7 +245,7 @@
                             {{-- CTA --}}
                             <div class="mt-8">
 
-                                <a href="{{ route('podcast.show') }}"
+                                <a href="{{ route('podcast.show', $podcastNewest->id) }}"
                                     class="inline-flex items-center
                                            justify-center gap-2 rounded-xl
                                            bg-red-600 px-5 py-3
@@ -354,7 +354,7 @@
 
 
                             {{-- Thumbnail --}}
-                            <a href="#"
+                            <a href="{{ route('podcast.show', $p->id) }}"
                                 class="relative block aspect-video
                                     overflow-hidden bg-gray-900">
 
@@ -434,7 +434,7 @@
                                 </p>
 
 
-                                <a href="#"
+                                <a href="{{ route('podcast.show', $p->id) }}"
                                     class="mt-5 inline-flex items-center gap-2
                                         text-sm font-semibold text-red-600
                                         transition hover:text-red-700">
