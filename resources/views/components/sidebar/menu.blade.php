@@ -6,7 +6,7 @@
     Artikel
 </x-sidebar.sidebar-link>
 
-<x-sidebar.sidebar-link :href="route('cms.publikasi.index')" icon="ri-booklet-line" :active="request()->routeIs('cms.publikasi.*')">
+<x-sidebar.sidebar-link :href="route('cms.publikasi.index')" icon="ri-book-open-line" :active="request()->routeIs('cms.publikasi.*')">
     Publikasi
 </x-sidebar.sidebar-link>
 
@@ -22,7 +22,6 @@
     Media
 </x-sidebar.sidebar-link>
 
-<x-sidebar.sidebar-link :href="route('cms.kategori.index')" icon="ri-price-tag-3-line" :active="request()->routeIs('cms.kategori.*')">
+{{-- <x-sidebar.sidebar-link :href="route('cms.kategori.index')" icon="ri-price-tag-3-line" :active="request()->routeIs('cms.kategori.*')">
     Kategori
-</x-sidebar.sidebar-link>
-
+</x-sidebar.sidebar-link> --}}

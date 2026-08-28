@@ -10,7 +10,7 @@
 
     <div class="flex flex-row">
         <x-link-button.secondary-link :href="route('beranda')" icon="ri-external-link-line">
-            Kunjungi Website
+            <span class="hidden lg:flex">Kunjungi Website</span>
         </x-link-button.secondary-link>
 
         <x-dropdown.dropdown align="right" width="48">

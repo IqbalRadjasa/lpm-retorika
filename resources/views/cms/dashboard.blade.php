@@ -54,9 +54,8 @@
         {{-- Statistic --}}
         {{-- ================================================= --}}
 
-        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-
-            {{-- Berita --}}
+        <div class="grid gap-6 md:grid-cols-1 xl:grid-cols-3">
+            {{-- Artikel --}}
             <div class="rounded-2xl bg-white p-6 shadow-sm">
 
                 <div class="flex items-center justify-between">
@@ -65,14 +64,12 @@
 
                         <p class="text-gray-500">
 
-                            Total Berita
+                            Total Artikel
 
                         </p>
 
                         <h2 class="mt-2 text-4xl font-bold">
-
-                            128
-
+                            {{ $totalArtikel }}
                         </h2>
 
                     </div>
@@ -101,9 +98,7 @@
                         </p>
 
                         <h2 class="mt-2 text-4xl font-bold">
-
-                            24
-
+                            {{ $totalPublikasi }}
                         </h2>
 
                     </div>
@@ -132,9 +127,7 @@
                         </p>
 
                         <h2 class="mt-2 text-4xl font-bold">
-
-                            15
-
+                            {{ $totalPodcast }}
                         </h2>
 
                     </div>
@@ -148,38 +141,6 @@
                 </div>
 
             </div>
-
-            {{-- Mading --}}
-            <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                <div class="flex items-center justify-between">
-
-                    <div>
-
-                        <p class="text-gray-500">
-
-                            Mading
-
-                        </p>
-
-                        <h2 class="mt-2 text-4xl font-bold">
-
-                            6
-
-                        </h2>
-
-                    </div>
-
-                    <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 text-green-600">
-
-                        <i class="ri-image-line text-3xl"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
 
         {{-- ================================================= --}}
@@ -202,41 +163,37 @@
 
                     </h2>
 
-                    <a href="#" class="text-sm font-semibold text-red-600 hover:underline transition">
-
+                    <a href="{{ route('cms.artikel.index') }}"
+                        class="text-sm font-semibold text-red-600 hover:underline transition">
                         Lihat Semua
-
                     </a>
 
                 </div>
 
                 <div class="mt-6 divide-y divide-gray-200">
 
-                    @foreach (range(1, 5) as $item)
+                    @foreach ($newestArtikel as $item)
                         <div class="flex items-center justify-between py-5">
-
                             <div>
-
                                 <h3 class="font-semibold">
-
-                                    Judul Artikel {{ $item }}
-
+                                    {{ $item->judul }}
                                 </h3>
 
                                 <p class="mt-1 text-sm text-gray-500">
-
-                                    18 Juli 2026
-
+                                    {{ $item->created_at->translatedFormat('d F Y') }}
                                 </p>
 
                             </div>
 
-                            <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                            <span class="rounded-full capitalize px-4 py-2 text-xs font-semibold"
+                                :class="{
+                                    'bg-yellow-100 text-yellow-700': {{ $item->status->id }} == 1,
+                                    'bg-green-100 text-green-700': {{ $item->status->id }} == 2
+                                }">
 
-                                Published
+                                {{ $item->status->slug }}
 
                             </span>
-
                         </div>
                     @endforeach
 
@@ -258,46 +215,31 @@
 
                 <div class="mt-6 space-y-3">
 
-                    <a href="#"
+                    <a href="{{ route('cms.artikel.create') }}"
                         class="flex items-center gap-4 rounded-xl border border-gray-300 p-4 transition hover:border-red-500 hover:bg-red-50">
 
-                        <i class="ri-add-circle-line text-xl text-red-600"></i>
+                        <i class="ri-newspaper-line text-xl text-red-600"></i>
 
-                        Tambah Berita
-
+                        Tambah Artikel
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('cms.publikasi.create') }}"
                         class="flex items-center gap-4 rounded-xl border border-gray-300 p-4 transition hover:border-red-500 hover:bg-red-50">
 
                         <i class="ri-book-open-line text-xl text-red-600"></i>
 
                         Tambah Publikasi
-
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('cms.podcast.create') }}"
                         class="flex items-center gap-4 rounded-xl border border-gray-300 p-4 transition hover:border-red-500 hover:bg-red-50">
 
-                        <i class="ri-mic-line text-xl text-red-600"></i>
+                        <i class="ri-video-line text-xl text-red-600"></i>
 
                         Tambah Podcast
-
                     </a>
-
-                    <a href="#"
-                        class="flex items-center gap-4 rounded-xl border border-gray-300 p-4 transition hover:border-red-500 hover:bg-red-50">
-
-                        <i class="ri-image-add-line text-xl text-red-600"></i>
-
-                        Tambah Mading
-
-                    </a>
-
                 </div>
-
             </div>
-
         </div>
 
         {{-- ================================================= --}}
@@ -309,36 +251,39 @@
             {{-- Publication --}}
             <div class="rounded-2xl bg-white p-6 shadow-sm">
 
-                <h2 class="text-xl font-bold">
+                <div class="flex items-center justify-between">
 
-                    Publikasi Terbaru
+                    <h2 class="text-xl font-bold">
 
-                </h2>
+                        Publikasi Terbaru
+
+                    </h2>
+
+                    <a href="{{ route('cms.publikasi.index') }}"
+                        class="text-sm font-semibold text-red-600 hover:underline transition">
+                        Lihat Semua
+                    </a>
+
+                </div>
 
                 <div class="mt-6 space-y-5">
 
-                    @foreach (range(1, 3) as $item)
+                    @foreach ($newestPublikasi as $item)
                         <div class="flex items-center gap-4">
 
-                            <img src="https://picsum.photos/70/90?random={{ $item }}"
-                                class="h-20 w-16 rounded-lg object-cover">
+                            <img src="{{ $item->cover_asset->getFirstMedia('library')->original_url }}"
+                                alt="{{ $item->cover_asset->alt_text }}" class="h-20 w-16 rounded-lg object-cover">
 
                             <div>
 
                                 <h3 class="font-semibold">
-
-                                    DIKSI Vol. {{ $item }}
-
+                                    {{ $item->judul }}
                                 </h3>
 
                                 <p class="mt-1 text-sm text-gray-500">
-
-                                    Majalah
-
+                                    {{ $item->kategori->nama }}
                                 </p>
-
                             </div>
-
                         </div>
                     @endforeach
 
@@ -349,48 +294,42 @@
             {{-- Podcast --}}
             <div class="rounded-2xl bg-white p-6 shadow-sm">
 
-                <h2 class="text-xl font-bold">
+                <div class="flex items-center justify-between">
 
-                    Podcast Terbaru
+                    <h2 class="text-xl font-bold">
 
-                </h2>
+                        Podcast Terbaru
 
-                <div class="mt-6 space-y-5">
+                    </h2>
 
-                    @foreach (range(1, 3) as $item)
-                        <div class="flex items-center gap-4">
-
-                            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-red-100 text-red-600">
-
-                                <i class="ri-mic-2-line text-2xl"></i>
-
-                            </div>
-
-                            <div class="flex-1">
-
-                                <h3 class="font-semibold">
-
-                                    Podcast Episode {{ $item }}
-
-                                </h3>
-
-                                <p class="mt-1 text-sm text-gray-500">
-
-                                    Suara Retorika
-
-                                </p>
-
-                            </div>
-
-                        </div>
-                    @endforeach
+                    <a href="{{ route('cms.podcast.index') }}"
+                        class="text-sm font-semibold text-red-600 hover:underline transition">
+                        Lihat Semua
+                    </a>
 
                 </div>
 
+                <div class="mt-6 space-y-5">
+
+                    @foreach ($newestPodcast as $item)
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-red-100 text-red-600">
+                                <i class="ri-video-line text-2xl"></i>
+                            </div>
+
+                            <div class="flex-1">
+                                <h3 class="font-semibold">
+                                    {{ $item->judul }}
+                                </h3>
+
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Suara Retorika
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-
         </div>
-
     </div>
-
 </x-cms-layout>

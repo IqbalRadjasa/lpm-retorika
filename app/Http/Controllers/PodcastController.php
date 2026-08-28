@@ -43,7 +43,7 @@ class PodcastController extends Controller
 
         $podcasts = $query->with(['status', 'thumbnail_asset.media', 'video_asset.media'])
             ->latest()
-            ->paginate(5)
+            ->paginate(6)
             ->withQueryString();
 
         return view('cms.podcast.index', compact(

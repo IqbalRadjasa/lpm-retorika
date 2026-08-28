@@ -41,7 +41,7 @@ class PublikasiController extends Controller
 
         $publikasis = $query->with(['kategori', 'cover_asset.media', 'doc_asset.media', 'status'])
             ->latest()
-            ->paginate(5)
+            ->paginate(6)
             ->withQueryString();
 
         // dd($publikasis);

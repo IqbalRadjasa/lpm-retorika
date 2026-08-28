@@ -7,6 +7,7 @@ use App\Http\Controllers\MadingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PodcastController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\PublicPublicationController;
@@ -48,13 +49,6 @@ Route::prefix('podcast')->name('podcast.')->group(
         Route::get('/{podcast}/show', [PublicPublicationController::class, 'showPodcast'])->name('show');
     }
 );
-// Show
-// Route::get('/podcast/show', function () {
-//     return view('public.podcast.show');
-// })->name('podcast.show');
-
-// MADING
-// Route::get('/mading', [MadingController::class, 'index'])->name('mading.index');
 
 // TENTANG KAMI
 Route::get('/tentang-kami', function () {
@@ -67,9 +61,7 @@ Route::get('/tentang-kami', function () {
 Route::prefix('cms')->name('cms.')->group(function () {
 
     // DASHBOARD
-    Route::get('/dashboard', function () {
-        return view('cms.dashboard');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // ARTIKEL
     Route::resource('artikel', ArtikelController::class);
