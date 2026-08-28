@@ -51,20 +51,15 @@
 
             {{-- Desktop Search --}}
             <div class="hidden md:flex items-center gap-3">
-
-                <form>
-
+                <form action="{{ route('global.search') }}" method="GET">
                     <div class="relative">
-
                         <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
 
-                        <input type="search" placeholder="Cari Berita..."
+                        <input type="search" name="q" value="{{ request('q') }}"
+                            placeholder="Cari berita, podcast, publikasi..."
                             class="w-40 focus:w-72 h-10 pl-10 pr-4 text-sm bg-gray-200/70 rounded-full border border-transparent transition-all duration-300 placeholder:text-gray-400 focus:bg-white focus:border-red-400 focus:ring-0 focus:shadow-lg focus:shadow-red-400/30">
-
                     </div>
-
                 </form>
-
             </div>
 
             {{-- Mobile --}}
@@ -118,16 +113,14 @@
 
         {{-- Search --}}
         <div class="p-5 border-b border-gray-200">
-
             <div class="relative">
-
-                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
-
-                <input type="text" placeholder="Cari berita..."
-                    class="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 focus:border-red-500 focus:ring-0">
-
+                <form action="{{ route('global.search') }}" method="GET">
+                    <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" name="q" placeholder="Cari berita, podcast publikasi..."
+                        value="{{ request('q') }}"
+                        class="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 focus:border-red-500 focus:ring-0">
+                </form>
             </div>
-
         </div>
 
         {{-- Navigation --}}

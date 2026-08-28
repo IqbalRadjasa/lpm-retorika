@@ -4,6 +4,7 @@ use App\Models\MediaAsset;
 
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MadingController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\PodcastController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\PublicPublicationController;
 
 use Illuminate\Support\Facades\Route;
+
+Route::get('/search', [SearchController::class, 'index'])->name('global.search');
 
 // Beranda
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
