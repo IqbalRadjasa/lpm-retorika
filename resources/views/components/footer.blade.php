@@ -30,13 +30,14 @@
 
                 <ul class="space-y-3 text-sm text-gray-400">
 
-                    <li><a href="#">Beranda</a></li>
-                    <li><a href="#">Berita</a></li>
-                    <li><a href="#">Majalah</a></li>
-                    <li><a href="#">Tabloid</a></li>
-                    <li><a href="#">Buletin</a></li>
-                    <li><a href="#">Mading</a></li>
-                    <li><a href="#">Tentang Kami</a></li>
+                    <li><a href="{{ route('beranda') }}">Beranda</a></li>
+                    <li><a href="{{ route('berita.index', 'isu-kampus') }}">Berita</a></li>
+                    <li><a href="{{ route('podcast.index') }}">Podcast</a></li>
+                    <li><a href="{{ route('publikasi.index', 'majalah') }}">Majalah</a></li>
+                    <li><a href="{{ route('publikasi.index', 'tabloid') }}">Tabloid</a></li>
+                    <li><a href="{{ route('publikasi.index', 'buletin') }}">Buletin</a></li>
+                    <li><a href="{{ route('mading.index') }}">Mading</a></li>
+                    <li><a href="{{ route('tentang-kami') }}">Tentang Kami</a></li>
 
                 </ul>
 
