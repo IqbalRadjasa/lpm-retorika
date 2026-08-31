@@ -134,7 +134,7 @@
 
                     <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-100 text-purple-600">
 
-                        <i class="ri-mic-2-line text-3xl"></i>
+                        <i class="ri-video-line text-3xl"></i>
 
                     </div>
 

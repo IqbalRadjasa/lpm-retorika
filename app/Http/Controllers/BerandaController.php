@@ -45,6 +45,7 @@ class BerandaController extends Controller
             ->latest()
             ->first();
         $secondaryBerita = $publishedArticle
+            ->where('id', '!=', $beritaTerbaru->id)
             ->limit(2)
             ->get();
         $remainingBerita = $publishedArticle
