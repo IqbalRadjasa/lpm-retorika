@@ -8,6 +8,7 @@ use App\Models\Kategori;
 use App\Models\MediaAsset;
 
 use Illuminate\Http\Request;
+use Mews\Purifier\Facades\Purifier;
 
 class ArtikelController extends Controller
 {
@@ -107,7 +108,6 @@ class ArtikelController extends Controller
         ]);
 
         try {
-            // dd('success');
             Artikel::create([
                 'kategori_id' => $validated['kategori_id'],
                 'media_id' => $validated['media_id'],
@@ -115,7 +115,7 @@ class ArtikelController extends Controller
                 'judul' => $validated['judul'],
                 'penulis' => 'Admin Retorika',
                 'ringkasan' => $validated['ringkasan'],
-                'isi_artikel' => $validated['isi_artikel'],
+                'isi_artikel' => Purifier::clean($validated['isi_artikel']),
             ]);
 
             return redirect()
@@ -201,7 +201,6 @@ class ArtikelController extends Controller
         ]);
 
         try {
-            // dd('success');
             $artikel->update([
                 'kategori_id' => $validated['kategori_id'],
                 'media_id' => $validated['media_id'],
@@ -209,7 +208,7 @@ class ArtikelController extends Controller
                 'judul' => $validated['judul'],
                 'penulis' => 'Admin Retorika',
                 'ringkasan' => $validated['ringkasan'],
-                'isi_artikel' => $validated['isi_artikel'],
+                'isi_artikel' => Purifier::clean($validated['isi_artikel']),
             ]);
 
             return redirect()
