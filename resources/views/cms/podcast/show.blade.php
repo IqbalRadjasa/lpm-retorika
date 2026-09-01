@@ -47,10 +47,6 @@
                         Kembali
                     </x-link-button.secondary-link>
 
-                    <x-link-button.secondary-link :href="route('beranda')" icon="ri-external-link-line">
-                        Lihat di Website
-                    </x-link-button.secondary-link>
-
                     <x-link-button.secondary-link :href="route('cms.podcast.edit', $podcast->id)" icon="ri-edit-line">
                         Edit
                     </x-link-button.secondary-link>
