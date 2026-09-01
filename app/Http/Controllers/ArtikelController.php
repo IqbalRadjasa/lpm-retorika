@@ -189,7 +189,8 @@ class ArtikelController extends Controller
      */
     public function update(Request $request, Artikel $artikel)
     {
-        // dd($request);
+        // dd($request->isi_artikel);
+        // dd(Purifier::clean($request->isi_artikel));
         $validated = $request->validate([
             'kategori_id' => 'required|integer',
             'media_id' => 'required|integer',
@@ -208,6 +209,7 @@ class ArtikelController extends Controller
                 'judul' => $validated['judul'],
                 'penulis' => 'Admin Retorika',
                 'ringkasan' => $validated['ringkasan'],
+                // 'isi_artikel' => $validated['isi_artikel'],
                 'isi_artikel' => Purifier::clean($validated['isi_artikel']),
             ]);
 

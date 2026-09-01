@@ -46,6 +46,7 @@ class PublicPublicationController extends Controller
 
     public function showBerita($slug, Artikel $artikel)
     {
+        // dd($artikel);
         if ($artikel->kategori->slug !== $slug) {
             abort(404);
         }

@@ -9,5 +9,6 @@
 @import "tailwindcss";
 @import "remixicon/fonts/remixicon.css";
 
+@plugin "@tailwindcss/typography";
 @plugin "flowbite/plugin";
 @source "../../node_modules/flowbite";

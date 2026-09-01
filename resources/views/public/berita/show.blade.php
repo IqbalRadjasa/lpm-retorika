@@ -195,7 +195,7 @@
                         {{-- Article --}}
                         <article class="mt-12">
                             <div :style="`font-size:${fontSize}px`"
-                                class="leading-9 text-gray-700 transition-all duration-300">
+                                class="prose max-w-none leading-9 text-gray-700 transition-all duration-300">
                                 {!! $artikel->isi_artikel !!}
                             </div>
                         </article>
