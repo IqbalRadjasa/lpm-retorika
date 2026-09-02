@@ -5,8 +5,8 @@
 <x-cms-layout>
 
     @php
-        $thumbnail_media = $podcast->thumbnail_asset->getFirstMedia('library');
-        $video_media = $podcast->video_asset->getFirstMedia('library');
+        $thumbnail_media = $podcast->thumbnail_asset?->getFirstMedia('library');
+        $video_media = $podcast->video_asset?->getFirstMedia('library');
         $durationSeconds = $video_media?->getCustomProperty('duration');
 
         // Konversi detik ke format 00:00 (menit:detik)
@@ -91,17 +91,21 @@
 
                     {{-- Video --}}
                     <div class="aspect-video bg-gray-950">
+                        @if ($video_media)
+                            <video controls preload="metadata"
+                                poster="{{ $thumbnail_media->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                class="aspect-video w-full">
 
-                        <video controls poster="{{ $thumbnail_media->original_url }}"
-                            class="h-full w-full object-contain">
+                                <source src="{{ $video_media->original_url }}" type="video/mp4">
 
-                            <source src="{{ $video_media->original_url }}" type="video/mp4">
+                                Browser Anda tidak mendukung
+                                pemutaran video.
 
-                            Browser Anda tidak mendukung
-                            pemutaran video.
-
-                        </video>
-
+                            </video>
+                        @else
+                            <img src="https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Video"
+                                alt="Belum ada video">
+                        @endif
                     </div>
 
 
@@ -126,7 +130,7 @@
                                             text-sm
                                             text-gray-300">
 
-                                    {{ $video_media->file_name }}
+                                    {{ $video_media->file_name ?? '-' }}
                                 </p>
                             </div>
                         </div>
@@ -321,8 +325,8 @@
                         <div class="overflow-hidden
                                     rounded-xl bg-gray-100">
 
-                            <img src="{{ $thumbnail_media->original_url }}"
-                                alt="{{ $podcast->thumbnail_asset->alt_text }}"
+                            <img src="{{ $thumbnail_media->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                alt="{{ $podcast->thumbnail_asset->alt_text ?? 'Belum ada thumbnail' }}"
                                 class="aspect-video w-full object-cover">
                         </div>
 
@@ -332,16 +336,25 @@
                                 class="truncate text-sm
                                         font-medium
                                         text-gray-800">
-                                {{ $thumbnail_media->file_name }}
+                                {{ $thumbnail_media->file_name ?? '-' }}
                             </p>
 
                             <div class="mt-1 flex">
-                                <p class="text-xs text-gray-400">
-                                    {{ strtoupper($thumbnail_media->extension) }}&nbsp;
-                                </p>
-                                <p class="text-xs text-gray-400">
-                                    ·&nbsp;{{ $thumbnail_media->human_readable_size }}
-                                </p>
+                                @if ($thumbnail_media)
+                                    <p class="text-xs text-gray-400">
+                                        {{ strtoupper($thumbnail_media->extension) }}&nbsp;
+                                    </p>
+                                    <p class="text-xs text-gray-400">
+                                        ·&nbsp;{{ $thumbnail_media->human_readable_size }}
+                                    </p>
+                                @else
+                                    <p class="text-xs text-gray-400">
+                                        -&nbsp;
+                                    </p>
+                                    <p class="text-xs text-gray-400">
+                                        ·-
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -394,7 +407,7 @@
                                 </p>
 
                                 <p class="mt-1 text-sm font-medium text-gray-800 break-all">
-                                    {{ $video_media->file_name }}
+                                    {{ $video_media->file_name ?? '-' }}
                                 </p>
                             </div>
                         </div>
@@ -417,7 +430,7 @@
                                 class="text-sm
                                         font-medium
                                         text-gray-800">
-                                {{ strtoupper($video_media->extension) }}
+                                {{ isset($video_media) ? strtoupper($video_media->extension) : '-' }}
                             </span>
 
                         </div>
@@ -441,7 +454,7 @@
                                         font-medium
                                         text-gray-800">
 
-                                {{ $video_media->human_readable_size }}
+                                {{ isset($video_media) ? $video_media->human_readable_size : '-' }}
                             </span>
 
                         </div>

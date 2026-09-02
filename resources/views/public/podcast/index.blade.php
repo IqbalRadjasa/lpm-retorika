@@ -79,8 +79,8 @@
                     </div>
 
                     @php
-                        $newest_thumbnail_media = $podcastNewest->thumbnail_asset->getFirstMedia('library');
-                        $newest_video_media = $podcastNewest->video_asset->getFirstMedia('library');
+                        $newest_thumbnail_media = $podcastNewest->thumbnail_asset?->getFirstMedia('library');
+                        $newest_video_media = $podcastNewest->video_asset?->getFirstMedia('library');
                         $durationSeconds = $newest_video_media?->getCustomProperty('duration');
 
                         // Konversi detik ke format 00:00 (menit:detik)
@@ -112,8 +112,8 @@
                                    overflow-hidden bg-gray-900
                                    lg:aspect-auto lg:min-h-[420px]">
 
-                                <img src="{{ $newest_thumbnail_media->original_url }}"
-                                    alt="{{ $podcastNewest->thumbnail_asset->alt_text }}"
+                                <img src="{{ $newest_thumbnail_media?->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                    alt="{{ $podcastNewest->thumbnail_asset->alt_text ?? 'Media Podcast' }}"
                                     class="absolute inset-0 h-full w-full
                                        object-cover transition duration-500
                                        group-hover:scale-105">
@@ -325,8 +325,8 @@
 
                         @foreach ($podcasts as $p)
                             @php
-                                $thumbnail_media = $p->thumbnail_asset->getFirstMedia('library');
-                                $video_media = $p->video_asset->getFirstMedia('library');
+                                $thumbnail_media = $p->thumbnail_asset?->getFirstMedia('library');
+                                $video_media = $p->video_asset?->getFirstMedia('library');
                                 $durationSeconds = $video_media?->getCustomProperty('duration');
 
                                 // Konversi detik ke format 00:00 (menit:detik)
@@ -351,8 +351,8 @@
                                     class="relative block aspect-video
                                     overflow-hidden bg-gray-900">
 
-                                    <img src="{{ $thumbnail_media->original_url }}"
-                                        alt="{{ $p->thumbnail_asset->alt_text ?? $p->thumbnail_asset->name }}"
+                                    <img src="{{ $thumbnail_media->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                        alt="{{ $p->thumbnail_asset->alt_text ?? 'Media Podcast' }}"
                                         class="h-full w-full object-cover
                                         transition duration-500
                                         group-hover:scale-105">
@@ -465,7 +465,7 @@
                         {{-- Icon Container --}}
                         <div
                             class="flex h-16 w-16 items-center justify-center rounded-full bg-red-50 text-red-600 shadow-sm ring-8 ring-red-50/50">
-                            <i class="ri-user-voice-line text-3xl"></i>
+                            <i class="ri-mic-off-line text-3xl"></i>
                         </div>
 
                         {{-- Text Content --}}

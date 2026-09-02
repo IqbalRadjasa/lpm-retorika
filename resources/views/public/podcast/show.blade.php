@@ -5,8 +5,8 @@
 <x-app-layout>
 
     @php
-        $thumbnail_media = $podcast->thumbnail_asset->getFirstMedia('library');
-        $video_media = $podcast->video_asset->getFirstMedia('library');
+        $thumbnail_media = $podcast->thumbnail_asset?->getFirstMedia('library');
+        $video_media = $podcast->video_asset?->getFirstMedia('library');
         $durationSeconds = $video_media?->getCustomProperty('duration');
 
         // Konversi detik ke format 00:00 (menit:detik)
@@ -121,15 +121,20 @@
                     bg-black shadow-xl
                     sm:rounded-3xl">
 
-            <video controls preload="metadata" poster="{{ $thumbnail_media->original_url }}"
-                class="aspect-video w-full">
+            @if ($video_media)
+                <video controls preload="metadata"
+                    poster="{{ $thumbnail_media->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                    class="aspect-video w-full">
 
-                <source src="{{ $video_media->original_url }}" type="video/mp4">
+                    <source src="{{ $video_media->original_url }}" type="video/mp4">
 
-                Browser Anda tidak mendukung
-                pemutaran video.
+                    Browser Anda tidak mendukung
+                    pemutaran video.
 
-            </video>
+                </video>
+            @else
+                <img src="https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Video" alt="Belum ada video">
+            @endif
 
         </div>
 
@@ -177,8 +182,8 @@
 
             <div
                 class="flex flex-col gap-4
-                               sm:flex-row sm:items-center
-                               sm:justify-between">
+                        sm:flex-row sm:items-center
+                        sm:justify-between">
 
                 <div>
 
@@ -248,92 +253,93 @@
         {{-- ================================================= --}}
         {{-- Related Podcasts --}}
         {{-- ================================================= --}}
+        @if ($podcastOthers->isNotEmpty())
+            <section class="mt-16 border-t border-gray-100 pt-12">
 
-        <section class="mt-16 border-t border-gray-100 pt-12">
 
+                {{-- Section Header --}}
+                <div class="flex items-end justify-between gap-4">
 
-            {{-- Section Header --}}
-            <div class="flex items-end justify-between gap-4">
+                    <div>
 
-                <div>
-
-                    <p
-                        class="text-sm font-semibold uppercase
+                        <p
+                            class="text-sm font-semibold uppercase
                                    tracking-wider text-red-600">
 
-                        Lainnya
+                            Lainnya
 
-                    </p>
+                        </p>
 
-                    <h2 class="mt-1 text-2xl font-bold text-gray-900
+                        <h2
+                            class="mt-1 text-2xl font-bold text-gray-900
                                    sm:text-3xl">
 
-                        Podcast Lainnya
+                            Podcast Lainnya
 
-                    </h2>
+                        </h2>
 
-                </div>
+                    </div>
 
 
-                <a href="{{ route('podcast.index') }}"
-                    class="hidden items-center gap-2 text-sm
+                    <a href="{{ route('podcast.index') }}"
+                        class="hidden items-center gap-2 text-sm
                                font-semibold text-red-600
                                transition hover:text-red-700
                                sm:inline-flex">
 
-                    Lihat Semua
+                        Lihat Semua
 
-                    <i class="ri-arrow-right-line"></i>
+                        <i class="ri-arrow-right-line"></i>
 
-                </a>
+                    </a>
 
-            </div>
+                </div>
 
 
-            {{-- ================================================= --}}
-            {{-- Related Grid --}}
-            {{-- ================================================= --}}
+                {{-- ================================================= --}}
+                {{-- Related Grid --}}
+                {{-- ================================================= --}}
 
-            <div
-                class="mt-8 grid gap-6
+                <div
+                    class="mt-8 grid gap-6
                            sm:grid-cols-2
                            lg:grid-cols-3">
 
-                @foreach ($podcastOthers as $p)
-                    <article class="group">
-                        @php
-                            $other_thumbnail_media = $p->thumbnail_asset->getFirstMedia('library');
-                            $other_video_media = $p->video_asset->getFirstMedia('library');
-                            $durationSeconds = $other_video_media?->getCustomProperty('duration');
+                    @foreach ($podcastOthers as $p)
+                        <article class="group">
+                            @php
+                                $other_thumbnail_media = $p->thumbnail_asset?->getFirstMedia('library');
+                                $other_video_media = $p->video_asset?->getFirstMedia('library');
+                                $durationSeconds = $other_video_media?->getCustomProperty('duration');
 
-                            // Konversi detik ke format 00:00 (menit:detik)
-                            // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
-                            $otherFormattedDuration = '--:--';
-                            if ($durationSeconds) {
-                                $otherFormattedDuration =
-                                    $durationSeconds >= 3600
-                                        ? gmdate('H:i:s', $durationSeconds)
-                                        : gmdate('i:s', $durationSeconds);
-                            }
-                        @endphp
-                        <a href="{{ route('podcast.show', $p->id) }}"
-                            class="relative block aspect-video
+                                // Konversi detik ke format 00:00 (menit:detik)
+                                // Jika durasi lebih dari 1 jam (>= 3600 detik), tampilkan format H:i:s
+                                $otherFormattedDuration = '--:--';
+                                if ($durationSeconds) {
+                                    $otherFormattedDuration =
+                                        $durationSeconds >= 3600
+                                            ? gmdate('H:i:s', $durationSeconds)
+                                            : gmdate('i:s', $durationSeconds);
+                                }
+                            @endphp
+                            <a href="{{ route('podcast.show', $p->id) }}"
+                                class="relative block aspect-video
                                    overflow-hidden rounded-xl
                                    bg-gray-900">
 
-                            <img src="{{ $other_thumbnail_media->original_url }}"
-                                alt="{{ $p->thumbnail_asset->alt_text ?? $p->thumbnail_asset->name }}"
-                                class="h-full w-full object-cover
+                                <img src="{{ $other_thumbnail_media->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                    alt="{{ $p->thumbnail_asset->alt_text ?? 'Media Podcast' }}"
+                                    class="h-full w-full object-cover
                                 transition duration-500
                                 group-hover:scale-105">
 
 
-                            <div class="absolute inset-0 bg-black/0 transition group-hover:bg-black/20">
-                            </div>
+                                <div class="absolute inset-0 bg-black/0 transition group-hover:bg-black/20">
+                                </div>
 
 
-                            <span
-                                class="absolute left-1/2 top-1/2
+                                <span
+                                    class="absolute left-1/2 top-1/2
                                     flex h-12 w-12
                                     -translate-x-1/2 -translate-y-1/2
                                     items-center justify-center
@@ -341,61 +347,62 @@
                                     text-red-600 opacity-0 shadow-lg
                                     transition group-hover:opacity-100">
 
-                                <i class="ri-play-fill ml-0.5 text-xl"></i>
+                                    <i class="ri-play-fill ml-0.5 text-xl"></i>
 
-                            </span>
+                                </span>
 
 
-                            <span
-                                class="absolute bottom-3 right-3
+                                <span
+                                    class="absolute bottom-3 right-3
                                     rounded-md bg-black/70 px-2 py-1
                                     text-xs font-medium text-white">
 
-                                {{ $otherFormattedDuration }}
-                            </span>
+                                    {{ $otherFormattedDuration }}
+                                </span>
 
-                        </a>
+                            </a>
 
 
-                        <div class="mt-4">
+                            <div class="mt-4">
 
-                            <p class="text-xs text-gray-400">
-                                {{ $p->created_at->translatedFormat('d F Y') }} · Suara Retorika
-                            </p>
+                                <p class="text-xs text-gray-400">
+                                    {{ $p->created_at->translatedFormat('d F Y') }} · Suara Retorika
+                                </p>
 
-                            <h3
-                                class="mt-2 text-lg font-bold leading-6
+                                <h3
+                                    class="mt-2 text-lg font-bold leading-6
                                     text-gray-900
                                     transition group-hover:text-red-600">
-                                {{ $p->judul }}
-                            </h3>
+                                    {{ $p->judul }}
+                                </h3>
 
-                        </div>
+                            </div>
 
-                    </article>
-                @endforeach
-            </div>
+                        </article>
+                    @endforeach
+                </div>
 
 
-            {{-- Mobile See All --}}
-            <div class="mt-8 sm:hidden">
+                {{-- Mobile See All --}}
+                <div class="mt-8 sm:hidden">
 
-                <a href="{{ route('podcast.index') }}"
-                    class="inline-flex w-full items-center
+                    <a href="{{ route('podcast.index') }}"
+                        class="inline-flex w-full items-center
                                justify-center gap-2 rounded-xl
                                border border-gray-200 bg-white
                                px-5 py-3 text-sm font-semibold
                                text-gray-700 transition hover:bg-gray-50">
 
-                    Lihat Semua Podcast
+                        Lihat Semua Podcast
 
-                    <i class="ri-arrow-right-line"></i>
+                        <i class="ri-arrow-right-line"></i>
 
-                </a>
+                    </a>
 
-            </div>
+                </div>
 
-        </section>
+            </section>
+        @endif
 
     </div>
 </x-app-layout>

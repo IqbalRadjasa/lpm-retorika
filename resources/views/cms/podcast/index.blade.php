@@ -178,8 +178,8 @@
                         hover:-translate-y-1 hover:shadow-lg">
 
                         @php
-                            $thumbnail_media = $p->thumbnail_asset->getFirstMedia('library');
-                            $video_media = $p->video_asset->getFirstMedia('library');
+                            $thumbnail_media = $p->thumbnail_asset?->getFirstMedia('library');
+                            $video_media = $p->video_asset?->getFirstMedia('library');
                             $durationSeconds = $video_media?->getCustomProperty('duration');
 
                             // Konversi detik ke format 00:00 (menit:detik)
@@ -196,15 +196,15 @@
                         {{-- Cover --}}
                         <div class="relative aspect-video overflow-hidden bg-gray-100">
 
-                            <img src="{{ $thumbnail_media->original_url }}"
-                                alt="{{ $p->thumbnail_asset->alt_text ?? $p->thumbnail_asset->name }}"
+                            <img src="{{ isset($thumbnail_media) ? $thumbnail_media->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                alt="{{ $p->thumbnail_asset->alt_text ?? 'Media Podcast' }}"
                                 class="h-full w-full object-cover
-                                transition duration-500
-                                group-hover:scale-105">
+                                    transition duration-500
+                                    group-hover:scale-105">
 
                             {{-- Status --}}
                             <div class="absolute right-4 top-4">
-                                <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
+                                <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold shadow-sm"
                                     :class="{
                                         'bg-yellow-100 text-yellow-700': {{ $p->status->id }} == 1,
                                         'bg-green-100 text-green-700': {{ $p->status->id }} == 2
@@ -310,7 +310,7 @@
                 @else
                     <div
                         class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
-                        <i class="ri-book-open-line text-3xl"></i>
+                        <i class="ri-mic-off-line text-3xl"></i>
                     </div>
 
                     <h3 class="mt-5 text-lg font-semibold text-gray-900">
