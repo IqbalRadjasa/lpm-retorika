@@ -187,7 +187,7 @@
                         {{-- Image --}}
                         <div class="mt-10">
 
-                            <img src="{{ $artikel->media_asset?->getFirstMedia('library')?->original_url }}"
+                            <img src="{{ $artikel->media_asset?->getFirstMedia('library')?->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
                                 class="w-full rounded-3xl object-cover shadow-lg max-h-[500px]">
 
                         </div>

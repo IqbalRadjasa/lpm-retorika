@@ -67,9 +67,12 @@
 
                                 {{-- Thumbnail --}}
                                 <div class="overflow-hidden">
+                                    {{-- @if (isset())
+
+                                    @endif --}}
                                     <a
                                         href="{{ route('berita.show', ['slug' => $art->kategori->slug, 'artikel' => $art->id]) }}">
-                                        <img src="{{ $art->media_asset?->getFirstMedia('library')?->original_url }}"
+                                        <img src="{{ $art->media_asset?->getFirstMedia('library')?->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
                                             class="h-full w-full object-cover transition duration-700 group-hover/article:scale-105">
                                     </a>
                                 </div>
