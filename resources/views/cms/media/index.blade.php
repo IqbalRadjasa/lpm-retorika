@@ -412,15 +412,15 @@
                         @else
                             <div
                                 class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
-                                <i class="ri-book-open-line text-3xl"></i>
+                                <i class="ri-folder-image-line text-3xl"></i>
                             </div>
 
                             <h3 class="mt-5 text-lg font-semibold text-gray-900">
-                                Belum ada file
+                                Belum ada media
                             </h3>
 
                             <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
-                                Belum ada file yang ditambahkan.
+                                Belum ada media yang ditambahkan.
                             </p>
                         @endif
 

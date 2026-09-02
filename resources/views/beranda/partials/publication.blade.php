@@ -51,7 +51,8 @@
                             class="absolute w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-red-500/20 blur-3xl transition duration-500 group-hover:scale-110">
                         </div>
 
-                        <img src="{{ $coverUrl }}" alt="{{ $item->judul }}"
+                        <img src="{{ isset($coverUrl) ? $coverUrl : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                            alt="{{ $item->cover_asset->alt_text ?? 'Media ini' }}"
                             class="relative z-10 w-56 sm:w-72 lg:w-[360px] h-auto object-cover rounded-3xl shadow-2xl transition duration-500 group-hover:-translate-y-2 group-hover:rotate-1">
                     </div>
 
@@ -75,7 +76,7 @@
                             @endif
 
                             <span class="rounded-full bg-gray-100 px-4 py-2 uppercase">
-                                {{ $item->doc_asset?->getFirstMedia('library')->extension }}
+                                {{ isset($item->doc_asset) ? $item->doc_asset->getFirstMedia('library')->extension : '-' }}
                             </span>
 
                             <span class="rounded-full bg-gray-100 px-4 py-2">
