@@ -106,10 +106,10 @@
                     </div>
 
                     {{-- Poster --}}
-                    @if ($mading)
+                    @if ($mading->media_asset)
                         <div class="bg-gray-100 p-6">
                             <div class="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-xl">
-                                <img src="{{ $mading->media_asset?->getFirstMedia('library')?->original_url ?? 'https://picsum.photos/700/950?random=35' }}"
+                                <img src="{{ $mading->media_asset?->getFirstMedia('library')?->original_url }}"
                                     alt="{{ $mading->judul ?? 'Poster Mading' }}" class="w-full object-cover">
                             </div>
                         </div>

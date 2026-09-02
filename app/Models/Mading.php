@@ -12,7 +12,6 @@ class Mading extends Model
         'status_mading_id',
         'media_id',
         'judul',
-        'deskripsi',
     ];
 
     public function media_asset()

@@ -59,7 +59,7 @@
             {{-- Bulletin Board --}}
             {{-- ================================================= --}}
 
-            @if (isset($mading))
+            @if (isset($mading) && isset($mading->media_asset))
                 {{-- ========================= --}}
                 {{-- Tampilan Ada Data Mading --}}
                 {{-- ========================= --}}

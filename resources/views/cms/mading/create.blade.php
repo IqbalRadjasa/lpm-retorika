@@ -311,30 +311,6 @@
                                 </p>
 
                             </div>
-
-
-                            {{-- Description --}}
-                            <div>
-
-                                <label for="description" class="mb-2 block text-sm font-medium text-gray-700">
-
-                                    Deskripsi
-
-                                </label>
-
-                                <x-form.textarea rows="5" maxlength="500" id="deskripsi" name="deskripsi"
-                                    :value="old('deskripsi')" placeholder="Tulis deskripsi singkat mengenai poster..." required>
-                                    {{ old('deskripsi') }}
-                                </x-form.textarea>
-
-                                <p class="mt-2 text-xs text-gray-400">
-
-                                    Deskripsi dapat digunakan sebagai
-                                    informasi tambahan pada Beranda.
-
-                                </p>
-
-                            </div>
                         </div>
                     </div>
                 </div>
