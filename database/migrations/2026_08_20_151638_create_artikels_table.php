@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('artikel', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('status_id')->constrained('status')->restrictOnDelete();
             $table->foreignId('kategori_id')->constrained('kategori')->restrictOnDelete();
-            $table->foreignId('media_id')->constrained('media_assets');
+            $table->foreignId('media_id')->nullable()->constrained('media_assets')->nullOnDelete();
             $table->string('judul');
             $table->string('penulis');
             $table->text('ringkasan');

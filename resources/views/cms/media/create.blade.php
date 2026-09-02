@@ -107,6 +107,20 @@
                                 <x-form.input-error :messages="$errors->get('alt_text')" />
                             </div>
 
+                            {{-- Alt Text --}}
+                            <div>
+                                <x-form.input-label for="tipe_media" :value="__('Tipe')" />
+                                <x-form.select-input name="tipe_media" id="tipe_media">
+                                    <option value="umum">
+                                        Umum
+                                    </option>
+                                    <option value="galeri">
+                                        Galeri
+                                    </option>
+                                </x-form.select-input>
+                                <x-form.input-error :messages="$errors->get('tipe_media')" />
+                            </div>
+
                             {{-- ================================================= --}}
                             {{-- Upload Progress --}}
                             {{-- ================================================= --}}

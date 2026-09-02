@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('publikasi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('status_id')->constrained('status');
-            $table->foreignId('kategori_id')->constrained('kategori');
-            $table->foreignId('cover_id')->constrained('media_assets');
-            $table->foreignId('doc_id')->constrained('media_assets');
+            $table->foreignId('status_id')->constrained('status')->restrictOnDelete();
+            $table->foreignId('kategori_id')->constrained('kategori')->restrictOnDelete();
+            $table->foreignId('cover_id')->nullable()->constrained('media_assets')->nullOnDelete();
+            $table->foreignId('doc_id')->nullable()->constrained('media_assets')->nullOnDelete();
             $table->string('judul');
             $table->string('edisi')->nullable();
             $table->string('volume')->nullable();

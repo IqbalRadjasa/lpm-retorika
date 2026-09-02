@@ -159,7 +159,7 @@
 
             <div class="border-b border-gray-100 p-6">
                 <form action="{{ url()->current() }}" method="GET"
-                    class="grid gap-4 lg:grid-cols-[1fr_220px_220px_auto]">
+                    class="grid gap-4 lg:grid-cols-[1fr_220px_220px_220px_auto]">
 
                     <x-form.text-input type="text" name="search" value="{{ request('search') }}"
                         placeholder="Cari nama file..." />
@@ -191,6 +191,18 @@
                         </option>
                         <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>
                             Nama A-Z
+                        </option>
+                    </x-form.select-input>
+
+                    <x-form.select-input name="tipe_media">
+                        <option value="">
+                            Semua Tipe
+                        </option>
+                        <option value="" {{ request('tipe_media') == 'umum' ? 'selected' : '' }}>
+                            Umum
+                        </option>
+                        <option value="galeri" {{ request('tipe_media') == 'galeri' ? 'selected' : '' }}>
+                            Galeri
                         </option>
                     </x-form.select-input>
 

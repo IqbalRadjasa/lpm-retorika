@@ -70,6 +70,14 @@ class MediaController extends Controller
             $query->latest();
         }
 
+        if ($request->filled('tipe_media')) {
+            if ($request->tipe_media === 'umum') {
+                $query->where('tipe', 'umum');
+            } elseif ($request->tipe_media === 'galeri') {
+                $query->where('tipe', 'galeri');
+            }
+        }
+
         $mediaAssets = $query->paginate(5)->withQueryString();
 
         return view('cms.media.index', compact(
@@ -97,6 +105,7 @@ class MediaController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'alt_text' => ['nullable', 'string', 'max:255'],
+            'tipe' => ['required', 'string'],
             'files' => [
                 'required',
                 'file',
@@ -109,6 +118,7 @@ class MediaController extends Controller
         $mediaAsset = MediaAsset::create([
             'name' => $validated['name'],
             'alt_text' => $validated['alt_text'] ?? null,
+            'tipe' => $validated['tipe'],
         ]);
 
         $media = $mediaAsset->addMediaFromRequest('file')
@@ -181,6 +191,7 @@ class MediaController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'alt_text' => ['nullable', 'string'],
+            'tipe' => ['required', 'string'],
             'tus_upload_id' => ['required', 'string'],
         ]);
 
@@ -193,6 +204,7 @@ class MediaController extends Controller
             $mediaAsset = MediaAsset::create([
                 'name' => $validated['name'],
                 'alt_text' => $validated['alt_text'] ?? null,
+                'tipe' => $validated['tipe'],
             ]);
 
             /*

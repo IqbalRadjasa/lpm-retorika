@@ -862,6 +862,7 @@ function mediaUploader() {
 
                 const name = document.getElementById("name")?.value;
                 const altText = document.getElementById("alt_text")?.value;
+                const tipeMedia = document.getElementById("tipe_media")?.value;
 
                 const csrfToken = document.querySelector(
                     'input[name="_token"]'
@@ -877,6 +878,7 @@ function mediaUploader() {
                     body: JSON.stringify({
                         name: name,
                         alt_text: altText || null,
+                        tipe: tipeMedia || null,
                         tus_upload_id: tusUploadId,
                     }),
                 });

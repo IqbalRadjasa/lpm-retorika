@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('mading', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('status_mading_id')->constrained('status');
-            $table->foreignId('media_id')->constrained('media_assets');
+            $table->foreignId('status_mading_id')->constrained('status_mading')->restrictOnDelete();
+            $table->foreignId('media_id')->nullable()->constrained('media_assets')->nullOnDelete();
             $table->string('judul');
             $table->text('deskripsi')->nullable();
             $table->timestamps();

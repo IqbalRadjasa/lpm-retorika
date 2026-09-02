@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('media_assets', function (Blueprint $table) {
             $table->id();
-
             $table->string('name');
-
             $table->string('alt_text')->nullable();
-
+            $table->enum('tipe', ['galeri', 'umum'])->default('umum');
             $table->timestamps();
         });
     }

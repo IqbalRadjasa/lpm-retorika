@@ -15,6 +15,7 @@ class MediaAsset extends Model implements HasMedia
     protected $fillable = [
         'name',
         'alt_text',
+        'tipe',
     ];
 
     public function registerMediaCollections(): void

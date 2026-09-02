@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('podcast', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('status_id')->constrained('status');
-            $table->foreignId('thumbnail_id')->constrained('media_assets');
-            $table->foreignId('video_id')->constrained('media_assets');
+            $table->foreignId('status_id')->constrained('status')->restrictOnDelete();
+            $table->foreignId('thumbnail_id')->nullable()->constrained('media_assets')->nullOnDelete();
+            $table->foreignId('video_id')->nullable()->constrained('media_assets')->nullOnDelete();
             $table->string('judul');
             $table->string('episode');
             $table->string('host');
