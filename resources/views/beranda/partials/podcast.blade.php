@@ -76,8 +76,8 @@
                 <div class="group relative aspect-video overflow-hidden rounded-xl bg-gray-900">
 
                     {{-- Video Thumbnail --}}
-                    <img src="{{ $newest_thumbnail_media?->original_url ?? 'https://placehold.co/1280x720/1e293b/94a3b8?text=Belum+Ada+Podcast' }}"
-                        alt="{{ $podcastNewest->thumbnail_asset->alt_text ?? 'Belum ada podcast' }}"
+                    <img src="{{ $newest_thumbnail_media?->original_url ?? 'https://placehold.co/1280x720/1e293b/94a3b8?text=Belum+Ada+Thumbnail+Atau+Podcast' }}"
+                        alt="{{ $podcastNewest->thumbnail_asset->alt_text ?? 'Belum ada thumbnail atau podcast' }}"
                         class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
 
                     {{-- Overlay --}}

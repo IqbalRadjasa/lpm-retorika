@@ -12,8 +12,9 @@
                 <div class="flex justify-center">
                     <a href="{{ route('mading.index') }}"
                         class="group block origin-center rotate-[-2deg] transition hover:rotate-0 hover:scale-105">
-                        <img src="{{ $mading->media_asset ? $mading->media_asset->getFirstMediaUrl('library') : 'https://placehold.co/600x400/e2e8f0/475569?text=Tidak+Ada+Gambar' }}"
-                            alt="{{ $mading->media_asset?->alt_text ?? $mading->judul }}" class="rounded-2xl shadow-xl">
+                        <img src="{{ $mading->media_asset ? $mading->media_asset->getFirstMediaUrl('library') : 'https://placehold.co/600x400/e2e8f0/475569?text=Belum+Ada+Mading' }}"
+                            alt="{{ $mading->media_asset?->alt_text ?? 'Belum ada mading' }}"
+                            class="rounded-2xl shadow-xl">
                     </a>
                 </div>
 

@@ -15,15 +15,6 @@ use Illuminate\View\View;
 
 class PublicPublicationController extends Controller
 {
-    private function sidebarNews()
-    {
-        return Artikel::with('status')
-            ->where('status_id', 2) // Published
-            ->latest()
-            ->take(5)
-            ->get();
-    }
-
     public function indexBerita($slug)
     {
 

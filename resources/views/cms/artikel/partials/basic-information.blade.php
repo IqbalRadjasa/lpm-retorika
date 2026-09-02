@@ -83,8 +83,8 @@
             {{-- Author --}}
             <div>
                 <x-form.input-label for="penulis" :value="__('Penulis')" />
-                <x-form.text-input id="penulis" type="text" name="penulis" value="Admin Retorika" required
-                    disabled />
+                <x-form.text-input id="penulis" type="text" name="penulis" placeholder="Contoh: Budi Setiawan"
+                    :value="old('penulis', $mode === 'edit' ? $artikel->penulis : '')" required />
                 <x-form.input-error :messages="$errors->get('penulis')" />
                 <p class="mt-2 text-xs text-gray-400">
 

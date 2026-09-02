@@ -89,8 +89,8 @@
                 </p>
 
                 @php
-                    $newest_thumbnail_media = $podcastNewest->thumbnail_asset->getFirstMedia('library');
-                    $newest_video_media = $podcastNewest->video_asset->getFirstMedia('library');
+                    $newest_thumbnail_media = $podcastNewest->thumbnail_asset?->getFirstMedia('library');
+                    $newest_video_media = $podcastNewest->video_asset?->getFirstMedia('library');
                     $durationSeconds = $newest_video_media?->getCustomProperty('duration');
 
                     // Konversi detik ke format 00:00 (menit:detik)
@@ -112,11 +112,11 @@
                     rounded-xl bg-white
                     shadow-lg">
 
-                        <img src="{{ $newest_thumbnail_media->original_url }}"
-                            alt="{{ $podcastNewest->thumbnail_asset->alt_text ?? $podcastNewest->thumbnail_asset->name }}"
+                        <img src="{{ $newest_thumbnail_media->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                            alt="{{ $podcastNewest->thumbnail_asset->alt_text ?? 'Media Podcast' }}"
                             class="h-full w-full object-cover rounded-lg
-                    transition duration-500
-                    group-hover:scale-105">
+                            transition duration-500
+                            group-hover:scale-105">
 
 
                         {{-- Overlay --}}
@@ -128,13 +128,13 @@
                         {{-- Play --}}
                         <span
                             class="absolute left-1/2 top-1/2
-                    flex h-12 w-12
-                    -translate-x-1/2 -translate-y-1/2
-                    items-center justify-center
-                    rounded-full bg-white
-                    text-red-600 opacity-0 shadow-lg
-                    transition duration-300
-                    group-hover:opacity-100">
+                            flex h-12 w-12
+                            -translate-x-1/2 -translate-y-1/2
+                            items-center justify-center
+                            rounded-full bg-white
+                            text-red-600 opacity-0 shadow-lg
+                            transition duration-300
+                            group-hover:opacity-100">
 
                             <i class="ri-play-fill ml-0.5 text-xl"></i>
 

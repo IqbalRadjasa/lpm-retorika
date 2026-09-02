@@ -102,7 +102,7 @@ class ArtikelController extends Controller
             'media_id' => 'required|integer',
             'status_id' => 'required|integer|max:10',
             'judul' => 'required|string|max:100',
-            // 'penulis' => 'required|string|max:100',
+            'penulis' => 'required|string|max:100',
             'ringkasan' => 'required|string',
             'isi_artikel' => 'required|string',
         ]);
@@ -113,7 +113,7 @@ class ArtikelController extends Controller
                 'media_id' => $validated['media_id'],
                 'status_id' => $validated['status_id'],
                 'judul' => $validated['judul'],
-                'penulis' => 'Admin Retorika',
+                'penulis' => $validated['penulis'],
                 'ringkasan' => $validated['ringkasan'],
                 'isi_artikel' => Purifier::clean($validated['isi_artikel']),
             ]);
@@ -196,7 +196,7 @@ class ArtikelController extends Controller
             'media_id' => 'required|integer',
             'status_id' => 'required|integer|max:10',
             'judul' => 'required|string|max:100',
-            // 'penulis' => 'required|string|max:100',
+            'penulis' => 'required|string|max:100',
             'ringkasan' => 'required|string',
             'isi_artikel' => 'required|string',
         ]);
@@ -207,9 +207,8 @@ class ArtikelController extends Controller
                 'media_id' => $validated['media_id'],
                 'status_id' => $validated['status_id'],
                 'judul' => $validated['judul'],
-                'penulis' => 'Admin Retorika',
+                'penulis' => $validated['penulis'],
                 'ringkasan' => $validated['ringkasan'],
-                // 'isi_artikel' => $validated['isi_artikel'],
                 'isi_artikel' => Purifier::clean($validated['isi_artikel']),
             ]);
 

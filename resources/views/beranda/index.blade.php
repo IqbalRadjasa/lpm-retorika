@@ -22,7 +22,7 @@
         <hr class="max-w-screen-xl mx-auto text-gray-300">
 
         {{-- Latest Release --}}
-        @include('beranda.partials.latest-release')
+        {{-- @include('beranda.partials.latest-release') --}}
 
         <hr class="max-w-screen-xl mx-auto text-gray-300">
 
