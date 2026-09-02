@@ -69,8 +69,8 @@
                     {{-- Thumbnail --}}
                     <div class="aspect-[16/8] overflow-hidden bg-gray-100">
 
-                        <img src="{{ $data->media_asset->getFirstMedia('library')->original_url }}"
-                            alt="Thumbnail artikel" class="h-full w-full object-cover">
+                        <img src="{{ isset($data->media_asset) ? $data->media_asset->getFirstMedia('library')->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                            alt="{{ $data->media_asset->alt_text ?? 'Media ini' }}" class="h-full w-full object-cover">
 
                     </div>
 
