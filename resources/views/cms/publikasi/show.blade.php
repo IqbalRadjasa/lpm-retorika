@@ -68,8 +68,8 @@
 
                         <div class="mx-auto max-w-sm overflow-hidden rounded-xl bg-white shadow-xl">
 
-                            <img src="{{ $publikasi->cover_asset->getFirstMedia('library')->original_url }}"
-                                alt="{{ $publikasi->cover_asset->alt_text ?? $publikasi->cover_asset->name }}"
+                            <img src="{{ isset($publikasi->cover_asset) ? $publikasi->cover_asset->getFirstMedia('library')->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                alt="{{ $publikasi->cover_asset->alt_text ?? 'Media ini' }}"
                                 class="aspect-[3/4] w-full object-cover">
 
                         </div>
@@ -86,10 +86,16 @@
                             </x-link-button.primary-link> --}}
 
 
-                            <x-link-button.primary-link :href="route('media.download', $publikasi->cover_id)" icon="ri-download-line"
-                                class="flex-1 rounded-xl py-3">
-                                Download Cover
-                            </x-link-button.primary-link>
+                            @if (isset($publikasi->cover_asset))
+                                <x-link-button.primary-link :href="route('media.download', $publikasi->cover_id)" icon="ri-download-line"
+                                    class="flex-1 rounded-xl py-3">
+                                    Download Cover
+                                </x-link-button.primary-link>
+                            @else
+                                <x-link-button.secondary-link class="flex-1 rounded-xl py-3 cursor-not-allowed">
+                                    Tidak Cover
+                                </x-link-button.secondary-link>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -233,19 +239,19 @@
 
 
                         {{-- File Information --}}
-                        <div class="mt-8 rounded-xl border border-gray-200 bg-gray-50 p-4">
+                        @if ($media)
+                            <div class="mt-8 rounded-xl border border-gray-200 bg-gray-50 p-4">
 
-                            <div class="flex items-start gap-4">
+                                <div class="flex items-start gap-4">
 
-                                <div
-                                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
+                                    <div
+                                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
 
-                                    <i class="ri-file-pdf-2-line text-xl"></i>
+                                        <i class="ri-file-pdf-2-line text-xl"></i>
 
-                                </div>
+                                    </div>
 
-                                <div class="min-w-0 flex-1">
-                                    @if ($media)
+                                    <div class="min-w-0 flex-1">
                                         <p class="font-medium text-gray-900">
                                             {{ $media->file_name }}
                                         </p>
@@ -259,24 +265,20 @@
 
                                             · {{ $media->human_readable_size }}
                                         </p>
-                                    @endif
 
+                                    </div>
+
+                                    <a href="{{ route('media.download', $media->id) }}"
+                                        class="hidden shrink-0 text-sm font-medium text-red-600 hover:underline sm:block">
+                                        Download
+                                    </a>
                                 </div>
 
-                                <a href="{{ route('media.download', $media->id) }}"
-                                    class="hidden shrink-0 text-sm font-medium text-red-600 hover:underline sm:block">
-                                    Download
-                                </a>
                             </div>
-
-                        </div>
-
+                        @endif
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
 
@@ -310,9 +312,26 @@
 
             {{-- Preview Placeholder --}}
             <div class="p-6 flex min-h-[500px] items-center justify-center rounded-2xl bg-gray-50">
+                @if ($media)
+                    <div id="flipbook" data-pdf-url="{{ parse_url($media->original_url, PHP_URL_PATH) }}"
+                        class="">
+                    </div>
+                @else
+                    <div class="w-full rounded-xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-100">
+                        <div
+                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100 text-gray-400">
+                            <i class="ri-book-open-line text-3xl"></i>
+                        </div>
 
-                <div id="flipbook" data-pdf-url="{{ parse_url($media->original_url, PHP_URL_PATH) }}" class="">
-                </div>
+                        <h3 class="mt-5 text-lg font-semibold text-gray-900">
+                            Belum ada dokumen
+                        </h3>
+
+                        <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+                            Belum ada dokumen yang ditambahkan.
+                        </p>
+                    </div>
+                @endif
 
             </div>
 

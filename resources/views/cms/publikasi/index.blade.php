@@ -157,8 +157,8 @@
                         {{-- Cover --}}
                         <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
 
-                            <img src="{{ $p->cover_asset->getFirstMedia('library')->original_url }}"
-                                alt="{{ $p->cover_asset->alt_text ?? $p->cover_asset->name }}"
+                            <img src="{{ isset($p->cover_asset) ? $p->cover_asset->getFirstMedia('library')->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                alt="{{ $p->cover_asset?->alt_text ?? 'Media ini' }}"
                                 class="h-full w-full object-cover
                                 transition duration-500
                                 group-hover:scale-105">
