@@ -103,7 +103,7 @@
                             <div>
                                 <x-form.input-label for="alt_text" :value="__('Alt Text')" />
                                 <x-form.text-input id="alt_text" type="text" name="alt_text" :value="old('alt_text')"
-                                    placeholder="Deskripsi Media" required />
+                                    placeholder="Deskripsi Media (tidak wajib diisi)" required />
                                 <x-form.input-error :messages="$errors->get('alt_text')" />
                             </div>
 

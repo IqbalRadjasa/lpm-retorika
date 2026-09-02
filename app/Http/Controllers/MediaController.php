@@ -267,7 +267,7 @@ class MediaController extends Controller
 
     public function selector(Request $request)
     {
-        $query = MediaAsset::query()->with('media');
+        $query = MediaAsset::query()->with('media')->where('tipe', 'umum');
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
