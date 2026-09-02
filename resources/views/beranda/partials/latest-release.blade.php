@@ -25,13 +25,9 @@
         </i>
 
         <div class="relative z-10 text-center lg:text-left">
-
             <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold uppercase text-white">
-
                 Rilisan Terbaru
-
             </h2>
-
         </div>
 
         <a href="{{ route('berita.index', 'isu-kampus') }}"
@@ -46,11 +42,8 @@
                     transition-all duration-300
                     hover:bg-white/30
                     hover:scale-105">
-
             Lihat Semua
-
             <i class="ri-arrow-right-line transition group-hover:translate-x-1"></i>
-
         </a>
 
     </div>
@@ -66,43 +59,43 @@
 
             {{-- Featured --}}
             <article
-                class="group lg:col-span-2 relative overflow-hidden rounded-3xl h-[280px] sm:h-[340px] lg:h-[450px]">
+                class="group lg:col-span-2 relative overflow-hidden rounded-3xl h-[280px] sm:h-[340px] lg:h-[450px] bg-gray-900">
 
-                <img src="{{ $beritaTerbaru->media_asset?->getFirstMedia('library')?->original_url }}"
-                    class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                <img src="{{ isset($beritaTerbaru) && $beritaTerbaru->media_asset ? $beritaTerbaru->media_asset->getFirstMedia('library')?->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Rilisan' }}"
+                    class="absolute inset-0 w-full h-full object-cover transition duration-700 opacity-70 group-hover:scale-105"
+                    alt="{{ $beritaTerbaru->judul ?? 'Belum ada berita' }}">
 
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
                 <div class="absolute bottom-0 p-5 sm:p-6 lg:p-8 text-white">
 
                     <span class="inline-flex items-center rounded-full bg-red-600 px-3 py-1 text-xs font-semibold">
-
                         Baru
-
                     </span>
 
                     <h3
                         class="mt-4 text-xl sm:text-2xl lg:text-3xl font-bold leading-tight group-hover:text-red-400 transition">
-
-                        <a
-                            href="{{ route('berita.show', ['slug' => $beritaUtama->kategori->slug, 'artikel' => $beritaUtama->id]) }}">
-                            {{ $beritaTerbaru->judul }}
-                        </a>
-
+                        @if (isset($beritaTerbaru) && $beritaTerbaru->kategori)
+                            <a
+                                href="{{ route('berita.show', ['slug' => $beritaTerbaru->kategori->slug, 'artikel' => $beritaTerbaru->id]) }}">
+                                {{ $beritaTerbaru->judul }}
+                            </a>
+                        @else
+                            <span>Belum Ada Rilisan Terbaru</span>
+                        @endif
                     </h3>
 
                     <p class="hidden lg:block mt-4 max-w-xl text-gray-200">
-                        {{ $beritaTerbaru->ringkasan }}
+                        {{ isset($beritaTerbaru) ? $beritaTerbaru->ringkasan : 'Artikel atau informasi terbaru dari LPM Retorika belum dipublikasikan.' }}
                     </p>
 
                     <div class="mt-5 flex flex-wrap gap-3 text-sm text-gray-300">
-
-                        <span>{{ $beritaTerbaru->created_at->translatedFormat('d F Y') }}</span>
+                        <span>{{ isset($beritaTerbaru) ? $beritaTerbaru->created_at->translatedFormat('d F Y') : '-' }}</span>
                         <span>•</span>
                         <span>
-                            Updated {{ $beritaTerbaru->updated_at?->diffForHumans() ?? 'Never' }}
+                            Updated
+                            {{ isset($beritaTerbaru) ? $beritaTerbaru->updated_at?->diffForHumans() ?? 'Never' : '-' }}
                         </span>
-
                     </div>
 
                 </div>
@@ -112,45 +105,77 @@
             {{-- Secondary Articles --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-5">
 
-                @foreach ($secondaryBerita as $sb)
+                @forelse ($secondaryBerita as $sb)
                     <article class="group flex gap-4 rounded-2xl border border-gray-200 p-4 hover:shadow-lg transition">
 
-                        <a href="{{ route('berita.show', ['slug' => $sb->kategori->slug, 'artikel' => $sb->id]) }}">
-                            <img src="{{ $sb->media_asset?->getFirstMedia('library')?->original_url }}"
+                        @if ($sb->kategori)
+                            <a href="{{ route('berita.show', ['slug' => $sb->kategori->slug, 'artikel' => $sb->id]) }}">
+                                <img src="{{ $sb->media_asset?->getFirstMedia('library')?->original_url ?? 'https://placehold.co/400x400/1e293b/94a3b8?text=No+Image' }}"
+                                    class="w-28 sm:w-32 lg:w-36 self-stretch rounded-xl object-cover shrink-0"
+                                    alt="{{ $sb->judul }}">
+                            </a>
+                        @else
+                            <img src="https://placehold.co/400x400/1e293b/94a3b8?text=No+Image"
                                 class="w-28 sm:w-32 lg:w-36 self-stretch rounded-xl object-cover shrink-0">
-                        </a>
+                        @endif
 
                         <div class="flex flex-1 flex-col min-w-0">
 
                             <span class="text-xs font-semibold uppercase text-red-600">
-                                {{ $sb->kategori->nama }}
+                                {{ $sb->kategori->nama ?? 'Umum' }}
                             </span>
 
                             <h4
                                 class="mt-2 text-base lg:text-lg font-bold leading-6 group-hover:text-red-600 transition">
-
-                                <a
-                                    href="{{ route('berita.show', ['slug' => $sb->kategori->slug, 'artikel' => $sb->id]) }}">
-                                    {{ $sb->judul }}
-                                </a>
-
+                                @if ($sb->kategori)
+                                    <a
+                                        href="{{ route('berita.show', ['slug' => $sb->kategori->slug, 'artikel' => $sb->id]) }}">
+                                        {{ $sb->judul }}
+                                    </a>
+                                @else
+                                    <span>{{ $sb->judul }}</span>
+                                @endif
                             </h4>
 
                             <div class="mt-3 flex flex-col gap-2 text-sm text-gray-400">
-
                                 <span>{{ $sb->created_at->translatedFormat('d F Y') }}</span>
 
                                 <span class="flex items-center gap-1">
                                     <i class="ri-time-line"></i>
                                     Updated {{ $sb->updated_at?->diffForHumans() ?? 'Never' }}
                                 </span>
-
                             </div>
 
                         </div>
 
                     </article>
-                @endforeach
+                @empty
+                    {{-- Empty State Secondary --}}
+                    @for ($i = 0; $i < 2; $i++)
+                        <article class="flex gap-4 rounded-2xl border border-gray-200 p-4 bg-gray-50 opacity-60">
+                            <img src="https://placehold.co/400x400/cbd5e1/64748b?text=Kosong"
+                                class="w-28 sm:w-32 lg:w-36 self-stretch rounded-xl object-cover shrink-0">
+
+                            <div class="flex flex-1 flex-col min-w-0">
+                                <span class="text-xs font-semibold uppercase text-gray-400">
+                                    Informasi
+                                </span>
+
+                                <h4 class="mt-2 text-base lg:text-lg font-bold leading-6 text-gray-500">
+                                    Belum Ada Berita Tambahan
+                                </h4>
+
+                                <div class="mt-3 flex flex-col gap-2 text-sm text-gray-400">
+                                    <span>-</span>
+                                    <span class="flex items-center gap-1">
+                                        <i class="ri-time-line"></i>
+                                        Updated -
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    @endfor
+                @endforelse
 
             </div>
 
@@ -160,49 +185,62 @@
         {{-- Remaining Articles --}}
         {{-- ============================= --}}
 
-        <div class="hidden xl:grid xl:grid-cols-3 gap-6">
+        @if (isset($remainingBerita) && count($remainingBerita) > 0)
+            <div class="hidden xl:grid xl:grid-cols-3 gap-6">
 
-            @foreach ($remainingBerita as $rb)
-                <article
-                    class="group rounded-2xl overflow-hidden border border-gray-200 bg-white hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                @foreach ($remainingBerita as $rb)
+                    <article
+                        class="group rounded-2xl overflow-hidden border border-gray-200 bg-white hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
 
-                    <div class="overflow-hidden">
-                        <a href="{{ route('berita.show', ['slug' => $rb->kategori->slug, 'artikel' => $rb->id]) }}">
-                            <img src="{{ $rb->media_asset?->getFirstMedia('library')?->original_url }}"
-                                class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105">
-                        </a>
-                    </div>
-
-                    <div class="p-5">
-
-                        <span class="text-xs font-semibold uppercase tracking-wide text-red-600">
-                            Berita
-                        </span>
-
-                        <h3 class="mt-2 text-lg font-bold leading-7 group-hover:text-red-600 transition">
-                            <a
-                                href="{{ route('berita.show', ['slug' => $rb->kategori->slug, 'artikel' => $rb->id]) }}">
-                                {{ $rb->judul }}
-                            </a>
-                        </h3>
-
-                        <p class="mt-3 text-sm text-gray-500 line-clamp-2">
-                            {{ $rb->ringkasan }}
-                        </p>
-
-                        <div class="mt-5 flex items-center justify-between text-sm text-gray-400">
-                            <span>{{ $sb->created_at->translatedFormat('d F Y') }}</span>
-
-                            <span class="flex items-center gap-1">
-                                <i class="ri-time-line"></i>
-                                Updated {{ $sb->updated_at?->diffForHumans() ?? 'Never' }}
-                            </span>
+                        <div class="overflow-hidden">
+                            @if ($rb->kategori)
+                                <a
+                                    href="{{ route('berita.show', ['slug' => $rb->kategori->slug, 'artikel' => $rb->id]) }}">
+                                    <img src="{{ $rb->media_asset?->getFirstMedia('library')?->original_url ?? 'https://placehold.co/600x400/1e293b/94a3b8?text=No+Image' }}"
+                                        class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105"
+                                        alt="{{ $rb->judul }}">
+                                </a>
+                            @else
+                                <img src="https://placehold.co/600x400/1e293b/94a3b8?text=No+Image"
+                                    class="aspect-[16/9] w-full object-cover">
+                            @endif
                         </div>
-                    </div>
-                </article>
-            @endforeach
 
-        </div>
+                        <div class="p-5">
+
+                            <span class="text-xs font-semibold uppercase tracking-wide text-red-600">
+                                {{ $rb->kategori->nama ?? 'Berita' }}
+                            </span>
+
+                            <h3 class="mt-2 text-lg font-bold leading-7 group-hover:text-red-600 transition">
+                                @if ($rb->kategori)
+                                    <a
+                                        href="{{ route('berita.show', ['slug' => $rb->kategori->slug, 'artikel' => $rb->id]) }}">
+                                        {{ $rb->judul }}
+                                    </a>
+                                @else
+                                    <span>{{ $rb->judul }}</span>
+                                @endif
+                            </h3>
+
+                            <p class="mt-3 text-sm text-gray-500 line-clamp-2">
+                                {{ $rb->ringkasan }}
+                            </p>
+
+                            <div class="mt-5 flex items-center justify-between text-sm text-gray-400">
+                                <span>{{ $rb->created_at->translatedFormat('d F Y') }}</span>
+
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-time-line"></i>
+                                    Updated {{ $rb->updated_at?->diffForHumans() ?? 'Never' }}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+
+            </div>
+        @endif
 
     </div>
 

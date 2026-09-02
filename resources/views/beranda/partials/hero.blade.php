@@ -6,8 +6,9 @@
         <div
             class="group/beritaUtama lg:col-span-2 h-[360px] md:h-[440px] lg:h-[520px] rounded-3xl overflow-hidden relative bg-gradient-to-br from-gray-900 to-gray-700">
 
-            <img src="{{ $beritaUtama->media_asset?->getFirstMedia('library')?->original_url }}"
-                class="absolute inset-0 w-full h-full object-cover opacity-70 transition duration-500 group-hover/beritaUtama:scale-105">
+            <img src="{{ isset($beritaUtama) && $beritaUtama->media_asset ? $beritaUtama->media_asset->getFirstMedia('library')?->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                class="absolute inset-0 w-full h-full object-cover opacity-70 transition duration-500 group-hover/beritaUtama:scale-105"
+                alt="{{ $beritaUtama->judul ?? 'Belum ada berita' }}">
 
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
@@ -19,22 +20,27 @@
 
                 <p
                     class="mt-4 sm:text-lg md:text-2xl lg:text-4xl font-bold leading-tight max-w-3xl transition group-hover/beritaUtama:text-red-400">
-                    <a
-                        href="{{ route('berita.show', ['slug' => $beritaUtama->kategori->slug, 'artikel' => $beritaUtama->id]) }}">
-                        {{ $beritaUtama->judul }}
-                    </a>
+                    @if (isset($beritaUtama))
+                        <a
+                            href="{{ route('berita.show', ['slug' => $beritaUtama->kategori->slug, 'artikel' => $beritaUtama->id]) }}">
+                            {{ $beritaUtama->judul }}
+                        </a>
+                    @else
+                        <span>Belum Ada Berita Utama</span>
+                    @endif
                 </p>
 
                 <p class="hidden lg:block mt-4 text-gray-200 max-w-xl leading-7">
-                    {{ $beritaUtama->ringkasan }}
+                    {{ isset($beritaUtama) ? $beritaUtama->ringkasan : 'Berita utama terbaru dari LPM Retorika belum tersedia untuk saat ini.' }}
                 </p>
 
                 <div class="mt-6 flex gap-6 text-sm text-gray-300">
 
-                    <span>{{ $beritaUtama->created_at->translatedFormat('d F Y') }}</span>
+                    <span>{{ isset($beritaUtama) ? $beritaUtama->created_at->translatedFormat('d F Y') : '-' }}</span>
                     <span>•</span>
                     <span>
-                        Updated {{ $beritaUtama->updated_at?->diffForHumans() ?? 'Never' }}
+                        Updated
+                        {{ isset($beritaUtama) ? $beritaUtama->updated_at?->diffForHumans() ?? 'Never' : '-' }}
                     </span>
 
                 </div>
@@ -56,18 +62,18 @@
             {{-- Cards --}}
             <div class="grid h-full grid-rows-[1fr_1fr_auto] gap-5">
 
-                @foreach ($beritaLainnya as $bl)
+                @forelse ($beritaLainnya as $bl)
                     <article class="group/beritaLainnya relative overflow-hidden rounded-2xl shadow-sm">
 
-                        <img src="{{ $bl->media_asset?->getFirstMedia('library')?->original_url }}"
-                            class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover/beritaLainnya:scale-105">
+                        <img src="{{ $bl->media_asset?->getFirstMedia('library')?->original_url ?? 'https://placehold.co/600x400/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                            class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover/beritaLainnya:scale-105"
+                            alt="{{ $bl->judul }}">
 
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent">
                         </div>
 
                         <span
-                            class="absolute
-                                    top-3 left-3 px-3 py-1 rounded-full bg-red-600 text-xs font-semibold text-white">
+                            class="absolute top-3 left-3 px-3 py-1 rounded-full bg-red-600 text-xs font-semibold text-white">
                             {{ $bl->kategori->nama }}
                         </span>
 
@@ -89,30 +95,65 @@
 
                                 <span class="flex items-center gap-1">
                                     <i class="ri-time-line"></i>
-                                    Updated {{ $beritaUtama->updated_at?->diffForHumans() ?? 'Never' }}
+                                    Updated {{ $bl->updated_at?->diffForHumans() ?? 'Never' }}
                                 </span>
                             </div>
 
                         </div>
 
                     </article>
-                @endforeach
+                @empty
+                    {{-- Empty State Berita Lainnya (Mengisi 2 slot grid agar struktur UI konsisten) --}}
+                    @for ($i = 0; $i < 2; $i++)
+                        <article class="relative overflow-hidden rounded-2xl shadow-sm bg-gray-800">
+                            <img src="https://placehold.co/600x400/1e293b/64748b?text=Belum+Ada+Berita"
+                                class="absolute inset-0 w-full h-full object-cover opacity-50">
+
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+
+                            <span
+                                class="absolute top-3 left-3 px-3 py-1 rounded-full bg-gray-600 text-xs font-semibold text-white">
+                                Informasi
+                            </span>
+
+                            <div class="absolute bottom-4 left-4 right-4 text-white">
+                                <h3 class="font-bold leading-6 text-gray-300">
+                                    Belum Ada Berita Tambahan
+                                </h3>
+
+                                <div class="flex items-center gap-4 mt-2 text-sm text-gray-400">
+                                    <span class="flex items-center gap-1">
+                                        <i class="ri-calendar-line"></i>
+                                        -
+                                    </span>
+
+                                    <span>•</span>
+
+                                    <span class="flex items-center gap-1">
+                                        <i class="ri-time-line"></i>
+                                        -
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    @endfor
+                @endforelse
 
                 {{-- CTA --}}
                 <a href="{{ route('berita.index', 'isu-kampus') }}"
                     class="group
-                                    h-14
-                                    rounded-2xl
-                                    bg-red-500
-                                    flex items-center justify-center gap-2
-                                    text-white
-                                    font-semibold
-                                    transition-all duration-300
-                                    hover:bg-red-600
-                                    hover:shadow-lg
-                                    hover:shadow-red-500/30">
+                            h-14
+                            rounded-2xl
+                            bg-red-500
+                            flex items-center justify-center gap-2
+                            text-white
+                            font-semibold
+                            transition-all duration-300
+                            hover:bg-red-600
+                            hover:shadow-lg
+                            hover:shadow-red-500/30">
 
-                    <span class=" text-sm md:text-lg lg:text-lg font-semibold">
+                    <span class="text-sm md:text-lg lg:text-lg font-semibold">
                         Lihat Semua
                     </span>
 

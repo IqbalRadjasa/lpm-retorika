@@ -191,7 +191,7 @@ class MediaController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'alt_text' => ['nullable', 'string'],
-            'tipe' => ['required', 'string'],
+            'tipe' => ['nullable', 'string'],
             'tus_upload_id' => ['required', 'string'],
         ]);
 
@@ -204,7 +204,7 @@ class MediaController extends Controller
             $mediaAsset = MediaAsset::create([
                 'name' => $validated['name'],
                 'alt_text' => $validated['alt_text'] ?? null,
-                'tipe' => $validated['tipe'],
+                'tipe' => $validated['tipe'] ?? null,
             ]);
 
             /*
