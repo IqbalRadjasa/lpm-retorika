@@ -160,7 +160,7 @@
                             {{-- Thumbnail --}}
                             <div class="lg:w-72 shrink-0">
 
-                                <img src="{{ $art->media_asset->getFirstMedia('library')->original_url }}"
+                                <img src="{{ isset($art->media_asset) ? $art->media_asset->getFirstMedia('library')->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
                                     class="h-64 lg:h-full w-full rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none object-cover">
 
                             </div>

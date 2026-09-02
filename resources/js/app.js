@@ -364,6 +364,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                     body: JSON.stringify({
                         name: this.uploadFile.name,
                         alt_text: null,
+                        tipe: "umum",
                         tus_upload_id: tusUploadId,
                     }),
                 });
