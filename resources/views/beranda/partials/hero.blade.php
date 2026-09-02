@@ -6,9 +6,15 @@
         <div
             class="group/beritaUtama lg:col-span-2 h-[360px] md:h-[440px] lg:h-[520px] rounded-3xl overflow-hidden relative bg-gradient-to-br from-gray-900 to-gray-700">
 
-            <img src="{{ isset($beritaUtama) && $beritaUtama->media_asset ? $beritaUtama->media_asset->getFirstMedia('library')?->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
-                class="absolute inset-0 w-full h-full object-cover opacity-70 transition duration-500 group-hover/beritaUtama:scale-105"
-                alt="{{ $beritaUtama->judul ?? 'Belum ada berita' }}">
+            @if (isset($beritaUtama))
+                <img src="{{ $beritaUtama->media_asset ? $beritaUtama->media_asset->getFirstMedia('library')?->original_url : 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70 transition duration-500 group-hover/beritaUtama:scale-105"
+                    alt="{{ $beritaUtama->judul ?? 'Belum ada berita' }}">
+            @else
+                <img src="{{ 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Berita' }}"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70 transition duration-500 group-hover/beritaUtama:scale-105"
+                    alt="{{ $beritaUtama->judul ?? 'Belum ada berita' }}">
+            @endif
 
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
