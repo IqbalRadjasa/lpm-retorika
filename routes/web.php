@@ -51,9 +51,7 @@ Route::prefix('podcast')->name('podcast.')->group(
 );
 
 // TENTANG KAMI
-Route::get('/tentang-kami', function () {
-    return view('public.tentang-kami');
-})->name('tentang-kami');
+Route::get('/tentang-kami', [PublicPublicationController::class, 'indexTentangKami'])->name('tentang-kami');
 
 
 // Login

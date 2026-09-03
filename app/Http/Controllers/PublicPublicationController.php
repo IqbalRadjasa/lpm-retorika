@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Mading;
+use App\Models\MediaAsset;
 use App\Models\Podcast;
 use App\Models\Publikasi;
 
@@ -132,5 +133,16 @@ class PublicPublicationController extends Controller
             'podcast',
             'podcastOthers'
         ));
+    }
+
+    public function indexTentangKami()
+    {
+        $galeri = MediaAsset::with('media')
+            ->where('tipe', 'galeri')
+            ->paginate(8)
+            ->withQueryString();
+        // dd($galeri);
+
+        return view('public.tentang-kami', compact('galeri'));
     }
 }
