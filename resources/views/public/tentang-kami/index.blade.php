@@ -21,7 +21,7 @@
                 </h1>
 
                 <p class="mx-auto mt-8 max-w-3xl text-md text-red-100 lg:text-lg leading-8">
-                    Menyuarakan fakta, membangun literasi, serta menjadi ruang aspirasi bagi civitas akademika.
+                    Menyuarakan fakta, membangun literasi, serta menjadi ruang aspirasi bagi sivitas akademika.
                 </p>
             </section>
 
@@ -49,7 +49,7 @@
                             serta falsafah negara dalam kehidupan berdemokrasi.
                         </p>
                         <p>
-                            Berlandaskan asas kekeluargaan civitas akademika Universitas Pancasila serta bertumpu pada
+                            Berlandaskan asas kekeluargaan sivitas akademika Universitas Pancasila serta bertumpu pada
                             <strong>Tri Dharma Perguruan Tinggi</strong>, pembinaan kemahasiswaan diarahkan menuju
                             manusia yang berjiwa Pancasila, cakap, kreatif, dan berintelektual tinggi.
                         </p>

@@ -271,8 +271,9 @@
                     @foreach ($newestPublikasi as $item)
                         <div class="flex items-center gap-4">
 
-                            <img src="{{ $item->cover_asset->getFirstMedia('library')->original_url }}"
-                                alt="{{ $item->cover_asset->alt_text }}" class="h-20 w-16 rounded-lg object-cover">
+                            <img src="{{ $item->cover_asset?->getFirstMedia('library')->original_url ?? 'https://placehold.co/1200x800/1e293b/94a3b8?text=Belum+Ada+Thumbnail' }}"
+                                alt="{{ $item->cover_asset?->alt_text ?? 'Media Publikasi' }}"
+                                class="h-20 w-16 rounded-lg object-cover">
 
                             <div>
 
