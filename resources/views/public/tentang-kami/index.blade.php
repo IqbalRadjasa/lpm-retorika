@@ -32,22 +32,33 @@
                 <div class="space-y-6">
                     <div
                         class="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">
-                        <i class="ri-history-line"></i> SEJARAH & PERAN
+                        <i class="ri-history-line"></i> SEJARAH & LANDASAN HUKUM
                     </div>
 
                     <h2 class="text-3xl font-bold text-gray-900 lg:text-4xl">
-                        Menjaga Independensi dan Kritis Sejak Awal Berdiri
+                        Landasan Pemikiran LPM Retorika FHUP
                     </h2>
 
                     <div class="space-y-4 text-base leading-relaxed text-gray-600">
                         <p>
-                            LPM Retorika hadir sebagai wadah independen mahasiswa dalam menyalurkan gagasan, pemikiran
-                            kritis, serta karya jurnalistik yang berlandaskan pada kode etik jurnalistik.
+                            Bahwa sesungguhnya proklamasi kemerdekaan 17 Agustus 1945 telah mengantarkan bangsa
+                            Indonesia ke depan pintu gerbang kemerdekaan. Salah satunya adalah kemerdekaan berserikat,
+                            berkumpul, dan berpendapat yang merupakan hak setiap warga negara sebagaimana tercermin
+                            dalam <strong>Pasal 28 Undang-Undang Dasar 1945</strong>. Segala pengingkaran terhadap
+                            kemerdekaan tersebut bertentangan dengan UUD 1945 dan Pancasila sebagai hukum tertinggi
+                            serta falsafah negara dalam kehidupan berdemokrasi.
                         </p>
                         <p>
-                            Berdiri dengan semangat transparansi, kami berkomitmen menjadi pilar informasi tepercaya di
-                            lingkungan kampus, menjembatani aspirasi mahasiswa, serta secara aktif mengawal isu-isu
-                            publik dan akademis.
+                            Berlandaskan asas kekeluargaan civitas akademika Universitas Pancasila serta bertumpu pada
+                            <strong>Tri Dharma Perguruan Tinggi</strong>, pembinaan kemahasiswaan diarahkan menuju
+                            manusia yang berjiwa Pancasila, cakap, kreatif, dan berintelektual tinggi.
+                        </p>
+                        <p>
+                            Pers mahasiswa merupakan bagian dari masyarakat yang mempunyai tanggung jawab moral untuk
+                            menegakkan nilai-nilai kebenaran dan keadilan secara hakiki dan konsisten. Berdasarkan
+                            kesadaran nurani dan fungsinya sebagai alat perjuangan pilar demokrasi, kami dari pers
+                            mahasiswa di Fakultas Hukum Universitas Pancasila menyatakan diri dalam satu organisasi
+                            bernama <strong>Lembaga Pers Mahasiswa (LPM) Retorika</strong>.
                         </p>
                     </div>
 
@@ -56,16 +67,16 @@
                         <div class="flex items-center gap-3">
                             <div
                                 class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
-                                <i class="ri-shield-check-line text-xl"></i>
+                                <i class="ri-scales-3-line text-xl"></i>
                             </div>
-                            <span class="text-sm font-semibold text-gray-800">Independen & Otonom</span>
+                            <span class="text-sm font-semibold text-gray-800">Pasal 28 UUD 1945 & Pancasila</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div
                                 class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
-                                <i class="ri-newspaper-line text-xl"></i>
+                                <i class="ri-book-open-line text-xl"></i>
                             </div>
-                            <span class="text-sm font-semibold text-gray-800">Jurnalistik Berkualitas</span>
+                            <span class="text-sm font-semibold text-gray-800">Tri Dharma Perguruan Tinggi</span>
                         </div>
                     </div>
                 </div>
@@ -73,30 +84,33 @@
                 {{-- Gambar Latar Belakang --}}
                 <div class="relative">
                     <div class="aspect-[4/3] overflow-hidden rounded-3xl bg-gray-100 shadow-xl">
-                        <img src="https://picsum.photos/800/600?random=background" alt="Latar Belakang LPM Retorika"
-                            class="h-full w-full object-cover">
+                        <img src="https://picsum.photos/800/600?random=background"
+                            alt="Latar Belakang LPM Retorika FHUP" class="h-full w-full object-cover">
                     </div>
-                    {{-- Lencana Jumlah Karya / Pengalaman --}}
+                    {{-- Lencana Pilar Demokrasi --}}
                     <div
                         class="absolute -bottom-6 -left-6 hidden rounded-2xl bg-white p-6 shadow-xl lg:block border border-gray-100">
                         <div class="flex items-center gap-4">
                             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600 text-white">
-                                <i class="ri-article-line text-2xl"></i>
+                                <i class="ri-government-line text-2xl"></i>
                             </div>
                             <div>
-                                <p class="text-2xl font-bold text-gray-900">100+</p>
-                                <p class="text-xs font-medium text-gray-500">Artikel & Buletin Terbit</p>
+                                <p class="text-lg font-bold text-gray-900">Pilar Demokrasi</p>
+                                <p class="text-xs font-medium text-gray-500">Fakultas Hukum Universitas Pancasila</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <hr class="max-w-screen-xl mx-auto text-gray-300">
+
             {{-- ================================================= --}}
             {{-- STRUKTUR ORGANISASI (MIND MAPPING STYLE) --}}
             {{-- ================================================= --}}
-            <section class="space-y-12 overflow-x-auto pb-6">
-                <div class="text-center max-w-2xl mx-auto">
+            <section class="space-y-12 pb-8">
+                {{-- Header / Judul (Tetap di tengah layar & tidak ikut tergeser) --}}
+                <div class="text-center max-w-2xl mx-auto px-4">
                     <span
                         class="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">
                         <i class="ri-team-line"></i> STRUKTUR ORGANISASI
@@ -105,140 +119,152 @@
                         Bagan Kepengurusan LPM Retorika
                     </h2>
                     <p class="mt-3 text-gray-600 text-sm lg:text-base">
-                        Sinergi antar pengurus dalam menjaga roda organisasi dan keberlanjutan pers mahasiswa.
+                        Struktural Periode 2025/2026
                     </p>
                 </div>
 
-                {{-- Mind Map Container --}}
-                <div class="min-w-[768px] max-w-5xl mx-auto pt-4 px-4">
+                {{-- Wrapper khusus untuk Overflow Horizontal (Hanya Bagan yang Bisa Digeser) --}}
+                <div class="w-full overflow-x-auto pb-4">
+                    {{-- Mind Map Container --}}
+                    <div class="min-w-[1024px] max-w-6xl mx-auto pt-4 px-4">
 
-                    {{-- LEVEL 1: TOP NODE (Pemimpin Redaksi) --}}
-                    <div class="flex flex-col items-center">
-                        <div
-                            class="group relative flex items-center gap-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-700 p-4 shadow-lg ring-4 ring-red-100 transition hover:scale-105">
-                            <img src="https://picsum.photos/300/400?random=11" alt="Ahmad Fauzi"
-                                class="h-16 w-16 rounded-full object-cover border-2 border-white/80 shadow-md">
-                            <div class="pr-4 text-left">
+                        {{-- LEVEL 1: TOP NODE (Pimpinan Umum) --}}
+                        <div class="flex flex-col items-center">
+                            <div
+                                class="group relative rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-8 py-4 shadow-lg ring-4 ring-red-100 transition hover:scale-105 text-center">
                                 <span
-                                    class="inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
-                                    Ketua Umum
+                                    class="inline-block rounded-full bg-white/20 px-3 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
+                                    Pimpinan Puncak
                                 </span>
-                                <h3 class="text-lg font-bold text-white mt-0.5">Ahmad Fauzi</h3>
-                                <p class="text-xs text-red-100">Pemimpin Redaksi</p>
+                                <h3 class="text-xl font-extrabold text-white mt-1">Pimpinan Umum</h3>
+                            </div>
+
+                            {{-- Garis Vertikal Utama --}}
+                            <div class="h-8 w-0.5 bg-red-300"></div>
+                        </div>
+
+                        {{-- LEVEL 2: EXECUTIVE NODES (Pimpinan Redaksi, Pimpinan Perusahaan, Sekretaris Umum, Bendahara Umum) --}}
+                        <div class="relative flex justify-center items-center gap-6 lg:gap-8">
+                            {{-- Garis Horizontal Penghubung Level 2 --}}
+                            <div class="absolute top-0 left-1/12 right-1/12 h-0.5 bg-red-300"></div>
+
+                            {{-- Pimpinan Redaksi --}}
+                            <div class="flex flex-col items-center">
+                                <div class="h-6 w-0.5 bg-red-300"></div>
+                                <div
+                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
+                                    <p class="text-xs font-bold text-gray-800">Pimpinan Redaksi</p>
+                                </div>
+                            </div>
+
+                            {{-- Pimpinan Perusahaan --}}
+                            <div class="flex flex-col items-center">
+                                <div class="h-6 w-0.5 bg-red-300"></div>
+                                <div
+                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
+                                    <p class="text-xs font-bold text-gray-800">Pimpinan Perusahaan</p>
+                                </div>
+                            </div>
+
+                            {{-- Sekretaris Umum --}}
+                            <div class="flex flex-col items-center">
+                                <div class="h-6 w-0.5 bg-red-300"></div>
+                                <div
+                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
+                                    <p class="text-xs font-bold text-gray-800">Sekretaris Umum</p>
+                                </div>
+                            </div>
+
+                            {{-- Bendahara Umum --}}
+                            <div class="flex flex-col items-center">
+                                <div class="h-6 w-0.5 bg-red-300"></div>
+                                <div
+                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
+                                    <p class="text-xs font-bold text-gray-800">Bendahara Umum</p>
+                                </div>
                             </div>
                         </div>
 
-                        {{-- Garis Vertikal Utama dari Pimpinan --}}
-                        <div class="h-10 w-0.5 bg-red-300"></div>
-                    </div>
-
-                    {{-- LEVEL 2: MIDDLE NODES (Sekretaris & Bendahara) --}}
-                    <div class="relative flex justify-center items-center gap-16 lg:gap-24">
-                        {{-- Garis Horizontal Penghubung Sekretaris & Bendahara --}}
-                        <div class="absolute top-0 left-1/4 right-1/4 h-0.5 bg-red-300"></div>
-
-                        {{-- Sekretaris Umum --}}
+                        {{-- Garis Penghubung ke Level 3 --}}
                         <div class="flex flex-col items-center">
-                            <div class="h-6 w-0.5 bg-red-300"></div>
-                            <div
-                                class="flex items-center gap-3 rounded-xl bg-white p-3 shadow-md ring-1 ring-gray-200 transition hover:border-red-500">
-                                <img src="https://picsum.photos/300/400?random=12" alt="Siti Rahma"
-                                    class="h-12 w-12 rounded-full object-cover ring-2 ring-red-100">
-                                <div class="text-left">
-                                    <h4 class="text-sm font-bold text-gray-900">Siti Rahma</h4>
-                                    <p class="text-xs font-medium text-red-600">Sekretaris Umum</p>
-                                </div>
-                            </div>
+                            <div class="h-10 w-0.5 bg-red-300"></div>
                         </div>
 
-                        {{-- Bendahara Umum --}}
-                        <div class="flex flex-col items-center">
-                            <div class="h-6 w-0.5 bg-red-300"></div>
-                            <div
-                                class="flex items-center gap-3 rounded-xl bg-white p-3 shadow-md ring-1 ring-gray-200 transition hover:border-red-500">
-                                <img src="https://picsum.photos/300/400?random=14" alt="Dewi Lestari"
-                                    class="h-12 w-12 rounded-full object-cover ring-2 ring-red-100">
-                                <div class="text-left">
-                                    <h4 class="text-sm font-bold text-gray-900">Dewi Lestari</h4>
-                                    <p class="text-xs font-medium text-red-600">Bendahara Umum</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        {{-- LEVEL 3: DEPARTEMEN / DIVISI OPERASIONAL --}}
+                        <div class="relative pt-6 border-t-2 border-red-200">
+                            {{-- Titik Tengah Garis Atas --}}
+                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 h-6 w-0.5 bg-red-300"></div>
 
-                    {{-- Garis Penghubung ke Level 3 --}}
-                    <div class="flex flex-col items-center">
-                        <div class="h-10 w-0.5 bg-red-300"></div>
-                    </div>
+                            <div class="grid grid-cols-3 gap-6">
 
-                    {{-- LEVEL 3: DIVISI & REDAKSI (Cabang Bawah) --}}
-                    <div class="relative pt-6 border-t-2 border-red-200">
-                        {{-- Titik Tengah Garis Atas --}}
-                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 h-6 w-0.5 bg-red-300"></div>
-
-                        <div class="grid grid-cols-3 gap-6">
-                            {{-- Divisi Redaksi --}}
-                            <div class="flex flex-col items-center">
+                                {{-- CLUSTER 1: REDAKSI & PENERBITAN --}}
                                 <div
-                                    class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                    <i class="ri-edit-2-line"></i> Redaksi
-                                </div>
-                                <div class="w-full space-y-3">
+                                    class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
                                     <div
-                                        class="flex items-center gap-3 rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md">
-                                        <img src="https://picsum.photos/300/400?random=13" alt="Budi Santoso"
-                                            class="h-10 w-10 rounded-full object-cover">
-                                        <div class="text-left">
-                                            <h5 class="text-xs font-bold text-gray-900">Budi Santoso</h5>
-                                            <p class="text-[11px] text-gray-500">Redaktur Pelaksana</p>
+                                        class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
+                                        <i class="ri-quill-pen-line"></i> Redaksi & Operasional
+                                    </div>
+                                    <div class="w-full space-y-2.5">
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Koor. Reporter</span>
+                                        </div>
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Reporter</span>
+                                        </div>
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Editor</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {{-- Divisi Perusahaan / Medinfo --}}
-                            <div class="flex flex-col items-center">
+                                {{-- CLUSTER 2: PRODUKSI & KREATIF --}}
                                 <div
-                                    class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                    <i class="ri-global-line"></i> Medinfo & Kreatif
-                                </div>
-                                <div class="w-full space-y-3">
+                                    class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
                                     <div
-                                        class="flex items-center gap-3 rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md">
-                                        <img src="https://picsum.photos/300/400?random=15" alt="Rizky Pratama"
-                                            class="h-10 w-10 rounded-full object-cover">
-                                        <div class="text-left">
-                                            <h5 class="text-xs font-bold text-gray-900">Rizky Pratama</h5>
-                                            <p class="text-[11px] text-gray-500">Kadiv Medinfo</p>
+                                        class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
+                                        <i class="ri-palette-line"></i> Desain & Media
+                                    </div>
+                                    <div class="w-full space-y-2.5">
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Setting Lay Out</span>
+                                        </div>
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Ilustrator</span>
+                                        </div>
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Fotografi</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {{-- Divisi Litbang --}}
-                            <div class="flex flex-col items-center">
+                                {{-- CLUSTER 3: PERUSAHAAN & LITBANG --}}
                                 <div
-                                    class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                    <i class="ri-search-eye-line"></i> Penelitian & Pengembangan
-                                </div>
-                                <div class="w-full space-y-3">
+                                    class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
                                     <div
-                                        class="flex items-center gap-3 rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition hover:shadow-md">
-                                        <img src="https://picsum.photos/300/400?random=16" alt="Anisa Putri"
-                                            class="h-10 w-10 rounded-full object-cover">
-                                        <div class="text-left">
-                                            <h5 class="text-xs font-bold text-gray-900">Anisa Putri</h5>
-                                            <p class="text-[11px] text-gray-500">Kadiv Litbang</p>
+                                        class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
+                                        <i class="ri-briefcase-line"></i> Bisnis & Riset
+                                    </div>
+                                    <div class="w-full space-y-2.5">
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Litbang</span>
+                                        </div>
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Sirkulasi Dana</span>
+                                        </div>
+                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
+                                            <span class="text-xs font-semibold text-gray-800">Percetakan</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </section>
+
+            <hr class="max-w-screen-xl mx-auto text-gray-300">
 
             {{-- ================================================= --}}
             {{-- GALLERY SECTION --}}
