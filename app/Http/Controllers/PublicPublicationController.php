@@ -135,14 +135,19 @@ class PublicPublicationController extends Controller
         ));
     }
 
-    public function indexTentangKami()
+    public function indexTentangKami(Request $request)
     {
+        // Mengambil data galeri dengan pagination (misal: 8 per halaman)
         $galeri = MediaAsset::with('media')
             ->where('tipe', 'galeri')
-            ->paginate(8)
-            ->withQueryString();
-        // dd($galeri);
+            ->latest()
+            ->paginate(8);
 
-        return view('public.tentang-kami', compact('galeri'));
+        // Jika request dikirim dari AJAX (fetch Alpine.js)
+        if ($request->ajax()) {
+            return view('public.tentang-kami.partials.gallery-list', compact('galeri'))->render();
+        }
+
+        return view('public.tentang-kami.index', compact('galeri'));
     }
 }

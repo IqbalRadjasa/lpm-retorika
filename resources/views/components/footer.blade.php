@@ -24,7 +24,7 @@
             {{-- Menu --}}
             <div>
 
-                <h3 class="font-semibold mb-4">
+                <h3 class="font-semibold mb-4 text-lg">
                     Menu
                 </h3>
 
@@ -46,18 +46,18 @@
             {{-- Contact --}}
             <div>
 
-                <h3 class="font-semibold mb-4">
+                <h3 class="font-semibold mb-4 text-lg">
                     Kontak
                 </h3>
 
                 <ul class="space-y-3 text-sm text-gray-400">
 
                     <li>
-                        info@suarakampus.id
+                        lpmretorikafh@gmail.com
                     </li>
 
                     <li>
-                        Jakarta, Indonesia
+                        Jl. Lenteng Agung Raya No.56, Srengseng Sawah, Kec. Jagakarsa, Kota Jakarta Selatan.
                     </li>
 
                 </ul>
@@ -67,22 +67,22 @@
             {{-- Social --}}
             <div>
 
-                <h3 class="font-semibold mb-4">
+                <h3 class="font-semibold mb-4 text-lg">
                     Ikuti Kami
                 </h3>
 
                 <div class="flex gap-4 text-2xl">
 
-                    <a href="#">
-                        <i class="ri-facebook-circle-fill"></i>
+                    <a href="https://www.tiktok.com/@lpmretorika?_r=1&_t=ZS-99Q8hnZWpYl">
+                        <i class="ri-tiktok-fill"></i>
                     </a>
 
-                    <a href="#">
+                    <a href="https://www.instagram.com/lpmretorika?igsi=MTJxcWV5OGNoOGg5eA==">
                         <i class="ri-instagram-line"></i>
                     </a>
 
                     <a href="#">
-                        <i class="ri-youtube-fill"></i>
+                        <i class="ri-linkedin-box-fill"></i>
                     </a>
 
                     <a href="#">
