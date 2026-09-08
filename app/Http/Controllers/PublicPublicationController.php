@@ -108,7 +108,19 @@ class PublicPublicationController extends Controller
 
     public function indexPodcast(Request $request)
     {
-        $podcastNewest = Podcast::with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+        $podcastNewest = Podcast::select([
+            'id',
+            'status_id',
+            'thumbnail_id',
+            'video_id',
+            'judul',
+            'host',
+            'deskripsi',
+            'created_at'
+        ])->with([
+            'status',
+            'thumbnail_asset.media'
+        ])
             ->where('status_id', 2) // Published
             ->latest()
             ->first();
@@ -122,7 +134,19 @@ class PublicPublicationController extends Controller
         } else {
             $query->latest();
         }
-        $podcasts = $query->with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+        $podcasts = $query->select([
+            'id',
+            'status_id',
+            'thumbnail_id',
+            'video_id',
+            'judul',
+            'host',
+            'deskripsi',
+            'created_at'
+        ])->with([
+            'status:id,slug',
+            'thumbnail_asset.media'
+        ])
             ->where('status_id', 2) // Published
             ->latest()
             ->paginate(6)

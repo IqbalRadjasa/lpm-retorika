@@ -44,6 +44,8 @@ class PodcastController extends Controller
         $podcasts = $query->select([
             'id',
             'status_id',
+            'thumbnail_id',
+            'video_id',
             'judul',
             'host',
             'deskripsi',
@@ -51,11 +53,12 @@ class PodcastController extends Controller
         ])->with([
             'status:id,slug',
             'thumbnail_asset.media',
-            'video_asset.media'
         ])
             ->latest()
             ->paginate(6)
             ->withQueryString();
+
+        // dd($podcasts);
 
         return view('cms.podcast.index', compact(
             'statuses',
