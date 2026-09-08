@@ -44,7 +44,6 @@ class PublikasiController extends Controller
             'status_id',
             'kategori_id',
             'cover_id',
-            'doc_id',
             'judul',
             'edisi',
             'volume',
@@ -52,10 +51,9 @@ class PublikasiController extends Controller
             'created_at',
             'updated_at'
         ])->with([
-            'kategori:id,slug',
+            'kategori:id,slug,nama',
             'status:id,slug',
             'cover_asset.media',
-            'doc_asset.media',
         ])
             ->latest()
             ->paginate(6)

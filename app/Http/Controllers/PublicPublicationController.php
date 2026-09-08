@@ -66,7 +66,19 @@ class PublicPublicationController extends Controller
 
     public function indexPublikasi($slug)
     {
-        $publikasis = Publikasi::with(['kategori', 'cover_asset.media', 'doc_asset.media', 'status'])
+        $publikasis = Publikasi::select([
+            'id',
+            'status_id',
+            'kategori_id',
+            'cover_id',
+            'judul',
+            'deskripsi',
+            'created_at',
+        ])->with([
+            'kategori:id,slug,nama',
+            'status:id,slug',
+            'cover_asset.media',
+        ])
             ->where('status_id', 2) // Published
             ->whereHas('kategori', function ($query) use ($slug) {
                 $query->where('slug', $slug);
