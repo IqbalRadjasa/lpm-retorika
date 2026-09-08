@@ -17,8 +17,8 @@ class ArtikelController extends Controller
      */
     public function index(Request $request)
     {
-        $kategoris = Kategori::where('jenis', 'artikel')->get();
-        $statuses = Status::all();
+        $kategoris = Kategori::select('id', 'nama')->where('jenis', 'artikel')->get();
+        $statuses = Status::select('id', 'slug')->get();
 
         $query = Artikel::query();
 
@@ -41,10 +41,25 @@ class ArtikelController extends Controller
         $totalDrafted = (clone $query)->where('status_id', 1)->count();
         $totalPublished = (clone $query)->where('status_id', 2)->count();
 
-        $artikels = $query->with(['kategori', 'media_asset.media', 'status'])
+        $artikels = $query->select([
+            'id',
+            'kategori_id',
+            'status_id',
+            'media_id',
+            'judul',
+            'ringkasan',
+            'penulis',
+            'created_at',
+            'updated_at',
+        ])->with([
+            'kategori:id,nama',
+            'status:id,slug',
+            'media_asset.media',
+        ])
             ->latest()
             ->paginate(5)
             ->withQueryString();
+
 
         return view('cms.artikel.index', compact(
             'artikels',
