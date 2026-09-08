@@ -35,12 +35,12 @@ class SidebarNews extends Component
             'id',
             'status_id',
             'thumbnail_id',
+            'video_id',
             'judul',
             'created_at'
         ])->with([
             'status:id',
             'thumbnail_asset.media',
-            'video_asset.media'
         ])
             ->where('status_id', 2) // Published
             ->latest()

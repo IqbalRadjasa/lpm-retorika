@@ -92,7 +92,6 @@ class MadingController extends Controller
             'status_mading_id' => 'required|integer',
             'media_id' => 'required|integer',
             'judul' => 'required|string|max:100',
-            'deskripsi' => 'required|string',
         ]);
 
         try {
@@ -101,7 +100,6 @@ class MadingController extends Controller
                 'status_mading_id' => $validated['status_mading_id'],
                 'media_id' => $validated['media_id'],
                 'judul' => $validated['judul'],
-                'deskripsi' => $validated['deskripsi']
             ]);
 
             return redirect()

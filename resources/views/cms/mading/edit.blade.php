@@ -116,17 +116,17 @@
                                         class="mx-auto flex h-16 w-16 items-center
                                         justify-center rounded-2xl bg-white shadow-sm">
 
-                                        <i class="ri-file-pdf-2-line text-3xl text-red-500">
+                                        <i class="ri-image-add-line text-3xl text-red-500">
                                         </i>
 
                                     </div>
 
                                     <h3 class="mt-5 text-lg font-semibold text-gray-900">
-                                        Upload File Publikasi
+                                        Upload Poster
                                     </h3>
 
                                     <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
-                                        Drag & drop file PDF ke sini
+                                        Drag & drop gambar ke sini
                                         atau klik untuk memilih.
                                     </p>
 
@@ -304,30 +304,6 @@
 
                                     Judul digunakan sebagai informasi
                                     pendukung poster.
-
-                                </p>
-
-                            </div>
-
-
-                            {{-- Description --}}
-                            <div>
-
-                                <label for="description" class="mb-2 block text-sm font-medium text-gray-700">
-
-                                    Deskripsi
-
-                                </label>
-
-                                <x-form.textarea rows="5" maxlength="500" id="deskripsi" name="deskripsi"
-                                    :value="old('deskripsi')" placeholder="Tulis deskripsi singkat mengenai poster..." required>
-                                    {{ old('deskripsi', isset($mading) ? $mading->deskripsi : '') }}
-                                </x-form.textarea>
-
-                                <p class="mt-2 text-xs text-gray-400">
-
-                                    Deskripsi dapat digunakan sebagai
-                                    informasi tambahan pada Beranda.
 
                                 </p>
 

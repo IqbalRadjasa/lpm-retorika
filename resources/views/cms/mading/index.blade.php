@@ -141,7 +141,7 @@
                     <div class="border-t border-gray-100 p-5">
 
                         <div class="flex flex-col gap-3 sm:flex-row">
-                            <x-link-button.secondary-link :href="'#'" icon="ri-eye-line"
+                            <x-link-button.secondary-link :href="route('mading.index')" icon="ri-eye-line"
                                 class="flex-1 rounded-xl py-3">
                                 Lihat di Website
                             </x-link-button.secondary-link>
@@ -224,19 +224,6 @@
                                 {{ $mading->judul ?? '-' }}
                             </p>
                         </div>
-
-
-                        {{-- Description --}}
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                                Deskripsi
-                            </p>
-
-                            <p class="mt-2 text-sm leading-6 text-gray-600">
-                                {{ $mading->deskripsi ?? '-' }}
-                            </p>
-                        </div>
-
 
                         {{-- Date --}}
                         <div>
