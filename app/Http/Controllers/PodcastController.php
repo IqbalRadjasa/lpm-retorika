@@ -15,7 +15,7 @@ class PodcastController extends Controller
      */
     public function index(Request $request)
     {
-        $statuses = Status::all();
+        $statuses = Status::select('id', 'slug')->get();
 
         $query = Podcast::query();
         if ($request->filled('search')) {
@@ -41,7 +41,18 @@ class PodcastController extends Controller
         $totalDrafted = (clone $query)->where('status_id', 1)->count();
         $totalPublished = (clone $query)->where('status_id', 2)->count();
 
-        $podcasts = $query->with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+        $podcasts = $query->select([
+            'id',
+            'status_id',
+            'judul',
+            'host',
+            'deskripsi',
+            'created_at'
+        ])->with([
+            'status:id,slug',
+            'thumbnail_asset.media',
+            'video_asset.media'
+        ])
             ->latest()
             ->paginate(6)
             ->withQueryString();
