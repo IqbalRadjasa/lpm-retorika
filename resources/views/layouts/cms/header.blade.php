@@ -23,14 +23,14 @@
                     </svg>
 
                     <div class="hidden sm:flex flex-col items-start mx-3">
-                        <span class="text-sm font-semibold text-primary-light">
+                        {{-- <span class="text-sm font-semibold text-primary-light">
                             Admin
-                        </span>
-                        {{-- @auth
+                        </span> --}}
+                        @auth
                             <span class="text-sm font-semibold text-primary-light">
                                 {{ Auth::user()->name }}
                             </span>
-                        @endauth --}}
+                        @endauth
                     </div>
                     <span class="w-8 h-8 rounded-full bg-red-200 flex items-center justify-center text-red-500">
                         <i class="ri-user-fill"></i>
