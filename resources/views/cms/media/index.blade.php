@@ -198,7 +198,7 @@
                         <option value="">
                             Semua Tipe
                         </option>
-                        <option value="" {{ request('tipe_media') == 'umum' ? 'selected' : '' }}>
+                        <option value="umum" {{ request('tipe_media') == 'umum' ? 'selected' : '' }}>
                             Umum
                         </option>
                         <option value="galeri" {{ request('tipe_media') == 'galeri' ? 'selected' : '' }}>
