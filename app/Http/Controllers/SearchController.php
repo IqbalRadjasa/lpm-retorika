@@ -19,7 +19,13 @@ class SearchController extends Controller
 
         if (!empty($keyword)) {
             // 1. Cari Berita / Artikel
-            $artikels = Artikel::with(['kategori', 'media_asset.media'])
+            $artikels = Artikel::select([
+                'id',
+                'kategori_id',
+                'judul',
+                'created_at'
+            ])
+                ->with(['kategori', 'media_asset.media'])
                 ->where('status_id', 2) // Published
                 ->where(function ($q) use ($keyword) {
                     $q->where('judul', 'like', "%{$keyword}%")
@@ -30,7 +36,11 @@ class SearchController extends Controller
                 ->get();
 
             // 2. Cari Podcast
-            $podcasts = Podcast::with(['thumbnail_asset.media'])
+            $podcasts = Podcast::select([
+                'judul',
+                'created_at'
+            ])
+                ->with(['thumbnail_asset.media'])
                 ->where('status_id', 2)
                 ->where(function ($q) use ($keyword) {
                     $q->where('judul', 'like', "%{$keyword}%")
@@ -41,7 +51,13 @@ class SearchController extends Controller
                 ->get();
 
             // 3. Cari Publikasi
-            $publikasis = Publikasi::with(['kategori', 'cover_asset.media'])
+            $publikasis = Publikasi::select([
+                'id',
+                'kategori_id',
+                'judul',
+                'created_at'
+            ])
+                ->with(['kategori', 'cover_asset.media'])
                 ->where('status_id', 2)
                 ->where(function ($q) use ($keyword) {
                     $q->where('judul', 'like', "%{$keyword}%")
