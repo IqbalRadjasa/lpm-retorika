@@ -21,7 +21,20 @@ class BerandaController extends Controller
             ->where('status_mading_id', 1) // Aktif
             ->first();
 
-        $publishedArticle = Artikel::with(['kategori', 'media_asset.media', 'status'])
+        $publishedArticle = Artikel::select([
+            'id',
+            'status_id',
+            'kategori_id',
+            'media_id',
+            'judul',
+            'ringkasan',
+            'created_at',
+            'updated_at'
+        ])->with([
+            'kategori:id,nama,slug',
+            'status:id,slug',
+            'media_asset.media'
+        ])
             ->where('status_id', 2);
 
         // HERO
@@ -35,7 +48,17 @@ class BerandaController extends Controller
             ->get();
 
         // PODCAST
-        $podcastNewest = Podcast::with(['status', 'thumbnail_asset.media', 'video_asset.media'])
+        $podcastNewest = Podcast::select([
+            'id',
+            'status_id',
+            'thumbnail_id',
+            'judul',
+            'created_at'
+        ])->with([
+            'status:id,slug',
+            'thumbnail_asset.media',
+            'video_asset.media'
+        ])
             ->where('status_id', 2) // Published
             ->latest()
             ->first();
@@ -56,11 +79,20 @@ class BerandaController extends Controller
             ->get();
 
         // BERITA
-        $kategoriArtikels = Kategori::where('jenis', 'artikel')->get();
+        $kategoriArtikels = Kategori::select(['id', 'slug'])->where('jenis', 'artikel')->get();
 
         $slugs = ['isu-kampus', 'nasional', 'opini'];
         $beritaPerKategori = collect($slugs)->mapWithKeys(function ($slug) {
-            $artikels = Artikel::with(['kategori', 'media_asset.media'])
+            $artikels = Artikel::select([
+                'id',
+                'status_id',
+                'kategori_id',
+                'media_id',
+                'judul',
+                'ringkasan',
+                'created_at',
+                'updated_at'
+            ])->with(['kategori:id,nama,slug', 'media_asset.media'])
                 ->where('status_id', 2)
                 ->whereHas('kategori', function ($q) use ($slug) {
                     $q->where('slug', $slug);
@@ -76,20 +108,14 @@ class BerandaController extends Controller
         });
 
         // PUBLIKASI
-        $kategoris = Kategori::where('jenis', 'publikasi')
+        $kategoris = Kategori::select(['id', 'nama', 'slug'])->where('jenis', 'publikasi')
             ->with(['publikasis' => function ($query) {
                 $query->where('status_id', 2) // Published
                     ->with(['cover_asset.media', 'status'])
                     ->latest();
             }])
             ->get();
-        $publikasi = Publikasi::with(['kategori', 'cover_asset.media', 'status'])
-            ->where('status_id', 2) // Published
-            ->latest()
-            ->first();
 
-
-        // dd($beritaPerKategori);
         return view('beranda.index', compact(
             'mading',
             'beritaUtama',
