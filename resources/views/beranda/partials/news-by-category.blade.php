@@ -114,6 +114,16 @@
                                     </article>
                                 </a>
 
+                            @empty
+                                <div class="flex flex-col text-gray-400 justify-center items-center">
+                                    <h4
+                                        class="text-base lg:text-md font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition italic">
+                                        Belum ada berita lainnya di kategori ini.
+                                    </h4>
+                                </div>
+                            @endforelse
+
+                            @if ($data['sub_parent']->isNotEmpty())
                                 <div class="pt-5">
                                     <a href="{{ route('berita.index', $slug) }}"
                                         class="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
@@ -126,14 +136,7 @@
 
                                     </a>
                                 </div>
-                            @empty
-                                <div class="flex flex-col text-gray-400 justify-center items-center">
-                                    <h4
-                                        class="text-base lg:text-md font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition italic">
-                                        Belum ada berita lainnya di kategori ini.
-                                    </h4>
-                                </div>
-                            @endforelse
+                            @endif
                         </div>
 
                     </div>
