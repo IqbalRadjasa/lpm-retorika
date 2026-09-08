@@ -56,89 +56,75 @@
                     <div
                         class="relative rounded-3xl border border-gray-100 bg-white p-4 lg:p-6 overflow-hidden shadow-sm">
 
-                        {{-- Background Decoration --}}
-                        @switch($slug)
-                            @case('isu-kampus')
-                                <i
-                                    class="ri-graduation-cap-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
-                                </i>
-                            @break
+                        {{-- Background Decoration: Hanya muncul jika data sub_parent ada / tidak kosong --}}
+                        @if ($data['sub_parent']->isNotEmpty())
+                            @switch($slug)
+                                @case('isu-kampus')
+                                    <i
+                                        class="ri-graduation-cap-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none"></i>
+                                @break
 
-                            @case('nasional')
-                                <i
-                                    class="ri-flag-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
-                                </i>
-                            @break
+                                @case('nasional')
+                                    <i
+                                        class="ri-flag-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none"></i>
+                                @break
 
-                            @case('opini')
-                                <i
-                                    class="ri-user-voice-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none">
-                                </i>
-                            @break
-                        @endswitch
+                                @case('opini')
+                                    <i
+                                        class="ri-user-voice-line absolute -right-6 bottom-0 text-[170px] lg:text-[220px] text-gray-100/70 pointer-events-none"></i>
+                                @break
+                            @endswitch
+                        @endif
 
-                        <div class="relative divide-y divide-gray-200">
-                            @forelse ($data['sub_parent'] as $sub)
-                                <a href="{{ route('berita.show', ['slug' => $slug, 'artikel' => $sub->id]) }}">
-                                    <article
-                                        class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
+                        <div class="relative z-10 space-y-5">
+                            <div class="divide-y divide-gray-200">
+                                @forelse ($data['sub_parent'] as $sub)
+                                    <a href="{{ route('berita.show', ['slug' => $slug, 'artikel' => $sub->id]) }}"
+                                        class="block">
+                                        <article
+                                            class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
+                                            <span
+                                                class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
+                                                {{ sprintf('%02d', $loop->iteration) }}
+                                            </span>
 
-                                        <span
-                                            class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
+                                            <div class="flex-1 min-w-0">
+                                                <h4
+                                                    class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
+                                                    {{ $sub->judul }}
+                                                </h4>
 
-                                            {{ sprintf('%02d', $loop->iteration) }}
-
-                                        </span>
-
-                                        <div class="flex-1 min-w-0">
-
-                                            <h4
-                                                class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
-                                                {{ $sub->judul }}
-                                            </h4>
-
-                                            <div class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
-
-                                                <i class="ri-calendar-line"></i>
-
-                                                <span>{{ $sub->created_at->translatedFormat('d F Y') }}</span>
-
+                                                <div
+                                                    class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
+                                                    <i class="ri-calendar-line"></i>
+                                                    <span>{{ $sub->created_at->translatedFormat('d F Y') }}</span>
+                                                </div>
                                             </div>
 
-                                        </div>
-
-                                        <i
-                                            class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition">
-                                        </i>
-
-                                    </article>
-                                </a>
-
-                            @empty
-                                <div class="flex flex-col text-gray-400 justify-center items-center">
-                                    <h4
-                                        class="text-base lg:text-md font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition italic">
-                                        Belum ada berita lainnya di kategori ini.
-                                    </h4>
-                                </div>
-                            @endforelse
+                                            <i
+                                                class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition"></i>
+                                        </article>
+                                    </a>
+                                @empty
+                                    <div class="flex flex-col text-gray-400 justify-center items-center">
+                                        <h4 class="text-base lg:text-md font-semibold leading-6 lg:leading-7 italic">
+                                            Belum ada berita lainnya di kategori ini.
+                                        </h4>
+                                    </div>
+                                @endforelse
+                            </div>
 
                             @if ($data['sub_parent']->isNotEmpty())
-                                <div class="pt-5">
+                                <div class="pt-2">
                                     <a href="{{ route('berita.index', $slug) }}"
                                         class="group w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-5 py-3 text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/20">
-
                                         <span>Lihat Semua</span>
-
                                         <i
-                                            class="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-1">
-                                        </i>
-
+                                            class="ri-arrow-right-line transition-transform duration-300 group-hover:translate-x-1"></i>
                                     </a>
                                 </div>
                             @endif
                         </div>
-
                     </div>
                 </div>
             @else

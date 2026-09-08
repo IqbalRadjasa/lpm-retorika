@@ -16,43 +16,61 @@
 
             <div class="mt-6 divide-y divide-gray-200">
                 @forelse ($sidebarNews ?? [] as $item)
-                    <article class="group flex gap-4 py-5">
-                        <span class="text-3xl font-black italic text-gray-200 transition group-hover:text-red-500">
-                            {{ sprintf('%02d', $loop->iteration) }}
-                        </span>
+                    @if ($item->kategori)
+                        <a href="{{ route('berita.show', ['slug' => $item->kategori->slug, 'artikel' => $item->id]) }}"
+                            class="block">
+                            <article
+                                class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
+                                <span
+                                    class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
+                                    {{ sprintf('%02d', $loop->iteration) }}
+                                </span>
 
-                        <div>
-                            @if ($item->kategori)
-                                <a
-                                    href="{{ route('berita.show', ['slug' => $item->kategori->slug, 'artikel' => $item->id]) }}">
-                                    <h4 class="font-semibold leading-7 transition group-hover:text-red-600">
+                                <div class="flex-1 min-w-0">
+                                    <h4
+                                        class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
                                         {{ $item->judul }}
                                     </h4>
-                                </a>
-                            @else
-                                <h4 class="font-semibold leading-7">
+
+                                    <div class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
+                                        <i class="ri-calendar-line"></i>
+                                        <span>{{ $item->created_at?->translatedFormat('d F Y') ?? '-' }}</span>
+                                    </div>
+                                </div>
+
+                                <i
+                                    class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition"></i>
+                            </article>
+                        </a>
+                    @else
+                        <article
+                            class="group flex gap-4 lg:gap-5 py-4 lg:py-5 hover:lg:pl-2 transition-all duration-300">
+                            <span
+                                class="text-2xl sm:text-3xl lg:text-4xl font-black italic text-gray-200 group-hover:text-red-500 transition">
+                                {{ sprintf('%02d', $loop->iteration) }}
+                            </span>
+
+                            <div class="flex-1 min-w-0">
+                                <h4
+                                    class="text-base lg:text-lg font-semibold leading-6 lg:leading-7 group-hover:text-red-600 transition">
                                     {{ $item->judul }}
                                 </h4>
-                            @endif
 
-                            <p class="mt-2 text-sm text-gray-400">
-                                {{ $item->created_at?->translatedFormat('d F Y') ?? '-' }}
-                            </p>
-                        </div>
-                    </article>
+                                <div class="mt-2 flex items-center gap-2 text-xs lg:text-sm text-gray-500">
+                                    <i class="ri-calendar-line"></i>
+                                    <span>{{ $item->created_at?->translatedFormat('d F Y') ?? '-' }}</span>
+                                </div>
+                            </div>
+
+                            <i
+                                class="hidden lg:block ri-arrow-right-up-line text-xl text-gray-300 opacity-0 group-hover:opacity-100 group-hover:text-red-600 transition"></i>
+                        </article>
+                    @endif
                 @empty
-                    {{-- Empty State --}}
-                    <div class="flex flex-col items-center justify-center py-8 text-center">
-                        <div
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-500 mb-3">
-                            <i class="ri-newspaper-line text-2xl"></i>
-                        </div>
-                        <p class="text-sm font-medium text-gray-700">
-                            Belum ada berita terbaru
-                        </p>
-                        <p class="text-xs text-gray-400 mt-1">
-                            Informasi dan artikel terbaru akan tampil di sini.
-                        </p>
+                    <div class="flex flex-col text-gray-400 justify-center items-center py-6">
+                        <h4 class="text-base lg:text-md font-semibold leading-6 lg:leading-7 italic">
+                            Belum ada berita terbaru.
+                        </h4>
                     </div>
                 @endforelse
             </div>

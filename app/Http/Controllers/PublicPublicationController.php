@@ -19,7 +19,20 @@ class PublicPublicationController extends Controller
     public function indexBerita($slug)
     {
 
-        $artikels = Artikel::with(['kategori', 'media_asset.media', 'status'])
+        $artikels = Artikel::select([
+            'id',
+            'kategori_id',
+            'status_id',
+            'media_id',
+            'judul',
+            'ringkasan',
+            'created_at',
+            'updated_at',
+        ])->with([
+            'kategori:id,nama,slug',
+            'status:id,slug',
+            'media_asset.media',
+        ])
             ->where('status_id', 2) // Published
             ->whereHas('kategori', function ($query) use ($slug) {
                 $query->where('slug', $slug);
@@ -28,7 +41,7 @@ class PublicPublicationController extends Controller
             ->paginate(5)
             ->withQueryString();
 
-        $kategori = Kategori::where('slug', $slug)->first();
+        $kategori = Kategori::select(['id', 'nama', 'slug'])->where('slug', $slug)->first();
 
         return view('public.berita.index', compact(
             'artikels',
