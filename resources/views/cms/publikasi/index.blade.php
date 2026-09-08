@@ -199,8 +199,8 @@
                             <div class="absolute right-4 top-4">
                                 <span class="rounded-full capitalize px-4 py-2 text-sm font-semibold"
                                     :class="{
-                                        'bg-yellow-100 text-yellow-700': {{ $p->status->id }} == 1,
-                                        'bg-green-100 text-green-700': {{ $p->status->id }} == 2
+                                        'bg-yellow-100 text-yellow-700': {{ $p->status_id }} == 1,
+                                        'bg-green-100 text-green-700': {{ $p->status_id }} == 2
                                     }">
 
                                     {{ $p->status->slug }}

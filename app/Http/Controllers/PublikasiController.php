@@ -15,8 +15,8 @@ class PublikasiController extends Controller
      */
     public function index(Request $request)
     {
-        $kategoris = Kategori::where('jenis', 'publikasi')->get();
-        $statuses = Status::all();
+        $kategoris = Kategori::select('id', 'nama')->where('jenis', 'artikel')->get();
+        $statuses = Status::select('id', 'slug')->get();
 
         $query = Publikasi::query();
 
@@ -39,7 +39,24 @@ class PublikasiController extends Controller
         $totalDrafted = (clone $query)->where('status_id', 1)->count();
         $totalPublished = (clone $query)->where('status_id', 2)->count();
 
-        $publikasis = $query->with(['kategori', 'cover_asset.media', 'doc_asset.media', 'status'])
+        $publikasis = $query->select([
+            'id',
+            'status_id',
+            'kategori_id',
+            'cover_id',
+            'doc_id',
+            'judul',
+            'edisi',
+            'volume',
+            'deskripsi',
+            'created_at',
+            'updated_at'
+        ])->with([
+            'kategori:id,slug',
+            'status:id,slug',
+            'cover_asset.media',
+            'doc_asset.media',
+        ])
             ->latest()
             ->paginate(6)
             ->withQueryString();
