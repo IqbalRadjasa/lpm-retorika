@@ -143,17 +143,17 @@
                             <div class="h-8 w-0.5 bg-red-300"></div>
                         </div>
 
-                        {{-- LEVEL 2: EXECUTIVE NODES (Pimpinan Redaksi, Pimpinan Perusahaan, Sekretaris Umum, Bendahara Umum) --}}
+                        {{-- LEVEL 2: BENDAHARA, PIMPINAN PERUSAHAAN, SEKRETARIS, LITBANG --}}
                         <div class="relative flex justify-center items-center gap-6 lg:gap-8">
                             {{-- Garis Horizontal Penghubung Level 2 --}}
                             <div class="absolute top-0 left-1/12 right-1/12 h-0.5 bg-red-300"></div>
 
-                            {{-- Pimpinan Redaksi --}}
+                            {{-- Bendahara Umum --}}
                             <div class="flex flex-col items-center">
                                 <div class="h-6 w-0.5 bg-red-300"></div>
                                 <div
                                     class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
-                                    <p class="text-xs font-bold text-gray-800">Pimpinan Redaksi</p>
+                                    <p class="text-xs font-bold text-gray-800">Bendahara Umum</p>
                                 </div>
                             </div>
 
@@ -175,12 +175,12 @@
                                 </div>
                             </div>
 
-                            {{-- Bendahara Umum --}}
+                            {{-- Penelitian dan Pengembangan (Litbang) --}}
                             <div class="flex flex-col items-center">
                                 <div class="h-6 w-0.5 bg-red-300"></div>
                                 <div
                                     class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
-                                    <p class="text-xs font-bold text-gray-800">Bendahara Umum</p>
+                                    <p class="text-xs font-bold text-gray-800">Penelitian dan Pengembangan</p>
                                 </div>
                             </div>
                         </div>
@@ -195,59 +195,40 @@
                             {{-- Titik Tengah Garis Atas --}}
                             <div class="absolute -top-6 left-1/2 -translate-x-1/2 h-6 w-0.5 bg-red-300"></div>
 
-                            <div class="grid grid-cols-3 gap-6">
+                            <div class="grid grid-cols-2 gap-8">
 
-                                {{-- CLUSTER 1: REDAKSI & PENERBITAN --}}
+                                {{-- CLUSTER 1: DIVISI REDAKSI --}}
                                 <div
                                     class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
                                     <div
                                         class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                        <i class="ri-quill-pen-line"></i> Redaksi & Operasional
+                                        <i class="ri-quill-pen-line"></i> Pimpinan Redaksi
                                     </div>
                                     <div class="w-full space-y-2.5">
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Koor. Reporter</span>
-                                        </div>
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Reporter</span>
-                                        </div>
                                         <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
                                             <span class="text-xs font-semibold text-gray-800">Editor</span>
                                         </div>
-                                    </div>
-                                </div>
-
-                                {{-- CLUSTER 2: PRODUKSI & KREATIF --}}
-                                <div
-                                    class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
-                                    <div
-                                        class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                        <i class="ri-palette-line"></i> Desain & Media
-                                    </div>
-                                    <div class="w-full space-y-2.5">
                                         <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
                                             <span class="text-xs font-semibold text-gray-800">Setting Lay Out</span>
                                         </div>
                                         <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Ilustrator</span>
+                                            <span class="text-xs font-semibold text-gray-800">Fotografer</span>
                                         </div>
                                         <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Fotografi</span>
+                                            <span class="text-xs font-semibold text-gray-800">Koordinator
+                                                Reporter</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                {{-- CLUSTER 3: PERUSAHAAN & LITBANG --}}
+                                {{-- CLUSTER 2: DIVISI PERUSAHAAN --}}
                                 <div
                                     class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
                                     <div
                                         class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                        <i class="ri-briefcase-line"></i> Bisnis & Riset
+                                        <i class="ri-briefcase-line"></i> Operasional Perusahaan
                                     </div>
                                     <div class="w-full space-y-2.5">
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Litbang</span>
-                                        </div>
                                         <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
                                             <span class="text-xs font-semibold text-gray-800">Sirkulasi Dana</span>
                                         </div>
