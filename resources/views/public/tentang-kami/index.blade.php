@@ -39,7 +39,7 @@
                         Landasan Pemikiran LPM Retorika FHUP
                     </h2>
 
-                    <div class="space-y-4 text-base leading-relaxed text-gray-600">
+                    <div class="space-y-4 text-justify text-base leading-relaxed text-gray-600">
                         <p>
                             Bahwa sesungguhnya proklamasi kemerdekaan 17 Agustus 1945 telah mengantarkan bangsa
                             Indonesia ke depan pintu gerbang kemerdekaan. Salah satunya adalah kemerdekaan berserikat,
@@ -106,13 +106,13 @@
             <hr class="max-w-screen-xl mx-auto text-gray-300">
 
             {{-- ================================================= --}}
-            {{-- STRUKTUR ORGANISASI (MIND MAPPING STYLE) --}}
+            {{-- STRUKTUR ORGANISASI (HYBRID: MODERN & SAMA GAMBAR) --}}
             {{-- ================================================= --}}
             <section class="space-y-12 pb-8">
-                {{-- Header / Judul (Tetap di tengah layar & tidak ikut tergeser) --}}
+                {{-- Header / Judul --}}
                 <div class="text-center max-w-2xl mx-auto px-4">
                     <span
-                        class="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">
+                        class="inline-flex items-center gap-2 rounded-full bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600 ring-1 ring-red-200">
                         <i class="ri-team-line"></i> STRUKTUR ORGANISASI
                     </span>
                     <h2 class="mt-4 text-3xl font-bold text-gray-900 lg:text-4xl">
@@ -123,124 +123,187 @@
                     </p>
                 </div>
 
-                {{-- Wrapper khusus untuk Overflow Horizontal (Hanya Bagan yang Bisa Digeser) --}}
-                <div class="w-full overflow-x-auto pb-4">
-                    {{-- Mind Map Container --}}
-                    <div class="min-w-[1024px] max-w-6xl mx-auto pt-4 px-4">
+                {{-- Container Overflow Horizontal untuk Layar Kecil --}}
+                <div class="w-full overflow-x-auto pb-8">
+                    <div class="w-max min-w-full mx-auto px-4">
+                        <div class="w-[950px] mx-auto">
 
-                        {{-- LEVEL 1: TOP NODE (Pimpinan Umum) --}}
-                        <div class="flex flex-col items-center">
-                            <div
-                                class="group relative rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-8 py-4 shadow-lg ring-4 ring-red-100 transition hover:scale-105 text-center">
-                                <span
-                                    class="inline-block rounded-full bg-white/20 px-3 py-0.5 text-[10px] font-bold tracking-wider text-white uppercase">
-                                    Pimpinan Puncak
-                                </span>
-                                <h3 class="text-xl font-extrabold text-white mt-1">Pimpinan Umum</h3>
-                            </div>
-
-                            {{-- Garis Vertikal Utama --}}
-                            <div class="h-8 w-0.5 bg-red-300"></div>
-                        </div>
-
-                        {{-- LEVEL 2: BENDAHARA, PIMPINAN PERUSAHAAN, SEKRETARIS, LITBANG --}}
-                        <div class="relative flex justify-center items-center gap-6 lg:gap-8">
-                            {{-- Garis Horizontal Penghubung Level 2 --}}
-                            <div class="absolute top-0 left-1/12 right-1/12 h-0.5 bg-red-300"></div>
-
-                            {{-- Bendahara Umum --}}
-                            <div class="flex flex-col items-center">
-                                <div class="h-6 w-0.5 bg-red-300"></div>
+                            {{-- 1. PIMPINAN UMUM & GARIS LITBANG --}}
+                            <div class="relative flex justify-center items-center">
+                                {{-- Node Pimpinan Puncak --}}
                                 <div
-                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
-                                    <p class="text-xs font-bold text-gray-800">Bendahara Umum</p>
+                                    class="z-10 rounded-full bg-gradient-to-r from-red-600 to-red-700 px-8 py-3 text-white shadow-lg ring-4 ring-red-100 transition hover:scale-105">
+                                    <h3 class="text-xs font-extrabold uppercase tracking-widest">Pimpinan Umum</h3>
+                                </div>
+
+                                {{-- Garis Putus-Putus Utama ke Penelitian & Pengembangan (Samping Kanan) --}}
+                                <div
+                                    class="absolute left-1/2 right-[12.5%] top-1/2 h-[125px] border-r-2 border-t-2 border-dashed border-red-400 rounded-tr-2xl pointer-events-none">
                                 </div>
                             </div>
 
-                            {{-- Pimpinan Perusahaan --}}
+                            {{-- Garis Vertikal Turun ke Titik Percabangan --}}
                             <div class="flex flex-col items-center">
-                                <div class="h-6 w-0.5 bg-red-300"></div>
-                                <div
-                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
-                                    <p class="text-xs font-bold text-gray-800">Pimpinan Perusahaan</p>
+                                <div class="h-8 w-0.5 bg-red-400"></div>
+                                <div class="h-3.5 w-3.5 rounded-full bg-red-600 ring-4 ring-red-100 z-10 shadow-sm">
                                 </div>
                             </div>
 
-                            {{-- Sekretaris Umum --}}
-                            <div class="flex flex-col items-center">
-                                <div class="h-6 w-0.5 bg-red-300"></div>
-                                <div
-                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
-                                    <p class="text-xs font-bold text-gray-800">Sekretaris Umum</p>
-                                </div>
-                            </div>
+                            {{-- 2. BARIS ATAS (Bendahara, Perusahaan, Sekretaris, Litbang) --}}
+                            <div class="grid grid-cols-4 gap-4 items-start text-center relative">
 
-                            {{-- Penelitian dan Pengembangan (Litbang) --}}
-                            <div class="flex flex-col items-center">
-                                <div class="h-6 w-0.5 bg-red-300"></div>
-                                <div
-                                    class="rounded-xl bg-white px-5 py-3 shadow-md ring-1 ring-gray-200 text-center border-t-2 border-red-500">
-                                    <p class="text-xs font-bold text-gray-800">Penelitian dan Pengembangan</p>
-                                </div>
-                            </div>
-                        </div>
+                                {{-- Garis Horizontal Utama Penghubung 3 Jabatan --}}
+                                <div class="absolute top-0 left-[0%] right-[37.2%] h-0.5 bg-red-400"></div>
+                                <div class="absolute top-0 left-[0%] h-[10.6rem] w-0.5 bg-red-400"></div>
+                                <div class="absolute bottom-[7px] left-[0%] right-[81.5%] h-0.5 bg-red-400"></div>
 
-                        {{-- Garis Penghubung ke Level 3 --}}
-                        <div class="flex flex-col items-center">
-                            <div class="h-10 w-0.5 bg-red-300"></div>
-                        </div>
-
-                        {{-- LEVEL 3: DEPARTEMEN / DIVISI OPERASIONAL --}}
-                        <div class="relative pt-6 border-t-2 border-red-200">
-                            {{-- Titik Tengah Garis Atas --}}
-                            <div class="absolute -top-6 left-1/2 -translate-x-1/2 h-6 w-0.5 bg-red-300"></div>
-
-                            <div class="grid grid-cols-2 gap-8">
-
-                                {{-- CLUSTER 1: DIVISI REDAKSI --}}
-                                <div
-                                    class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
+                                {{-- BENDAHARA UMUM --}}
+                                <div class="flex flex-col items-center">
+                                    <div class="h-6 w-0.5 bg-red-400"></div>
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
                                     <div
-                                        class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                        <i class="ri-quill-pen-line"></i> Pimpinan Redaksi
+                                        class="rounded-full bg-white px-5 py-2.5 shadow-md ring-2 ring-red-500 hover:bg-red-50 transition w-full max-w-[190px]">
+                                        <p class="text-xs font-bold uppercase text-gray-800">Bendahara Umum</p>
                                     </div>
-                                    <div class="w-full space-y-2.5">
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Editor</span>
-                                        </div>
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Setting Lay Out</span>
-                                        </div>
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Fotografer</span>
-                                        </div>
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Koordinator
-                                                Reporter</span>
+                                </div>
+
+                                {{-- PIMPINAN PERUSAHAAN --}}
+                                <div class="flex flex-col items-center">
+                                    <div class="h-6 w-0.5 bg-red-400"></div>
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
+                                    <div
+                                        class="rounded-full bg-white px-5 py-2.5 shadow-md ring-2 ring-red-500 hover:bg-red-50 transition w-full max-w-[190px]">
+                                        <p class="text-xs font-bold uppercase text-gray-800">Pimpinan Perusahaan</p>
+                                    </div>
+
+                                    {{-- Garis Turun ke Sirkulasi & Percetakan --}}
+                                    <div class="h-6 w-0.5 bg-red-400"></div>
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
+
+                                    {{-- Sub-Cabang Perusahaan --}}
+                                    <div class="w-full relative">
+                                        <div class="absolute top-0 left-[24%] right-[24%] h-0.5 bg-red-400"></div>
+                                        <div class="grid grid-cols-2 gap-2 pt-4">
+                                            <div class="flex flex-col items-center">
+                                                <div class="absolute top-0 h-4 w-0.5 bg-red-400"></div>
+                                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
+                                                <div
+                                                    class="rounded-full bg-red-50/80 border border-red-300 px-3 py-2 shadow-sm w-full transition hover:bg-red-100">
+                                                    <p class="text-[10px] font-bold text-red-900 uppercase">Sirkulasi
+                                                        Dana
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <div class="absolute top-0 h-4 w-0.5 bg-red-400"></div>
+                                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
+                                                <div
+                                                    class="rounded-full bg-red-50/80 border border-red-300 px-3 py-2 shadow-sm w-full transition hover:bg-red-100">
+                                                    <p class="text-[10px] font-bold text-red-900 uppercase">Percetakan
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {{-- CLUSTER 2: DIVISI PERUSAHAAN --}}
-                                <div
-                                    class="flex flex-col items-center bg-red-50/40 p-4 rounded-2xl ring-1 ring-red-100">
+                                {{-- SEKRETARIS UMUM --}}
+                                <div class="flex flex-col items-center">
+                                    <div class="h-6 w-0.5 bg-red-400"></div>
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
                                     <div
-                                        class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
-                                        <i class="ri-briefcase-line"></i> Operasional Perusahaan
+                                        class="rounded-full bg-white px-5 py-2.5 shadow-md ring-2 ring-red-500 hover:bg-red-50 transition w-full max-w-[190px]">
+                                        <p class="text-xs font-bold uppercase text-gray-800">Sekretaris Umum</p>
                                     </div>
-                                    <div class="w-full space-y-2.5">
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Sirkulasi Dana</span>
-                                        </div>
-                                        <div class="rounded-xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100">
-                                            <span class="text-xs font-semibold text-gray-800">Percetakan</span>
+                                </div>
+
+                                {{-- PENELITIAN DAN PENGEMBANGAN (LITBANG) --}}
+                                <div class="flex flex-col items-center pt-10">
+                                    <div
+                                        class="rounded-full bg-white px-4 py-2.5 shadow-md ring-2 ring-dashed ring-red-500 hover:bg-red-50 transition w-full max-w-[210px]">
+                                        <p class="text-[11px] font-bold uppercase text-gray-800">Penelitian dan
+                                            Pengembangan
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {{-- 3. PIMPINAN REDAKSI & BAWAHANNYA --}}
+                            <div class="grid grid-cols-4 gap-4 items-start text-center -mt-2">
+
+                                {{-- Pimpinan Redaksi (Sejajar Di Bawah Bendahara) --}}
+                                <div class="flex flex-col items-center col-span-2 pr-[25%]">
+                                    <div class="h-6 w-0.5 bg-red-400"></div>
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
+                                    <div
+                                        class="rounded-full bg-white px-6 py-2.5 shadow-md ring-2 ring-red-500 hover:bg-red-50 transition w-full max-w-[200px]">
+                                        <p class="text-xs font-bold uppercase text-gray-800">Pimpinan Redaksi</p>
+                                    </div>
+
+                                    {{-- Garis Turun ke Staf Redaksi --}}
+                                    <div class="h-6 w-0.5 bg-red-400"></div>
+                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 z-10"></div>
+
+                                    {{-- Sub-Cabang 4 Staf Redaksi --}}
+                                    <div class="w-[105%] relative">
+                                        <div class="absolute top-0 left-[12%] right-[12%] h-0.5 bg-red-400"></div>
+
+                                        <div class="grid grid-cols-4 gap-2 pt-6">
+
+                                            {{-- Editor --}}
+                                            <div class="flex flex-col items-center">
+                                                <div class="absolute top-0 h-6 w-0.5 bg-red-400"></div>
+                                                <div class="h-2 w-2 rounded-full bg-red-500 mb-2"></div>
+                                                <div
+                                                    class="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 text-white shadow-md ring-4 ring-red-100 transition hover:scale-105 p-1">
+                                                    <span
+                                                        class="text-[9px] font-extrabold uppercase tracking-wider">Editor</span>
+                                                </div>
+                                            </div>
+
+                                            {{-- Setting Lay Out --}}
+                                            <div class="flex flex-col items-center">
+                                                <div class="absolute top-0 h-6 w-0.5 bg-red-400"></div>
+                                                <div class="h-2 w-2 rounded-full bg-red-500 mb-2"></div>
+                                                <div
+                                                    class="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 text-white shadow-md ring-4 ring-red-100 transition hover:scale-105 p-1">
+                                                    <span
+                                                        class="text-[8px] font-extrabold uppercase leading-tight tracking-wider">Setting
+                                                        Lay Out</span>
+                                                </div>
+                                            </div>
+
+                                            {{-- Fotografer --}}
+                                            <div class="flex flex-col items-center">
+                                                <div class="absolute top-0 h-6 w-0.5 bg-red-400"></div>
+                                                <div class="h-2 w-2 rounded-full bg-red-500 mb-2"></div>
+                                                <div
+                                                    class="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 text-white shadow-md ring-4 ring-red-100 transition hover:scale-105 p-1">
+                                                    <span
+                                                        class="text-[8px] font-extrabold uppercase leading-tight tracking-wider">Fotografer</span>
+                                                </div>
+                                            </div>
+
+                                            {{-- Koordinator Reporter --}}
+                                            <div class="flex flex-col items-center">
+                                                <div class="absolute top-0 h-6 w-0.5 bg-red-400"></div>
+                                                <div class="h-2 w-2 rounded-full bg-red-500 mb-2"></div>
+                                                <div
+                                                    class="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 text-white shadow-md ring-4 ring-red-100 transition hover:scale-105 p-1">
+                                                    <span
+                                                        class="text-[8px] font-extrabold uppercase leading-tight tracking-wider">Koordinator
+                                                        Reporter</span>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </section>
