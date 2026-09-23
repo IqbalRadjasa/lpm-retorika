@@ -12,6 +12,7 @@ export default defineConfig({
                 "resources/js/media-uploader.js",
             ],
             refresh: true,
+            buildDirectory: "build",
         }),
         tailwindcss(),
     ],
