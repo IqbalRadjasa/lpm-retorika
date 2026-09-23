@@ -52,12 +52,12 @@ class BerandaController extends Controller
             'id',
             'status_id',
             'thumbnail_id',
+            'video_id',
             'judul',
             'created_at'
         ])->with([
             'status:id,slug',
-            'thumbnail_asset.media',
-            'video_asset.media'
+            'thumbnail_asset.media'
         ])
             ->where('status_id', 2) // Published
             ->latest()
