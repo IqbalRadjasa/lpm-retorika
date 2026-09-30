@@ -84,8 +84,8 @@
                 {{-- Gambar Latar Belakang --}}
                 <div class="relative">
                     <div class="aspect-[4/3] overflow-hidden rounded-3xl bg-gray-100 shadow-xl">
-                        <img src="https://picsum.photos/800/600?random=background"
-                            alt="Latar Belakang LPM Retorika FHUP" class="h-full w-full object-cover">
+                        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Latar Belakang LPM Retorika FHUP"
+                            class="h-full w-full object-cover">
                     </div>
                     {{-- Lencana Pilar Demokrasi --}}
                     <div

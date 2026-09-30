@@ -106,7 +106,7 @@
                     </div>
 
                     {{-- Poster --}}
-                    @if ($mading->media_asset)
+                    @if ($mading)
                         <div class="bg-gray-100 p-6">
                             <div class="mx-auto max-w-md overflow-hidden rounded-xl bg-white shadow-xl">
                                 <img src="{{ $mading->media_asset?->getFirstMedia('library')?->original_url }}"

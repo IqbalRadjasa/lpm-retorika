@@ -1,7 +1,7 @@
 APP_NAME=LPM-Retorika
-APP_ENV=local
+APP_ENV=production
 APP_KEY=base64:MLOj0N/4W/gLUWdKhcFiQyPuCMzOwuYAg11Biz02LTE=
-APP_DEBUG=true
+APP_DEBUG=false
 # APP_URL=http://localhost:8000
 APP_URL=https://lpmretorika.com
 
