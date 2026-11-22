@@ -364,7 +364,7 @@
     "src": "node_modules/remixicon/fonts/remixicon.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CMBBaOcW.css",
+    "file": "assets/app-BaEq3Wej.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -373,7 +373,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-BLWKPT2H.js",
+    "file": "assets/app-oSmZYbwk.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -398,7 +398,7 @@
     ]
   },
   "resources/js/media-uploader.js": {
-    "file": "assets/media-uploader-BHc5AFOx.js",
+    "file": "assets/media-uploader-CFbXyY4t.js",
     "name": "media-uploader",
     "src": "resources/js/media-uploader.js",
     "isEntry": true
