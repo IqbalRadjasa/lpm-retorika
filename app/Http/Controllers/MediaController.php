@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use ArthurPatriot\Tus\Facades\Tus;
 use Illuminate\Support\Facades\DB;
 use ArthurPatriot\Tus\Helpers\TusFile;
+use Illuminate\Support\Facades\Log;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class MediaController extends Controller
@@ -193,14 +194,18 @@ class MediaController extends Controller
             'alt_text' => ['nullable', 'string'],
             'tipe' => ['nullable', 'string'],
             'tus_upload_id' => ['required', 'string'],
+            'duration' => ['nullable', 'numeric', 'min:0'],
         ]);
+
+        $duration = isset($validated['duration']) && $validated['duration'] !== null
+            ? (int) round((float) $validated['duration'])
+            : null;
 
         $tusFile = TusFile::find($validated['tus_upload_id']);
 
         DB::beginTransaction();
 
         try {
-
             $mediaAsset = MediaAsset::create([
                 'name' => $validated['name'],
                 'alt_text' => $validated['alt_text'] ?? null,
@@ -208,8 +213,8 @@ class MediaController extends Controller
             ]);
 
             /*
-         * Add the completed TUS file
-         * to Spatie Media Library.
+- Add the completed TUS file
+- to Spatie Media Library.
          */
             $media = $mediaAsset
                 ->addMediaFromDisk(
@@ -218,30 +223,42 @@ class MediaController extends Controller
                 )
                 ->toMediaCollection('library');
 
-            if (str_starts_with($media->mime_type, 'video/')) {
-                try {
-                    $durationInSeconds = FFMpeg::fromDisk($media->disk)
-                        ->open($media->getPathRelativeToRoot())
-                        ->getDurationInSeconds();
+            $isVideo = str_starts_with((string) $media->mime_type, 'video/')
+                || str_ends_with(strtolower((string) $media->file_name), '.mov');
 
-                    $media->setCustomProperty('duration', (int) $durationInSeconds);
+            if ($isVideo) {
+                // Gunakan durasi dari browser dulu; jika belum ada & proc_open aktif, coba fallback FFMpeg
+                if ($duration === null && function_exists('proc_open')) {
+                    try {
+                        $durationInSeconds = FFMpeg::fromDisk($media->disk)
+                            ->open($media->getPathRelativeToRoot())
+                            ->getDurationInSeconds();
+
+                        if ($durationInSeconds > 0) {
+                            $duration = (int) round($durationInSeconds);
+                        }
+                    } catch (\Throwable $e) {
+                        report($e);
+                        Log::warning('FFMpeg fallback gagal: ' . $e->getMessage(), [
+                            'media_id' => $media->id,
+                            'tus_upload_id' => $validated['tus_upload_id'],
+                        ]);
+                    }
+                }
+
+                if ($duration !== null) {
+                    $media->setCustomProperty('duration', $duration);
                     $media->save();
-                } catch (\Throwable $e) {
-                    report($e);
-
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Gagal memproses durasi video: ' . $e->getMessage(),
-                    ], 500);
                 }
             }
+
             /*
-         * At this point the file has been
-         * successfully copied into the
-         * Media Library disk.
-         *
-         * Now remove the temporary TUS file.
-         */
+            - At this point the file has been
+            - successfully copied into the
+            - Media Library disk.
+                    *
+            - Now remove the temporary TUS file.
+            */
             Tus::storage()->delete($tusFile->path);
             Tus::storage()->delete(
                 Tus::path($validated['tus_upload_id'], 'json')
@@ -255,7 +272,6 @@ class MediaController extends Controller
                 'media' => $mediaAsset->getFirstMedia('library'),
             ]);
         } catch (\Throwable $e) {
-
             DB::rollBack();
 
             report($e);

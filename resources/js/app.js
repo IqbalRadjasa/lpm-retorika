@@ -2,6 +2,7 @@ import "flowbite";
 import "./ckeditor";
 import "./bootstrap";
 import "./media-uploader";
+import { getVideoDurationSeconds } from "./utils/videoDuration";
 
 import { PageFlip } from "page-flip";
 import * as pdfjsLib from "pdfjs-dist";
@@ -11,6 +12,7 @@ import Alpine from "alpinejs";
 window.Alpine = Alpine;
 window.PageFlip = PageFlip;
 window.pdfjsLib = pdfjsLib;
+window.getVideoDurationSeconds = getVideoDurationSeconds;
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -875,6 +877,7 @@ function mediaUploader() {
                 this.uploadStatus =
                     "Upload selesai. Menyimpan ke Media Library...";
 
+                const duration = await getVideoDurationSeconds(this.file?.raw);
                 const name = document.getElementById("name")?.value;
                 const altText = document.getElementById("alt_text")?.value;
                 const tipeMedia = document.getElementById("tipe_media")?.value;
@@ -895,6 +898,7 @@ function mediaUploader() {
                         alt_text: altText || null,
                         tipe: tipeMedia || null,
                         tus_upload_id: tusUploadId,
+                        duration: duration,
                     }),
                 });
 
