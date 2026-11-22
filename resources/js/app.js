@@ -219,9 +219,9 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                 isMovExtension;
 
             /*
-             * Size validation.
-             * - Images/PDF: 10 MB
-             * - Video (MP4 / MOV): 500 MB
+            - Size validation.
+            - - Images/PDF: 10 MB
+            - - Video (MP4 / MOV): 500 MB
              */
             const maxSize = isVideo ? 500 * 1024 * 1024 : 10 * 1024 * 1024;
 
@@ -240,12 +240,15 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                 URL.revokeObjectURL(this.uploadPreview);
             }
 
+            const normalizedType =
+                !file.type && isMovExtension ? "video/quicktime" : file.type;
+
             this.uploadFile = file;
-            this.uploadFileType = file.type;
+            this.uploadFileType = normalizedType;
 
             if (
-                file.type.startsWith("image/") ||
-                file.type.startsWith("video/")
+                normalizedType.startsWith("image/") ||
+                normalizedType.startsWith("video/")
             ) {
                 this.uploadPreview = URL.createObjectURL(file);
             } else {
@@ -359,7 +362,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                     .querySelector('meta[name="csrf-token"]')
                     ?.getAttribute("content");
 
-                const duration = await getVideoDurationSeconds(this.file?.raw);
+                const duration = await getVideoDurationSeconds(this.uploadFile);
                 /*
                  * Finalize
                  */
@@ -398,6 +401,10 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                     url: data.media.original_url,
                     extension: this.formatMimeType(data.media.mime_type),
                     size: this.formatFileSize(data.media.size),
+                    duration:
+                        data.media?.custom_properties?.duration ??
+                        duration ??
+                        null,
                 };
 
                 /*
