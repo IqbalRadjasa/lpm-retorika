@@ -70,3 +70,6 @@ MEDIA_DISK=media
 TUS_STORAGE_DISK=local
 TUS_PATH=tus
 TUS_URL=
+
+FFMPEG_BINARIES=/home/u358606469/domains/lpmretorika.com/bin/ffmpeg
+FFPROBE_BINARIES=/home/u358606469/domains/lpmretorika.com/bin/ffprobe
