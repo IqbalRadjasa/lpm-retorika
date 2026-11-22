@@ -172,8 +172,8 @@
                             {{-- ================================================= --}}
 
                             <input x-ref="fileInput" type="file" name="file"
-                                accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4" class="hidden"
-                                @change="handleFiles">
+                                accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4,video/quicktime,.mov"
+                                class="hidden" @change="handleFiles">
 
 
                             {{-- ================================================= --}}
@@ -257,6 +257,12 @@
                                     <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
 
                                         MP4
+
+                                    </span>
+
+                                    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-500">
+
+                                        MOV
 
                                     </span>
 

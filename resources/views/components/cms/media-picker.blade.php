@@ -214,7 +214,7 @@
 
                     {{-- Upload Input --}}
                     <input x-ref="mediaUploadInput" type="file" class="hidden"
-                        accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4" @change="handleUploadFile">
+                        accept="image/jpeg,image/png,image/webp,application/pdf,video/mp4,video/quicktime,.mov" @change="handleUploadFile">
 
 
                     {{-- No File --}}
@@ -255,7 +255,7 @@
 
                             <p class="mt-3 text-xs text-gray-400">
 
-                                JPG, PNG, WEBP, PDF, MP4
+                                JPG, PNG, WEBP, PDF, MP4, MOV
 
                             </p>
 

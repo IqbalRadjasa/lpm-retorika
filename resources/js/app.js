@@ -14,7 +14,7 @@ window.pdfjsLib = pdfjsLib;
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.mjs",
-    import.meta.url
+    import.meta.url,
 ).toString();
 
 function mediaSelector(initialFilter = "all", initialMedia = null) {
@@ -104,7 +104,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                         headers: {
                             Accept: "application/json",
                         },
-                    }
+                    },
                 );
 
                 if (!response.ok) throw new Error("Gagal mengambil media.");
@@ -201,27 +201,35 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                 "image/webp",
                 "application/pdf",
                 "video/mp4",
+                "video/quicktime",
             ];
 
-            if (!allowedTypes.includes(file.type)) {
+            const isMovExtension = file.name.toLowerCase().endsWith(".mov");
+
+            if (!allowedTypes.includes(file.type) && !isMovExtension) {
                 alert("Jenis file tidak diperbolehkan.");
-                event.target.value = "";
                 return;
             }
 
-            const maxSize =
-                file.type === "video/mp4"
-                    ? 500 * 1024 * 1024
-                    : 10 * 1024 * 1024;
+            const isVideo =
+                file.type === "video/mp4" ||
+                file.type === "video/quicktime" ||
+                isMovExtension;
+
+            /*
+             * Size validation.
+             * - Images/PDF: 10 MB
+             * - Video (MP4 / MOV): 500 MB
+             */
+            const maxSize = isVideo ? 500 * 1024 * 1024 : 10 * 1024 * 1024;
 
             if (file.size > maxSize) {
                 alert(
-                    file.type === "video/mp4"
+                    isVideo
                         ? "Ukuran video maksimal 500 MB."
-                        : "Ukuran file maksimal 10 MB."
+                        : "Ukuran file maksimal 10 MB.",
                 );
 
-                event.target.value = "";
                 return;
             }
 
@@ -303,7 +311,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
 
                 if (!uploadedFile) {
                     throw new Error(
-                        "File berhasil diupload tetapi response tidak ditemukan."
+                        "File berhasil diupload tetapi response tidak ditemukan.",
                     );
                 }
 
@@ -373,7 +381,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
 
                 if (!finalizeResponse.ok) {
                     throw new Error(
-                        data.message || "Gagal menyimpan Media Library."
+                        data.message || "Gagal menyimpan Media Library.",
                     );
                 }
 
@@ -488,7 +496,7 @@ function tagsInput() {
             }
 
             const exists = this.tags.some(
-                (tag) => tag.toLowerCase() === value.toLowerCase()
+                (tag) => tag.toLowerCase() === value.toLowerCase(),
             );
 
             if (exists) {
@@ -633,7 +641,7 @@ function mediaUploader() {
 
                 if (this.totalBytes > 0) {
                     this.uploadProgress = Math.round(
-                        (this.uploadedBytes / this.totalBytes) * 100
+                        (this.uploadedBytes / this.totalBytes) * 100,
                     );
                 }
 
@@ -690,33 +698,41 @@ function mediaUploader() {
                 "image/webp",
                 "application/pdf",
                 "video/mp4",
+                "video/quicktime",
             ];
 
-            if (!allowedTypes.includes(file.type)) {
+            const isMovExtension = file.name.toLowerCase().endsWith(".mov");
+
+            if (!allowedTypes.includes(file.type) && !isMovExtension) {
                 alert("Jenis file tidak diperbolehkan.");
                 return;
             }
 
+            const isVideo =
+                file.type === "video/mp4" ||
+                file.type === "video/quicktime" ||
+                isMovExtension;
+
             /*
              * Size validation.
-             *
-             * Images/PDF: 10 MB
-             * MP4: 500 MB
+             * - Images/PDF: 10 MB
+             * - Video (MP4 / MOV): 500 MB
              */
-            const maxSize =
-                file.type === "video/mp4"
-                    ? 500 * 1024 * 1024
-                    : 10 * 1024 * 1024;
+            const maxSize = isVideo ? 500 * 1024 * 1024 : 10 * 1024 * 1024;
 
             if (file.size > maxSize) {
                 alert(
-                    file.type === "video/mp4"
+                    isVideo
                         ? "Ukuran video maksimal 500 MB."
-                        : "Ukuran file maksimal 10 MB."
+                        : "Ukuran file maksimal 10 MB.",
                 );
 
                 return;
             }
+
+            // Normalisasi MIME type jika file .mov terdeteksi kosong oleh browser
+            const normalizedType =
+                !file.type && isMovExtension ? "video/quicktime" : file.type;
 
             // Remove previous file from Uppy
             window.mediaUppy.cancelAll();
@@ -733,8 +749,9 @@ function mediaUploader() {
             let preview = null;
 
             if (
-                file.type.startsWith("image/") ||
-                file.type.startsWith("video/")
+                normalizedType.startsWith("image/") ||
+                normalizedType.startsWith("video/") ||
+                isMovExtension
             ) {
                 preview = URL.createObjectURL(file);
             }
@@ -742,7 +759,7 @@ function mediaUploader() {
             this.file = {
                 name: file.name,
                 size: file.size,
-                type: file.type,
+                type: normalizedType,
                 raw: file,
                 preview: preview,
             };
@@ -754,7 +771,7 @@ function mediaUploader() {
 
             window.mediaUppy.addFile({
                 name: file.name,
-                type: file.type,
+                type: normalizedType,
                 data: file,
             });
         },
@@ -810,7 +827,7 @@ function mediaUploader() {
 
                 if (result.failed.length > 0) {
                     throw new Error(
-                        result.failed[0]?.error || "Upload file gagal."
+                        result.failed[0]?.error || "Upload file gagal.",
                     );
                 }
 
@@ -839,17 +856,14 @@ function mediaUploader() {
 
                 if (!uploadUrl) {
                     throw new Error(
-                        "Upload berhasil tetapi TUS upload URL tidak ditemukan."
+                        "Upload berhasil tetapi TUS upload URL tidak ditemukan.",
                     );
                 }
 
                 /*
                  * Example:
-                 *
                  * /tus/abc123
-                 *
                  * We only need:
-                 *
                  * abc123
                  */
                 const tusUploadId = uploadUrl.split("/").filter(Boolean).pop();
@@ -866,7 +880,7 @@ function mediaUploader() {
                 const tipeMedia = document.getElementById("tipe_media")?.value;
 
                 const csrfToken = document.querySelector(
-                    'input[name="_token"]'
+                    'input[name="_token"]',
                 )?.value;
 
                 const finalizeResponse = await fetch("/cms/media/finalize", {
@@ -884,11 +898,28 @@ function mediaUploader() {
                     }),
                 });
 
-                const data = await finalizeResponse.json();
+                const rawText = await finalizeResponse.text();
+                let data = {};
+
+                try {
+                    data = rawText ? JSON.parse(rawText) : {};
+                } catch (parseError) {
+                    console.error(
+                        "Non-JSON response from /cms/media/finalize:",
+                        {
+                            status: finalizeResponse.status,
+                            body: rawText.slice(0, 1000),
+                        },
+                    );
+                    throw new Error(
+                        `Server mengembalikan respons non-JSON (HTTP ${finalizeResponse.status}). Cek console atau log Laravel.`,
+                    );
+                }
 
                 if (!finalizeResponse.ok) {
                     throw new Error(
-                        data.message || "Gagal menyimpan Media Library."
+                        data.message ||
+                            `Gagal menyimpan Media Library (HTTP ${finalizeResponse.status}).`,
                     );
                 }
 

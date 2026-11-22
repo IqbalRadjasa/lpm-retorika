@@ -7,7 +7,16 @@ const uppy = new Uppy({
     restrictions: {
         maxNumberOfFiles: 1,
 
-        allowedFileTypes: [".jpg", ".jpeg", ".png", ".webp", ".mp4", ".pdf"],
+        allowedFileTypes: [
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp",
+            ".mp4",
+            ".mov",
+            "video/quicktime",
+            ".pdf",
+        ],
     },
 });
 

@@ -227,10 +227,12 @@ class MediaController extends Controller
                     $media->setCustomProperty('duration', (int) $durationInSeconds);
                     $media->save();
                 } catch (\Throwable $e) {
-                    return redirect()
-                        ->back()
-                        ->withInput()
-                        ->with('error', 'Media gagal diupload!');
+                    report($e);
+
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Gagal memproses durasi video: ' . $e->getMessage(),
+                    ], 500);
                 }
             }
             /*
