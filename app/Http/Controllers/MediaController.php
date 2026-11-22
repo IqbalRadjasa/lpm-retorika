@@ -213,9 +213,9 @@ class MediaController extends Controller
             ]);
 
             /*
-- Add the completed TUS file
-- to Spatie Media Library.
-         */
+            - Add the completed TUS file
+            - to Spatie Media Library.
+            */
             $media = $mediaAsset
                 ->addMediaFromDisk(
                     $tusFile->path,

@@ -359,6 +359,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                     .querySelector('meta[name="csrf-token"]')
                     ?.getAttribute("content");
 
+                const duration = await getVideoDurationSeconds(this.file?.raw);
                 /*
                  * Finalize
                  */
@@ -376,6 +377,7 @@ function mediaSelector(initialFilter = "all", initialMedia = null) {
                         alt_text: null,
                         tipe: "umum",
                         tus_upload_id: tusUploadId,
+                        duration: duration,
                     }),
                 });
 
